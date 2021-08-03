@@ -2,8 +2,6 @@ from dataclasses import asdict
 import dacite
 from enum import Enum
 
-from dacite import data
-
 
 class Base:
     @staticmethod
