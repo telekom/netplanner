@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Union, List
-from .base import Base, InterfaceName
+from ..base import Base, InterfaceName
 from ipaddress import IPv4Network, IPv6Network
-from .l3.route import Route
-from .l3.nameserver import NameServers
+from ..l3.route import Route
+from ..l3.nameserver import NameServers
 
 
 @dataclass

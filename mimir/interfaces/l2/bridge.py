@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from .base import Base, InterfaceName
+from ..base import Base, InterfaceName
 
 
 @dataclass

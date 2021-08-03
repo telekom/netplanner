@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from .base import Base
+from ..base import Base
 
 @dataclass
 class VF(Base):

@@ -1,14 +1,13 @@
 from dataclasses import dataclass, field
-
-import dacite
-from mimir.objects.vf import VF
 from typing import Dict
-from .objects.base import Base, Version, InterfaceName, NetworkRenderer
-from enum import Enum
-from .objects.ethernet import Ethernet
-from .objects.bridge import Bridge
-from .objects.vxlan import VXLAN
-from .objects.vlan import VLAN
+
+from mimir.interfaces.l2.vf import VF
+
+from .interfaces.base import Base, InterfaceName, NetworkRenderer, Version
+from .interfaces.l2.bridge import Bridge
+from .interfaces.l2.ethernet import Ethernet
+from .interfaces.l2.vlan import VLAN
+from .interfaces.l2.vxlan import VXLAN
 
 
 @dataclass
@@ -22,19 +21,12 @@ class NetplanConfig(Base):
     vfs: Dict[InterfaceName, VF] = field(default_factory=dict)
 
 
-
 if __name__ == "__main__":
     config = NetplanConfig.from_dict(
         {
             "version": 3,
             "renderer": "networkd",
-            "bridges": 
-                {
-                    "br0": {
-                        "parameters": {},
-                        "interfaces": []
-                    }
-                }
+            "bridges": {"br0": {"parameters": {}, "interfaces": []}},
         }
     )
     print(config)
