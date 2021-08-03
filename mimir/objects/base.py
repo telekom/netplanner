@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 import dacite
 from enum import Enum
 
@@ -12,14 +12,14 @@ class Base:
             field: value.value if isinstance(value, Enum) else value
             for field, value in data
         }
+
     @classmethod
     def from_dict(cls, data: dict):
-        return dacite.from_dict(data_class=cls, data=data, config=dacite.Config(
-                cast=[
-                    Enum,
-                    InterfaceName
-                ]
-            ),)
+        return dacite.from_dict(
+            data_class=cls,
+            data=data,
+            config=dacite.Config(cast=[Enum, InterfaceName]),
+        )
 
     def as_dict(self):
         return asdict(self, dict_factory=Base.dict_factory)
@@ -27,6 +27,7 @@ class Base:
 
 class Version(Enum):
     THIRD = 3
+
 
 class NetworkRenderer(Enum):
     NETWORKD = "networkd"
