@@ -21,17 +21,6 @@ class NetplanConfig(Base):
     vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
     vfs: Dict[InterfaceName, VF] = field(default_factory=dict)
 
-    @classmethod
-    def from_dict(cls, data: dict):
-        return super().from_dict(
-            data,
-            dacite.Config(
-                cast=[
-                    Enum,
-                    InterfaceName
-                ]
-            ),
-        )
 
 
 if __name__ == "__main__":
@@ -49,6 +38,7 @@ if __name__ == "__main__":
         }
     )
     print(config)
+    print(config.as_dict())
     assert config.renderer == NetworkRenderer.NETWORKD
     assert InterfaceName("0123456789abcd") == "0123456789abcd"
     try:
