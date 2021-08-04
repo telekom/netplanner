@@ -1,0 +1,9 @@
+# Ansible managed
+
+[NetDev]
+Name=tenant_vrf
+Kind=vrf
+
+[VRF]
+Table=5000
+

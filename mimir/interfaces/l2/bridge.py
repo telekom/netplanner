@@ -1,6 +1,11 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from ipaddress import IPv4Network, IPv6Network
+from mimir.interfaces.l3.routing_policy import RoutingPolicy
+from typing import List, Optional, Union
+
 from ..base import Base, InterfaceName
+from ..l3.nameserver import NameServers
+from ..l3.route import Route
 
 
 @dataclass
@@ -30,6 +35,9 @@ class BridgeParameters(Base):
 @dataclass
 class Bridge(Base):
     parameters: BridgeParameters
-    vrf: InterfaceName = field(default=InterfaceName('default'))
+    nameservers: NameServers
+    vrf: Optional[InterfaceName]
     interfaces: List[InterfaceName] = field(default_factory=list)
-
+    addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
+    routes: List[Route] = field(default_factory=list)
+    routing_policy: List[RoutingPolicy] = field(default_factory=list)

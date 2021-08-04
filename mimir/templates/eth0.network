@@ -1,0 +1,14 @@
+# Ansible managed
+
+[Match]
+Name=eth0
+
+[Network]
+DHCP=no
+IPv6AcceptRA=no
+DNS=8.8.8.8
+DNS=8.8.4.4
+Domains=telekom.local
+Address=10.0.2.2/24
+Gateway=10.0.2.15
+

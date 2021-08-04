@@ -1,0 +1,10 @@
+# Ansible managed
+
+[Match]
+Name=br-vxl10
+
+[Network]
+VRF=tenant_vrf
+VXLAN=vxl10
+LinkLocalAddressing=no
+

@@ -1,0 +1,10 @@
+# Ansible managed
+
+[NetDev]
+Description={{ interface.description}}
+Name={{ interface_name }}
+Kind=bridge
+
+[Bridge]
+STP=No
+
