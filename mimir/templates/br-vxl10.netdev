@@ -3,7 +3,7 @@
 [NetDev]
 Description={{ interface.description}}
 Name={{ interface_name }}
-Kind=bridge
+Kind={{ interface.}}
 
 [Bridge]
 STP=No

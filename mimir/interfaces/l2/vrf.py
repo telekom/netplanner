@@ -12,6 +12,10 @@ from ..l3.route import Route
 class VRF(Base):
     mtu: Optional[int]
     table: int = field(default=254)
-    addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
+    addresses: List[str] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
+
+    def __init__(self) -> None:
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"VRF MTUBytes={self.mtu} not in 256 - 9166")

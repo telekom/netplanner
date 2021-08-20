@@ -58,9 +58,9 @@ class VXLAN(Base):
     mtu: Optional[int]
     macaddress: Optional[MacAddress]
     vrf: InterfaceName = field(default=InterfaceName("default"))
-    addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
+    addresses: List[str] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
 
     def __post_init__(self):
-        if self.mtu and self.mtu not in range(256,9001):
-            raise ValueError(f"VXLAN MTUBytes={self.mtu} not in 256 - 9000")
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"VXLAN MTUBytes={self.mtu} not in 256 - 9166")

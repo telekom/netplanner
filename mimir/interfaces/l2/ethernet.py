@@ -16,8 +16,6 @@ class Ethernet(Base):
     link: Optional[InterfaceName]
     mtu: Optional[int]
     virtual_function_count: Optional[int]
-    dhcp4: bool = False
-    dhcp6: bool = False
     vrf: InterfaceName = InterfaceName("default")
     addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
@@ -25,5 +23,7 @@ class Ethernet(Base):
 
 
     def __post_init__(self):
-        if self.virtual_function_count and self.virtual_function_count not in range(256):
+        if self.virtual_function_count and not(0 <= self.virtual_function_count <= 255):
             raise ValueError(f"Ethernet virtual_function_count={self.virtual_function_count} not in 0 - 255")
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"Ethernet MTUBytes={self.mtu} not in 256 - 9166")

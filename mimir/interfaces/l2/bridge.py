@@ -37,7 +37,12 @@ class Bridge(Base):
     parameters: BridgeParameters
     nameservers: NameServers
     vrf: Optional[InterfaceName]
+    mtu: Optional[int]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
+
+    def __post_init__(self):
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"Bridge MTUBytes={self.mtu} not in 256 - 9166")

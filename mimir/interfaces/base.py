@@ -1,18 +1,30 @@
 from dataclasses import asdict, dataclass, fields
 from enum import Enum
+from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network
+import ipaddress
 
 import dacite
 import re
 
+RESERVED = ["from"]
+
 
 class Base:
+    @staticmethod
+    def to_ip(value: str):
+        try:
+            return ipaddress.ip_network(value)
+        except:
+            pass
+        return value
     @staticmethod
     def streamline_keys(
         dictionary: dict,
         level: int = 0,
         old_char: str = "-",
         new_char: str = "_",
-        ignore_levels: list =[2],
+        ignore_levels: list = [2],
+        read: bool = True,
     ) -> dict:
         keys = list(dictionary.keys())
         for key in keys:
@@ -20,7 +32,11 @@ class Base:
                 dictionary[
                     # This handles awkward netplan compatibility issues
                     # it excluded interface-names at the first level
-                    key.replace(old_char, new_char)
+                    f"_{key}"
+                    if key in RESERVED
+                    else key.replace("_", "", 1)
+                    if key.startswith("_")
+                    else key.replace(old_char, new_char)
                     if level not in ignore_levels
                     else key
                 ] = Base.streamline_keys(
@@ -34,7 +50,11 @@ class Base:
                 dictionary[
                     # This handles awkward netplan compatibility issues
                     # it excluded interface-names at the first level
-                    key.replace(old_char, new_char)
+                    f"_{key}"
+                    if key in RESERVED
+                    else key.replace("_", "", 1)
+                    if key.startswith("_")
+                    else key.replace(old_char, new_char)
                     if level not in ignore_levels
                     else key
                 ] = dictionary.pop(key)
@@ -43,18 +63,44 @@ class Base:
     @staticmethod
     def dict_factory(data):
         return {
-            field: value.value if isinstance(value, Enum) else value
+            field: value.value
+            if isinstance(value, Enum)
+            else [
+                str(item)
+                if isinstance(
+                    item, (IPv4Network, IPv6Network),
+                )
+                else item
+                for item in value
+            ]
+            if isinstance(value, list)
+            else value
             for field, value in data
         }
 
     @classmethod
     def from_dict(cls, data: dict):
+        print(cls.__name__)
+        data = Base.streamline_keys(data) if cls.__name__ == "NetplanConfig" else data
+        print(data)
         return dacite.from_dict(
             data_class=cls,
-            data=(
-                Base.streamline_keys(data) if cls.__name__ == "NetplanConfig" else data
+            data=data,
+            config=dacite.Config(
+                type_hooks={
+                    str: Base.to_ip
+                },
+                cast=[
+                    Enum,
+                    InterfaceName,
+                    MacAddress,
+                    IPv6Network,
+                    IPv4Network
+                ],
+                check_types=True,
+                strict=True,
+                strict_unions_match=False,
             ),
-            config=dacite.Config(cast=[Enum, InterfaceName, MacAddress], strict=True, strict_unions_match=True),
         )
 
     def as_dict(self):

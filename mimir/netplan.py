@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict
+from typing import Dict, Optional
 
 from .interfaces.base import Base, InterfaceName, NetworkRenderer, Version
 from .interfaces.l2.bridge import Bridge
@@ -9,6 +9,7 @@ from .interfaces.l2.vxlan import VXLAN
 from .interfaces.l2.vrf import VRF
 from .interfaces.l2.bond import Bond
 from pprint import pprint
+import json
 master_config = """
 # This is the network config written by 'subiquity'
 network:
@@ -46,8 +47,6 @@ network:
     bonds:
         bond-uplink:
             mtu: 9000
-            dhcp4: false
-            dhcp6: false
             interfaces:
             - ens1f0
             - ens1f1
@@ -59,25 +58,19 @@ network:
         ens1f1: {}
         ens2f0:
             mtu: 9100
-            dhcp4: false
-            dhcp6: false
             addresses:
-            - "{{ ds.meta_data.storage_0 }}/{{ ds.meta_data.storage_prefix_0 }}"
+            - "192.168.66.37/25"
         ens2f1:
             mtu: 9100
-            dhcp4: false
-            dhcp6: false
             addresses:
-            - "{{ ds.meta_data.storage_1 }}/{{ ds.meta_data.storage_prefix_0 }}"
+            - "192.168.66.36/25"
         
     version: 3
     renderer: networkd
     vlans:
         vlan.2259:
             addresses:
-            - "{{ ds.meta_data.ip_0 }}/{{ ds.meta_data.prefix_0 }}"
-            gateway4: "{{ ds.meta_data.gateway_0 }}"
-            dhcp4: false
+            - "10.145.204.83/26"
             mtu: 1500
             id: 2259
             link: bond-uplink
@@ -91,9 +84,7 @@ network:
                 - das-schiff.telekom.de
         vlan.2260:
             addresses:
-            - "{{ ds.meta_data.ip_1 }}/{{ ds.meta_data.prefix_1 }}"
-            #gateway4: "{{ ds.meta_data.gateway_1 }}"
-            dhcp4: false
+            - "10.145.205.83/26"
             mtu: 1500
             id: 2260
             link: bond-uplink
@@ -107,9 +98,7 @@ network:
                 - das-schiff.telekom.de
         vlan.2313:
             addresses:
-            - "{{ ds.meta_data.ip_2 }}/{{ ds.meta_data.prefix_2 }}"
-            #gateway4: "{{ ds.meta_data.gateway_2 }}"
-            dhcp4: false
+            - "10.145.206.83/26"
             mtu: 1500
             id: 2313
             link: bond-uplink
@@ -123,9 +112,7 @@ network:
                 - das-schiff.telekom.de
         vlan.2314:
             addresses:
-            - "{{ ds.meta_data.ip_3 }}/{{ ds.meta_data.prefix_3 }}"
-            #gateway4: "{{ ds.meta_data.gateway_3 }}"
-            dhcp4: false
+            - 10.145.207.83/26
             mtu: 1500
             id: 2314
             link: bond-uplink
@@ -142,12 +129,12 @@ network:
 class NetworkConfig(Base):
     version: Version
     renderer: NetworkRenderer
-    ethernets: Dict[InterfaceName, Ethernet] = field(default_factory=dict)
-    bridges: Dict[InterfaceName, Bridge] = field(default_factory=dict)
-    vxlans: Dict[InterfaceName, VXLAN] = field(default_factory=dict)
-    bonds: Dict[InterfaceName, Bond] = field(default_factory=dict)
-    vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
-    vrfs: Dict[InterfaceName, VRF] = field(default_factory=dict)
+    ethernets: Dict[InterfaceName, Ethernet]
+    bridges: Optional[Dict[InterfaceName, Bridge]]
+    vxlans: Optional[Dict[InterfaceName, VXLAN]]
+    bonds: Optional[Dict[InterfaceName, Bond]]
+    vlans: Optional[Dict[InterfaceName, VLAN]]
+    vrfs: Optional[Dict[InterfaceName, VRF]]
 
 @dataclass(frozen=True)
 class NetplanConfig(Base):
@@ -159,7 +146,7 @@ if __name__ == "__main__":
         yaml.safe_load(worker_config)
     )
     pprint(config)
-    print(config.as_dict())
+    print(json.dumps(config.as_dict(), indent=2))
     assert config.network.renderer == NetworkRenderer.NETWORKD
     assert InterfaceName("0123456789abcd") == "0123456789abcd"
     try:

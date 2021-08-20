@@ -29,9 +29,12 @@ class Bond(Base):
     mtu: Optional[int]
     vrf: Optional[InterfaceName]
     nameservers: Optional[NameServers]
-    dhcp4: bool = False
-    dhcp6: bool = False
+    mtu: Optional[int]
     interfaces: List[InterfaceName] = field(default_factory=list)
-    addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
+    addresses: List[str] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
+
+    def __post_init__(self):
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"Bond MTUBytes={self.mtu} not in 256 - 9166")

@@ -1,6 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from ipaddress import IPv4Network, IPv6Network
+from typing import List, Optional, Union
+
 from mimir.interfaces.l3.nameserver import NameServers
-from typing import Optional
+from mimir.interfaces.l3.route import Route
+from mimir.interfaces.l3.routing_policy import RoutingPolicy
 
 from ..base import Base, InterfaceName, MacAddress
 
@@ -12,10 +16,14 @@ class VLAN(Base):
     mtu: Optional[int]
     macaddress: Optional[MacAddress]
     nameservers: Optional[NameServers]
-    dhcp4: bool = False
-    dhcp6: bool = False
+    addresses: List[Union[IPv4Network, IPv6Network]] = field(default_factory=list)
+    vrf: InterfaceName = InterfaceName("default")
+    routes: List[Route] = field(default_factory=list)
+    routing_policy: List[RoutingPolicy] = field(default_factory=list)
+
     def __post_init__(self):
-        if self.id not in range(4096):
+        if self.id and not (0 <= self.id <= 4095):
             raise ValueError(f"VLAN Id={self.id} not in 0 - 4095")
-        if self.mtu and self.mtu not in range(256,9001):
-            raise ValueError(f"VLAN MTUBytes={self.mtu} not in 256 - 9000")
+        if self.mtu and not (256 <= self.mtu <= 9166):
+            raise ValueError(f"VLAN MTUBytes={self.mtu} not in 256 - 9166")
+        print(self.addresses)
