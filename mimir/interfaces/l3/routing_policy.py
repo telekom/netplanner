@@ -1,15 +1,16 @@
 from dataclasses import dataclass
 from ipaddress import IPv4Network, IPv6Network
+from mimir.interfaces.typing import IPNetwork
 from typing import Optional, Union
 
-from ..base import Base
+from ..base import Base, PositiveInt
 
 
 @dataclass
 class RoutingPolicy(Base):
-    _from: str
-    to: str
-    table: Optional[int]
-    priority: Optional[int]
-    mark: Optional[int]
-    type_of_service: Optional[int]
+    _from: IPNetwork
+    to: IPNetwork
+    table: Optional[PositiveInt]
+    priority: Optional[PositiveInt]
+    mark: Optional[PositiveInt]
+    type_of_service: Optional[PositiveInt]

@@ -1,22 +1,18 @@
 from dataclasses import asdict, dataclass, fields
 from enum import Enum
-from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network
+from ipaddress import IPv4Address, IPv6Address, IPv6Network, IPv4Network, IPv4Interface, IPv6Interface
+
 import ipaddress
 
 import dacite
 import re
 
+from fqdn import FQDN
+
 RESERVED = ["from"]
 
 
 class Base:
-    @staticmethod
-    def to_ip(value: str):
-        try:
-            return ipaddress.ip_network(value)
-        except:
-            pass
-        return value
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -68,9 +64,9 @@ class Base:
             else [
                 str(item)
                 if isinstance(
-                    item, (IPv4Network, IPv6Network),
+                    item, (IPv4Network, IPv6Network, IPv4Interface, IPv6Interface, IPv4Address, IPv6Address),
                 )
-                else item
+                else item.relative if isinstance(item, FQDN) else item
                 for item in value
             ]
             if isinstance(value, list)
@@ -87,19 +83,25 @@ class Base:
             data_class=cls,
             data=data,
             config=dacite.Config(
-                type_hooks={
-                    str: Base.to_ip
-                },
+                # type_hooks={
+                #     str: Base.to_ip
+                # },
                 cast=[
                     Enum,
                     InterfaceName,
                     MacAddress,
+                    IPv4Network,
                     IPv6Network,
-                    IPv4Network
+                    IPv4Interface,
+                    IPv6Interface,
+                    IPv4Address,
+                    FQDN,
+                    MTU,
+                    IPv6Address
                 ],
                 check_types=True,
                 strict=True,
-                strict_unions_match=False,
+                strict_unions_match=True,
             ),
         )
 
@@ -120,13 +122,30 @@ class NetworkRenderer(Enum):
     NETWORKD = "networkd"
 
 
+class MTU(int):
+    def __new__(cls, value: int):
+        if not (256 <= value <= 9166):
+            raise ValueError(f"MTUBytes={value} not in 256 - 9166")
+        return  super().__new__(cls, value)
+
+class VirtualFunctionCount(int):
+    def __new__(cls, value: int):
+        if not(0 <= value <= 255):
+            raise ValueError(f"VirtualFunctionCount={value} not in 0 - 255")
+        return  super().__new__(cls, value)
+
+class PositiveInt(int):
+    def __new__(cls, value: int):
+        if not value >= 0:
+            raise ValueError(f"PositiveInteger={value} < 0")
+        return  super().__new__(cls, value)
 class InterfaceName(str):
     def __new__(cls, content: str):
         if len(content) > 15 or not content.isascii():
             raise ValueError(
                 f"InterfaceName {content} of len {len(content)} not supported in Linux"
             )
-        return str.__new__(cls, content)
+        return super().__new__(cls, content)
 
 
 hex_re = re.compile(r"^[\da-f]+$")

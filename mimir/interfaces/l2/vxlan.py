@@ -1,23 +1,24 @@
 from dataclasses import dataclass, field
-from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network
+from ipaddress import IPv4Address, IPv4Interface, IPv4Network, IPv6Address, IPv6Interface, IPv6Network
+from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
 from typing import List, Optional, Union
 
-from ..base import Base, InterfaceName, MacAddress
+from ..base import MTU, Base, InterfaceName, MacAddress, PositiveInt
 from ..l3.nameserver import NameServers
 from ..l3.route import Route
 
 
 @dataclass
 class VXLANParameters(Base):
-    vni: int
-    remote: Optional[Union[IPv4Address, IPv6Address]]
-    local: Union[IPv6Address, IPv4Address]
-    group: Optional[Union[IPv4Address, IPv6Address]]
-    tos: Optional[bytes]
-    ttl: Optional[int]
+    vni: PositiveInt
+    remote: Optional[IPAddress]
+    local: IPAddress
+    group: Optional[IPAddress]
+    tos: Optional[PositiveInt]
+    ttl: Optional[PositiveInt]
     mac_learning: Optional[bool]
-    fdb_ageing_sec: Optional[int]
-    maximum_fdb_entries: Optional[int]
+    fdb_ageing_sec: Optional[PositiveInt]
+    maximum_fdb_entries: Optional[PositiveInt]
     l2_miss_notification: Optional[bool]
     l3_miss_notification: Optional[bool]
     route_short_circuit: Optional[bool]
@@ -26,8 +27,8 @@ class VXLANParameters(Base):
     udp_6_zero_checksum_rx: Optional[bool]
     remote_checksum_tx: Optional[bool]
     remote_checksum_rx: Optional[bool]
-    flow_label: Optional[int]
-    ip_do_not_fragment: Optional[Union[bool]]
+    flow_label: Optional[PositiveInt]
+    ip_do_not_fragment: Optional[bool]
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
@@ -55,12 +56,8 @@ class VXLAN(Base):
     parameters: VXLANParameters
     link: Optional[InterfaceName]
     nameservers: NameServers
-    mtu: Optional[int]
+    mtu: Optional[MTU]
     macaddress: Optional[MacAddress]
     vrf: InterfaceName = field(default=InterfaceName("default"))
-    addresses: List[str] = field(default_factory=list)
+    addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
-
-    def __post_init__(self):
-        if self.mtu and not (256 <= self.mtu <= 9166):
-            raise ValueError(f"VXLAN MTUBytes={self.mtu} not in 256 - 9166")
