@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
-from ipaddress import IPv4Address, IPv4Interface, IPv4Network, IPv6Address, IPv6Interface, IPv6Network
 from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from ..base import MTU, Base, InterfaceName, MacAddress, PositiveInt
 from ..l3.nameserver import NameServers

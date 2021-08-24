@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-from ipaddress import IPv4Network, IPv6Interface, IPv6Network
 from mimir.interfaces.typing import IPInterfaceAddresses
 from mimir.interfaces.l3.routing_policy import RoutingPolicy
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from ..base import MTU, Base, InterfaceName
 from ..l3.nameserver import NameServers
