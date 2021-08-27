@@ -9,8 +9,7 @@ from ipaddress import (
     IPv6Interface,
 )
 
-import ipaddress
-from typing import Set
+from typing import Optional, Set
 
 import dacite
 import re
@@ -21,6 +20,7 @@ RESERVED = ["from"]
 
 
 class Base:
+    description: Optional[str]
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -99,9 +99,7 @@ class Base:
 
     @classmethod
     def from_dict(cls, data: dict):
-        print(cls.__name__)
         data = Base.streamline_keys(data) if cls.__name__ == "NetplanConfig" else data
-        print(data)
         return dacite.from_dict(
             data_class=cls,
             data=data,
@@ -112,8 +110,10 @@ class Base:
                     MacAddress,
                     VirtualFunctionCount,
                     PositiveInt,
+                    LinkLocalAdressing,
                     FQDN,
                     MTU,
+                    set,
                     IPv4Network,
                     IPv6Network,
                     IPv4Interface,

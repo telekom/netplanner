@@ -54,15 +54,24 @@ worker_config = """
 network:
     ethernets:
         lo:
+            link-local: []
             addresses:
                 - 192.168.0.45/32
         ens1f0:
+            link-local: ["ipv6"]
+            emit-lldp: true
             virtual-function-count: 16
         ens1f1:
+            link-local: ["ipv6"]
+            emit-lldp: true
             virtual-function-count: 16
         ens2f0:
+            link-local: ["ipv6"]
+            emit-lldp: true
             virtual-function-count: 16
         ens2f1:
+            link-local: ["ipv6"]
+            emit-lldp: true
             virtual-function-count: 16
     version: 3
     renderer: networkd
@@ -84,68 +93,6 @@ network:
             vrf: Vrf_customer01
             interfaces:
                 - vx.5000
-
-            
-            
-
-
-    vlans:
-        vlan.2259:
-            addresses:
-            - "10.145.204.83/26"
-            mtu: 1500
-            id: 2259
-            link: bond-uplink
-            nameservers:
-                addresses:
-                - 10.90.24.1
-                - 10.90.24.17
-                search:
-                - sa2.ba.schiff.telekom.de
-                - schiff.telekom.de
-                - das-schiff.telekom.de
-        vlan.2260:
-            addresses:
-            - "10.145.205.83/26"
-            mtu: 1500
-            id: 2260
-            link: bond-uplink
-            nameservers:
-                addresses:
-                - 10.90.24.1
-                - 10.90.24.17
-                search:
-                - sa2.ba.schiff.telekom.de
-                - schiff.telekom.de
-                - das-schiff.telekom.de
-        vlan.2313:
-            addresses:
-            - "10.145.206.83/26"
-            mtu: 1500
-            id: 2313
-            link: bond-uplink
-            nameservers:
-                addresses:
-                - 10.90.24.1
-                - 10.90.24.17
-                search:
-                - sa2.ba.schiff.telekom.de
-                - schiff.telekom.de
-                - das-schiff.telekom.de
-        vlan.2314:
-            addresses:
-            - 10.145.207.83/26
-            mtu: 1500
-            id: 2314
-            link: bond-uplink
-            nameservers:
-                addresses:
-                - 10.90.24.1
-                - 10.90.24.17
-                search:
-                - sa2.ba.schiff.telekom.de
-                - schiff.telekom.de
-                - das-schiff.telekom.de
 """
 
 
