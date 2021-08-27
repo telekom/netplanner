@@ -4,6 +4,8 @@ from typing import List
 from ..base import Base
 
 from fqdn import FQDN
+
+
 @dataclass
 class NameServers(Base):
     search: List[FQDN] = field(default_factory=list)

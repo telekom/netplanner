@@ -1,9 +1,9 @@
 # Ansible managed
 
 [NetDev]
-Description={{ interface.description}}
+Description={{ interface.description }}
 Name={{ interface_name }}
-Kind={{ interface.}}
+Kind=Bridge
 
 [Bridge]
 STP=No

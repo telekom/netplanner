@@ -1,8 +1,16 @@
 from dataclasses import asdict, dataclass, fields
 from enum import Enum
-from ipaddress import IPv4Address, IPv6Address, IPv6Network, IPv4Network, IPv4Interface, IPv6Interface
+from ipaddress import (
+    IPv4Address,
+    IPv6Address,
+    IPv6Network,
+    IPv4Network,
+    IPv4Interface,
+    IPv6Interface,
+)
 
 import ipaddress
+from typing import Set
 
 import dacite
 import re
@@ -57,20 +65,35 @@ class Base:
         return dictionary
 
     @staticmethod
+    def to_serializable(value):
+        return (
+            value.value
+            if isinstance(value, Enum)
+            else str(value)
+            if isinstance(
+                value,
+                (
+                    IPv4Network,
+                    IPv6Network,
+                    IPv4Interface,
+                    IPv6Interface,
+                    IPv4Address,
+                    IPv6Address,
+                ),
+            )
+            else value.relative
+            if isinstance(value, FQDN)
+            else value
+        )
+
+    @staticmethod
     def dict_factory(data):
         return {
-            field: value.value
-            if isinstance(value, Enum)
-            else [
-                str(item)
-                if isinstance(
-                    item, (IPv4Network, IPv6Network, IPv4Interface, IPv6Interface, IPv4Address, IPv6Address),
-                )
-                else item.relative if isinstance(item, FQDN) else item
-                for item in value
-            ]
-            if isinstance(value, list)
-            else value
+            field: (
+                [Base.to_serializable(item) for item in value]
+                if isinstance(value, (list, set))
+                else Base.to_serializable(value)
+            )
             for field, value in data
         }
 
@@ -83,21 +106,20 @@ class Base:
             data_class=cls,
             data=data,
             config=dacite.Config(
-                # type_hooks={
-                #     str: Base.to_ip
-                # },
                 cast=[
                     Enum,
                     InterfaceName,
                     MacAddress,
+                    VirtualFunctionCount,
+                    PositiveInt,
+                    FQDN,
+                    MTU,
                     IPv4Network,
                     IPv6Network,
                     IPv4Interface,
                     IPv6Interface,
                     IPv4Address,
-                    FQDN,
-                    MTU,
-                    IPv6Address
+                    IPv6Address,
                 ],
                 check_types=True,
                 strict=True,
@@ -116,6 +138,7 @@ class Base:
 
 class Version(Enum):
     THIRD = 3
+    SECOND = 2
 
 
 class NetworkRenderer(Enum):
@@ -126,25 +149,36 @@ class MTU(int):
     def __new__(cls, value: int):
         if not (256 <= value <= 9166):
             raise ValueError(f"MTUBytes={value} not in 256 - 9166")
-        return  super().__new__(cls, value)
+        return super().__new__(cls, value)
+
 
 class VirtualFunctionCount(int):
     def __new__(cls, value: int):
-        if not(0 <= value <= 255):
+        if not (0 <= value <= 255):
             raise ValueError(f"VirtualFunctionCount={value} not in 0 - 255")
-        return  super().__new__(cls, value)
+        return super().__new__(cls, value)
+
 
 class PositiveInt(int):
     def __new__(cls, value: int):
         if not value >= 0:
             raise ValueError(f"PositiveInteger={value} < 0")
-        return  super().__new__(cls, value)
+        return super().__new__(cls, value)
+
+
 class InterfaceName(str):
     def __new__(cls, content: str):
         if len(content) > 15 or not content.isascii():
             raise ValueError(
                 f"InterfaceName {content} of len {len(content)} not supported in Linux"
             )
+        return super().__new__(cls, content)
+
+
+class LinkLocalAdressing(str):
+    def __new__(cls, content: str):
+        if content not in ["ipv4", "ipv6"]:
+            raise ValueError(f"LinkLocal={content} not in ['ipv4', 'ipv6']")
         return super().__new__(cls, content)
 
 

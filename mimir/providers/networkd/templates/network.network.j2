@@ -1,0 +1,20 @@
+# Ansible managed
+
+[Match]
+Name={{ interface_name }}
+
+[Network]
+VRF={{ interface.vrf }}
+{%- if interface.object_name in ['Bond' 'Bridge'] %}
+{%- for child_interface_name, child_interface in child_interfaces.items() %}
+{{ child_interface.object_name }}={{ child_interface_name }}
+{%- endif %}
+LinkLocalAddressing={{ "yes" if interface.link_local else "no" }}
+
+[Match]
+Name=ens1f0
+
+[Network]
+LinkLocalAddressing=no
+Bond=bond-uplink
+PrimarySlave=true

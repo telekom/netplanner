@@ -1,4 +1,4 @@
-# Ansible managed
+# MIMIR managed
 
 [Match]
 OriginalName=vx*
@@ -7,4 +7,3 @@ OriginalName=vx*
 NamePolicy=keep kernel database onboard slot path
 AlternativeNamesPolicy=database onboard slot path
 MACAddressPolicy=none
-

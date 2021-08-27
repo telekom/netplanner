@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
-from typing import List, Optional
+from typing import List, Optional, Set
 
-from ..base import MTU, Base, InterfaceName, MacAddress, PositiveInt
+from ..base import MTU, Base, InterfaceName, LinkLocalAdressing, MacAddress, PositiveInt
 from ..l3.nameserver import NameServers
 from ..l3.route import Route
 
@@ -32,7 +32,7 @@ class VXLANParameters(Base):
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
     reduce_arp_proxy: bool = field(default=False)
-    
+
     def __post_init__(self):
         if self.flow_label and self.flow_label not in range(1048576):
             raise ValueError(
@@ -53,10 +53,13 @@ class VXLANParameters(Base):
 @dataclass
 class VXLAN(Base):
     parameters: VXLANParameters
-    link: Optional[InterfaceName]
-    nameservers: NameServers
+    nameservers: Optional[NameServers]
     mtu: Optional[MTU]
     macaddress: Optional[MacAddress]
     vrf: InterfaceName = field(default=InterfaceName("default"))
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
+    link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
+
+    def __post_init__(self):
+        self.link_local.add(LinkLocalAdressing("ipv6"))

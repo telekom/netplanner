@@ -1,0 +1,24 @@
+# MIMIR managed
+
+[NetDev]
+Description={{ interface.description }}
+Name={{ interface_name }}
+MTUBytes={{ interface.mtu }}
+Kind={{ interface.object_name | lower }}
+
+[{{ interface.object_name }}]
+{%- if interface.object_name is "Bridge" %}
+STP={{ "Yes" if interface.parameters.stp else "No" }}
+{%- endif -%}
+
+{%- if interface.object_name is "VXLAN" %}
+Id={{ interface.vni }}
+DestinationPort={{ interface.parameters.destination_port }}
+Local={{ interface.parameters.local }}
+MacLearning={{ interface.parameters.mac_learning | str | lower }}
+{%- endif -%}
+
+{%- if interface.object_name is "Bond" %}
+Mode={{ interface.parameters.mode }}
+MIIMonitorSec={{ interface.parameters.mii_monitor_interval | default(1000) }}ms
+{%- endif %}

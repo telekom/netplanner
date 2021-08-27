@@ -5,16 +5,19 @@ from typing import Optional, Union
 from ..base import MTU, Base, PositiveInt
 from enum import Enum
 
+
 class RouteType(Enum):
     UNREACHABLE = "unreachable"
     BLACKHOLE = "blackhole"
     PROHIBIT = "prohibit"
     UNICAST = "unicast"
 
+
 class RouteScope(Enum):
     GLOBAL = "global"
     LINK = "link"
     HOST = "host"
+
 
 @dataclass
 class Route(Base):

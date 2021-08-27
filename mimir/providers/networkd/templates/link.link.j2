@@ -1,0 +1,8 @@
+[Match]
+OriginalName={{ interface_name }}
+
+[Link]
+{% if interface_kind is 'Network' %}
+WakeOnLan={{ 'on' if interface.wakeonlan else 'off' }}
+{% endif %}
+MTUBytes={{ interface.mtu }}

@@ -10,6 +10,14 @@ from .interfaces.l2.vrf import VRF
 from .interfaces.l2.bond import Bond
 from pprint import pprint
 import json
+from pathlib import Path
+
+
+local = "./"
+networkd_path = Path(f"{local}etc/systemd/network")
+if local:
+    networkd_path.mkdir(parents=True, exist_ok=True)
+
 master_config = """
 # This is the network config written by 'subiquity'
 network:
@@ -44,29 +52,43 @@ network:
 """
 worker_config = """
 network:
-    bonds:
-        bond-uplink:
-            mtu: 9000
-            interfaces:
-            - ens1f0
-            - ens1f1
-            parameters:
-                mode: active-backup
-                primary: ens1f0
     ethernets:
-        ens1f0: {}
-        ens1f1: {}
+        lo:
+            addresses:
+                - 192.168.0.45/32
+        ens1f0:
+            virtual-function-count: 16
+        ens1f1:
+            virtual-function-count: 16
         ens2f0:
-            mtu: 9100
-            addresses:
-            - "192.168.66.37/25"
+            virtual-function-count: 16
         ens2f1:
-            mtu: 9100
-            addresses:
-            - "192.168.66.36/25"
-        
+            virtual-function-count: 16
     version: 3
     renderer: networkd
+    vrfs:
+        Vrf_customer01: {}
+    vxlans:
+        vx.5000:
+            vrf: Vrf_customer01
+            parameters:
+                vni: 5000
+                #default destination-port: 4789
+                local: 192.168.0.45
+                mac-learning: false
+    bridges:
+        br.5000:
+            nameservers: {}
+            parameters:
+                stp: false
+            vrf: Vrf_customer01
+            interfaces:
+                - vx.5000
+
+            
+            
+
+
     vlans:
         vlan.2259:
             addresses:
@@ -125,6 +147,8 @@ network:
                 - schiff.telekom.de
                 - das-schiff.telekom.de
 """
+
+
 @dataclass(frozen=True)
 class NetworkConfig(Base):
     version: Version
@@ -136,15 +160,16 @@ class NetworkConfig(Base):
     vlans: Optional[Dict[InterfaceName, VLAN]]
     vrfs: Optional[Dict[InterfaceName, VRF]]
 
+
 @dataclass(frozen=True)
 class NetplanConfig(Base):
     network: NetworkConfig
 
+
 if __name__ == "__main__":
     import yaml
-    config = NetplanConfig.from_dict(
-        yaml.safe_load(worker_config)
-    )
+
+    config = NetplanConfig.from_dict(yaml.safe_load(worker_config))
     pprint(config)
     print(json.dumps(config.as_dict(), indent=2))
     assert config.network.renderer == NetworkRenderer.NETWORKD
