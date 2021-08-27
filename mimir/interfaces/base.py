@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass, fields
+from dataclasses import asdict, dataclass
 from enum import Enum
 from ipaddress import (
     IPv4Address,
