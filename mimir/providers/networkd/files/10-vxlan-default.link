@@ -1,4 +1,5 @@
 # MIMIR managed
+# Default VXLAN configuration to not randomly assign MacAdresses
 
 [Match]
 OriginalName=vx*
