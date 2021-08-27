@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import out_pb2 as out__pb2
+import frr_northbound_pb2 as frr__northbound__pb2
 
 
 class NorthboundStub(object):
@@ -17,68 +17,68 @@ class NorthboundStub(object):
         """
         self.GetCapabilities = channel.unary_unary(
                 '/frr.Northbound/GetCapabilities',
-                request_serializer=out__pb2.GetCapabilitiesRequest.SerializeToString,
-                response_deserializer=out__pb2.GetCapabilitiesResponse.FromString,
+                request_serializer=frr__northbound__pb2.GetCapabilitiesRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.GetCapabilitiesResponse.FromString,
                 )
         self.Get = channel.unary_stream(
                 '/frr.Northbound/Get',
-                request_serializer=out__pb2.GetRequest.SerializeToString,
-                response_deserializer=out__pb2.GetResponse.FromString,
+                request_serializer=frr__northbound__pb2.GetRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.GetResponse.FromString,
                 )
         self.CreateCandidate = channel.unary_unary(
                 '/frr.Northbound/CreateCandidate',
-                request_serializer=out__pb2.CreateCandidateRequest.SerializeToString,
-                response_deserializer=out__pb2.CreateCandidateResponse.FromString,
+                request_serializer=frr__northbound__pb2.CreateCandidateRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.CreateCandidateResponse.FromString,
                 )
         self.DeleteCandidate = channel.unary_unary(
                 '/frr.Northbound/DeleteCandidate',
-                request_serializer=out__pb2.DeleteCandidateRequest.SerializeToString,
-                response_deserializer=out__pb2.DeleteCandidateResponse.FromString,
+                request_serializer=frr__northbound__pb2.DeleteCandidateRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.DeleteCandidateResponse.FromString,
                 )
         self.UpdateCandidate = channel.unary_unary(
                 '/frr.Northbound/UpdateCandidate',
-                request_serializer=out__pb2.UpdateCandidateRequest.SerializeToString,
-                response_deserializer=out__pb2.UpdateCandidateResponse.FromString,
+                request_serializer=frr__northbound__pb2.UpdateCandidateRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.UpdateCandidateResponse.FromString,
                 )
         self.EditCandidate = channel.unary_unary(
                 '/frr.Northbound/EditCandidate',
-                request_serializer=out__pb2.EditCandidateRequest.SerializeToString,
-                response_deserializer=out__pb2.EditCandidateResponse.FromString,
+                request_serializer=frr__northbound__pb2.EditCandidateRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.EditCandidateResponse.FromString,
                 )
         self.LoadToCandidate = channel.unary_unary(
                 '/frr.Northbound/LoadToCandidate',
-                request_serializer=out__pb2.LoadToCandidateRequest.SerializeToString,
-                response_deserializer=out__pb2.LoadToCandidateResponse.FromString,
+                request_serializer=frr__northbound__pb2.LoadToCandidateRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.LoadToCandidateResponse.FromString,
                 )
         self.Commit = channel.unary_unary(
                 '/frr.Northbound/Commit',
-                request_serializer=out__pb2.CommitRequest.SerializeToString,
-                response_deserializer=out__pb2.CommitResponse.FromString,
+                request_serializer=frr__northbound__pb2.CommitRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.CommitResponse.FromString,
                 )
         self.ListTransactions = channel.unary_stream(
                 '/frr.Northbound/ListTransactions',
-                request_serializer=out__pb2.ListTransactionsRequest.SerializeToString,
-                response_deserializer=out__pb2.ListTransactionsResponse.FromString,
+                request_serializer=frr__northbound__pb2.ListTransactionsRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.ListTransactionsResponse.FromString,
                 )
         self.GetTransaction = channel.unary_unary(
                 '/frr.Northbound/GetTransaction',
-                request_serializer=out__pb2.GetTransactionRequest.SerializeToString,
-                response_deserializer=out__pb2.GetTransactionResponse.FromString,
+                request_serializer=frr__northbound__pb2.GetTransactionRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.GetTransactionResponse.FromString,
                 )
         self.LockConfig = channel.unary_unary(
                 '/frr.Northbound/LockConfig',
-                request_serializer=out__pb2.LockConfigRequest.SerializeToString,
-                response_deserializer=out__pb2.LockConfigResponse.FromString,
+                request_serializer=frr__northbound__pb2.LockConfigRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.LockConfigResponse.FromString,
                 )
         self.UnlockConfig = channel.unary_unary(
                 '/frr.Northbound/UnlockConfig',
-                request_serializer=out__pb2.UnlockConfigRequest.SerializeToString,
-                response_deserializer=out__pb2.UnlockConfigResponse.FromString,
+                request_serializer=frr__northbound__pb2.UnlockConfigRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.UnlockConfigResponse.FromString,
                 )
         self.Execute = channel.unary_unary(
                 '/frr.Northbound/Execute',
-                request_serializer=out__pb2.ExecuteRequest.SerializeToString,
-                response_deserializer=out__pb2.ExecuteResponse.FromString,
+                request_serializer=frr__northbound__pb2.ExecuteRequest.SerializeToString,
+                response_deserializer=frr__northbound__pb2.ExecuteResponse.FromString,
                 )
 
 
@@ -189,68 +189,68 @@ def add_NorthboundServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetCapabilities': grpc.unary_unary_rpc_method_handler(
                     servicer.GetCapabilities,
-                    request_deserializer=out__pb2.GetCapabilitiesRequest.FromString,
-                    response_serializer=out__pb2.GetCapabilitiesResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.GetCapabilitiesRequest.FromString,
+                    response_serializer=frr__northbound__pb2.GetCapabilitiesResponse.SerializeToString,
             ),
             'Get': grpc.unary_stream_rpc_method_handler(
                     servicer.Get,
-                    request_deserializer=out__pb2.GetRequest.FromString,
-                    response_serializer=out__pb2.GetResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.GetRequest.FromString,
+                    response_serializer=frr__northbound__pb2.GetResponse.SerializeToString,
             ),
             'CreateCandidate': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateCandidate,
-                    request_deserializer=out__pb2.CreateCandidateRequest.FromString,
-                    response_serializer=out__pb2.CreateCandidateResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.CreateCandidateRequest.FromString,
+                    response_serializer=frr__northbound__pb2.CreateCandidateResponse.SerializeToString,
             ),
             'DeleteCandidate': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteCandidate,
-                    request_deserializer=out__pb2.DeleteCandidateRequest.FromString,
-                    response_serializer=out__pb2.DeleteCandidateResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.DeleteCandidateRequest.FromString,
+                    response_serializer=frr__northbound__pb2.DeleteCandidateResponse.SerializeToString,
             ),
             'UpdateCandidate': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateCandidate,
-                    request_deserializer=out__pb2.UpdateCandidateRequest.FromString,
-                    response_serializer=out__pb2.UpdateCandidateResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.UpdateCandidateRequest.FromString,
+                    response_serializer=frr__northbound__pb2.UpdateCandidateResponse.SerializeToString,
             ),
             'EditCandidate': grpc.unary_unary_rpc_method_handler(
                     servicer.EditCandidate,
-                    request_deserializer=out__pb2.EditCandidateRequest.FromString,
-                    response_serializer=out__pb2.EditCandidateResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.EditCandidateRequest.FromString,
+                    response_serializer=frr__northbound__pb2.EditCandidateResponse.SerializeToString,
             ),
             'LoadToCandidate': grpc.unary_unary_rpc_method_handler(
                     servicer.LoadToCandidate,
-                    request_deserializer=out__pb2.LoadToCandidateRequest.FromString,
-                    response_serializer=out__pb2.LoadToCandidateResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.LoadToCandidateRequest.FromString,
+                    response_serializer=frr__northbound__pb2.LoadToCandidateResponse.SerializeToString,
             ),
             'Commit': grpc.unary_unary_rpc_method_handler(
                     servicer.Commit,
-                    request_deserializer=out__pb2.CommitRequest.FromString,
-                    response_serializer=out__pb2.CommitResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.CommitRequest.FromString,
+                    response_serializer=frr__northbound__pb2.CommitResponse.SerializeToString,
             ),
             'ListTransactions': grpc.unary_stream_rpc_method_handler(
                     servicer.ListTransactions,
-                    request_deserializer=out__pb2.ListTransactionsRequest.FromString,
-                    response_serializer=out__pb2.ListTransactionsResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.ListTransactionsRequest.FromString,
+                    response_serializer=frr__northbound__pb2.ListTransactionsResponse.SerializeToString,
             ),
             'GetTransaction': grpc.unary_unary_rpc_method_handler(
                     servicer.GetTransaction,
-                    request_deserializer=out__pb2.GetTransactionRequest.FromString,
-                    response_serializer=out__pb2.GetTransactionResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.GetTransactionRequest.FromString,
+                    response_serializer=frr__northbound__pb2.GetTransactionResponse.SerializeToString,
             ),
             'LockConfig': grpc.unary_unary_rpc_method_handler(
                     servicer.LockConfig,
-                    request_deserializer=out__pb2.LockConfigRequest.FromString,
-                    response_serializer=out__pb2.LockConfigResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.LockConfigRequest.FromString,
+                    response_serializer=frr__northbound__pb2.LockConfigResponse.SerializeToString,
             ),
             'UnlockConfig': grpc.unary_unary_rpc_method_handler(
                     servicer.UnlockConfig,
-                    request_deserializer=out__pb2.UnlockConfigRequest.FromString,
-                    response_serializer=out__pb2.UnlockConfigResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.UnlockConfigRequest.FromString,
+                    response_serializer=frr__northbound__pb2.UnlockConfigResponse.SerializeToString,
             ),
             'Execute': grpc.unary_unary_rpc_method_handler(
                     servicer.Execute,
-                    request_deserializer=out__pb2.ExecuteRequest.FromString,
-                    response_serializer=out__pb2.ExecuteResponse.SerializeToString,
+                    request_deserializer=frr__northbound__pb2.ExecuteRequest.FromString,
+                    response_serializer=frr__northbound__pb2.ExecuteResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -275,8 +275,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/GetCapabilities',
-            out__pb2.GetCapabilitiesRequest.SerializeToString,
-            out__pb2.GetCapabilitiesResponse.FromString,
+            frr__northbound__pb2.GetCapabilitiesRequest.SerializeToString,
+            frr__northbound__pb2.GetCapabilitiesResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -292,8 +292,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/frr.Northbound/Get',
-            out__pb2.GetRequest.SerializeToString,
-            out__pb2.GetResponse.FromString,
+            frr__northbound__pb2.GetRequest.SerializeToString,
+            frr__northbound__pb2.GetResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -309,8 +309,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/CreateCandidate',
-            out__pb2.CreateCandidateRequest.SerializeToString,
-            out__pb2.CreateCandidateResponse.FromString,
+            frr__northbound__pb2.CreateCandidateRequest.SerializeToString,
+            frr__northbound__pb2.CreateCandidateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -326,8 +326,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/DeleteCandidate',
-            out__pb2.DeleteCandidateRequest.SerializeToString,
-            out__pb2.DeleteCandidateResponse.FromString,
+            frr__northbound__pb2.DeleteCandidateRequest.SerializeToString,
+            frr__northbound__pb2.DeleteCandidateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -343,8 +343,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/UpdateCandidate',
-            out__pb2.UpdateCandidateRequest.SerializeToString,
-            out__pb2.UpdateCandidateResponse.FromString,
+            frr__northbound__pb2.UpdateCandidateRequest.SerializeToString,
+            frr__northbound__pb2.UpdateCandidateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -360,8 +360,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/EditCandidate',
-            out__pb2.EditCandidateRequest.SerializeToString,
-            out__pb2.EditCandidateResponse.FromString,
+            frr__northbound__pb2.EditCandidateRequest.SerializeToString,
+            frr__northbound__pb2.EditCandidateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -377,8 +377,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/LoadToCandidate',
-            out__pb2.LoadToCandidateRequest.SerializeToString,
-            out__pb2.LoadToCandidateResponse.FromString,
+            frr__northbound__pb2.LoadToCandidateRequest.SerializeToString,
+            frr__northbound__pb2.LoadToCandidateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -394,8 +394,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/Commit',
-            out__pb2.CommitRequest.SerializeToString,
-            out__pb2.CommitResponse.FromString,
+            frr__northbound__pb2.CommitRequest.SerializeToString,
+            frr__northbound__pb2.CommitResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -411,8 +411,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/frr.Northbound/ListTransactions',
-            out__pb2.ListTransactionsRequest.SerializeToString,
-            out__pb2.ListTransactionsResponse.FromString,
+            frr__northbound__pb2.ListTransactionsRequest.SerializeToString,
+            frr__northbound__pb2.ListTransactionsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -428,8 +428,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/GetTransaction',
-            out__pb2.GetTransactionRequest.SerializeToString,
-            out__pb2.GetTransactionResponse.FromString,
+            frr__northbound__pb2.GetTransactionRequest.SerializeToString,
+            frr__northbound__pb2.GetTransactionResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -445,8 +445,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/LockConfig',
-            out__pb2.LockConfigRequest.SerializeToString,
-            out__pb2.LockConfigResponse.FromString,
+            frr__northbound__pb2.LockConfigRequest.SerializeToString,
+            frr__northbound__pb2.LockConfigResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -462,8 +462,8 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/UnlockConfig',
-            out__pb2.UnlockConfigRequest.SerializeToString,
-            out__pb2.UnlockConfigResponse.FromString,
+            frr__northbound__pb2.UnlockConfigRequest.SerializeToString,
+            frr__northbound__pb2.UnlockConfigResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -479,7 +479,7 @@ class Northbound(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/frr.Northbound/Execute',
-            out__pb2.ExecuteRequest.SerializeToString,
-            out__pb2.ExecuteResponse.FromString,
+            frr__northbound__pb2.ExecuteRequest.SerializeToString,
+            frr__northbound__pb2.ExecuteResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
