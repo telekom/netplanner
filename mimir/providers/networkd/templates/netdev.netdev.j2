@@ -13,11 +13,13 @@ MACAddress={{ interface.macaddress }}
 
 [{{ interface.object_name }}]
 {%- if interface.object_name is "Bridge" %}
-{% include "includes/bridge.j2" %}
+{% include "netdev_includes/bridge.j2" %}
 {%- elif interface.object_name is "VLAN" %}
-{% include "includes/vlan.j2" %}
+{% include "netdev_includes/vlan.j2" %}
 {%- elif interface.object_name is "VXLAN" %}
-{% include "includes/vxlan.j2" %}
+{% include "netdev_includes/vxlan.j2" %}
 {%- elif interface.object_name is "Bond" %}
-{% include "includes/bond.j2" %}
+{% include "netdev_includes/bond.j2" %}
+{%- elif interface.object_name is "VRF" %}
+{% include "netdev_includes/vrf.j2" %}
 {%- endif %}
