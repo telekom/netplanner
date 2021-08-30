@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from mimir.interfaces.typing import IPAddress
 from typing import List
 from ..base import Base
-
 from fqdn import FQDN
 
 

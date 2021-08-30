@@ -1,19 +1,18 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Set
-from enum import Enum
-from mimir.interfaces.l3.nameserver import NameServers
-from mimir.interfaces.l3.route import Route
-from mimir.interfaces.l3.routing_policy import RoutingPolicy
-from mimir.interfaces.typing import IPInterfaceAddresses
 
-from ..base import (
+from ..base import Base
+from ..l3.nameserver import NameServers
+from ..l3.route import Route
+from ..l3.routing_policy import RoutingPolicy
+from ..typing import (
     MTU,
-    Base,
     InterfaceName,
+    IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
-    VLANId,
     VLANType,
+    VLANId,
 )
 
 

@@ -1,26 +1,11 @@
 from dataclasses import dataclass, field
-from enum import Enum
-from mimir.interfaces.l3.nameserver import NameServers
-from mimir.interfaces.l3.route import Route
-from mimir.interfaces.l3.routing_policy import RoutingPolicy
 from typing import List, Optional, Set
-from mimir.interfaces.base import (
-    MTU,
-    Base,
-    InterfaceName,
-    LinkLocalAdressing,
-    PositiveInt,
-)
 
-
-class BondMode(Enum):
-    ACTIVE_BACKUP = "active-backup"
-    BALANCE_ROUND_ROBIN = "balance-rr"
-    BALANCE_ROUND_ROBIN_EXCLUSIVE = "balance_xor"
-    BALANCE_TLB = "balance-tlb"
-    BALANCE_ALB = "balance-alb"
-    BROADCAST = "broadcast"
-    LACP = "802.3ad"
+from ..base import Base
+from ..l3.nameserver import NameServers
+from ..l3.route import Route
+from ..l3.routing_policy import RoutingPolicy
+from ..typing import MTU, InterfaceName, LinkLocalAdressing, PositiveInt, BondMode
 
 
 @dataclass

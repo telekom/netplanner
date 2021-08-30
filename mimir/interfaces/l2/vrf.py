@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
-from mimir.interfaces.l3.nameserver import NameServers
-from mimir.interfaces.typing import IPInterfaceAddresses
-from mimir.interfaces.l3.routing_policy import RoutingPolicy
 from typing import List, Optional, Set
 
-from ..base import MTU, Base, LinkLocalAdressing, PositiveInt
+from ..base import Base
+from ..l3.nameserver import NameServers
 from ..l3.route import Route
+from ..l3.routing_policy import RoutingPolicy
+from ..typing import MTU, IPInterfaceAddresses, LinkLocalAdressing, PositiveInt
 
 
 @dataclass

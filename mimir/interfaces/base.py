@@ -2,19 +2,27 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from ipaddress import (
     IPv4Address,
-    IPv6Address,
-    IPv6Network,
-    IPv4Network,
     IPv4Interface,
+    IPv4Network,
+    IPv6Address,
     IPv6Interface,
+    IPv6Network,
 )
-
-from typing import Optional, Set
+from typing import Optional
 
 import dacite
-import re
-
 from fqdn import FQDN
+
+from .typing import (
+    MTU,
+    InterfaceName,
+    LinkLocalAdressing,
+    MacAddress,
+    PositiveInt,
+    VirtualFunctionCount,
+    VLANId,
+    VLANType,
+)
 
 RESERVED = ["from"]
 
@@ -137,84 +145,3 @@ class Base:
 
     def object_name(self) -> str:
         return self.__class__.__name__
-
-
-class Version(Enum):
-    THIRD = 3
-    SECOND = 2
-
-
-class NetworkRenderer(Enum):
-    NETWORKD = "networkd"
-
-
-class VLANType(Enum):
-    Q1802 = "802.1q"
-    AD1802 = "802.1ad"
-
-
-class VLANId(int):
-    def __new__(cls, value: int):
-        if value and not (2 <= value <= 4094):
-            raise ValueError(f"VLAN Id={value} not in 2 - 4094")
-        return super().__new__(cls, value)
-
-
-class MTU(int):
-    def __new__(cls, value: int):
-        if not (256 <= value <= 9166):
-            raise ValueError(f"MTUBytes={value} not in 256 - 9166")
-        return super().__new__(cls, value)
-
-
-class VirtualFunctionCount(int):
-    def __new__(cls, value: int):
-        if not (0 <= value <= 255):
-            raise ValueError(f"VirtualFunctionCount={value} not in 0 - 255")
-        return super().__new__(cls, value)
-
-
-class PositiveInt(int):
-    def __new__(cls, value: int):
-        if not value >= 0:
-            raise ValueError(f"PositiveInteger={value} < 0")
-        return super().__new__(cls, value)
-
-
-class InterfaceName(str):
-    def __new__(cls, content: str):
-        if len(content) > 15 or not content.isascii():
-            raise ValueError(
-                f"InterfaceName {content} of len {len(content)} not supported in Linux"
-            )
-        return super().__new__(cls, content)
-
-
-class LinkLocalAdressing(str):
-    def __new__(cls, content: str):
-        if content not in ["ipv4", "ipv6"]:
-            raise ValueError(f"LinkLocal={content} not in ['ipv4', 'ipv6']")
-        return super().__new__(cls, content)
-
-
-hex_re = re.compile(r"^[\da-f]+$")
-
-
-class MacAddress(str):
-    def __new__(cls, content: str):
-        if len(content) != 17:
-            raise ValueError(
-                f"MacAddress {content} of len {len(content)} not supported in Linux"
-            )
-        if len(content.split(":")) != 6:
-            raise ValueError(f"MacAddress {content} has not enough : or to many.")
-        if not all([hex_re.match(item) for item in content.split(":")]):
-            raise ValueError(f"MacAddress {content} malformed.")
-
-        return str.__new__(cls, content)
-
-
-@dataclass
-class MatchObject(Base):
-    name: InterfaceName
-    macaddress: MacAddress

@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
-from .interfaces.base import Base, InterfaceName, NetworkRenderer, Version
+from .interfaces.base import Base
+from .interfaces.typing import InterfaceName, NetworkRenderer, Version
 from .interfaces.l2.bridge import Bridge
 from .interfaces.l2.ethernet import Ethernet
 from .interfaces.l2.vlan import VLAN

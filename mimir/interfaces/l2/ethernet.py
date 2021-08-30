@@ -1,13 +1,15 @@
 from dataclasses import dataclass, field
-from mimir.interfaces.typing import IPInterfaceAddresses
-from mimir.interfaces.l3.routing_policy import RoutingPolicy
-from mimir.interfaces.l3.route import Route
-from typing import List, Optional, Set, Union
-from mimir.interfaces.l3.nameserver import NameServers
-from ..base import (
+from typing import List, Optional, Set
+
+from ..base import Base
+from ..l3.nameserver import NameServers
+from ..l3.route import Route
+from ..l3.routing_policy import RoutingPolicy
+from ..match_object import MatchObject
+from ..typing import (
     MTU,
-    Base,
     InterfaceName,
+    IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
     MatchObject,

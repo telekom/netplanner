@@ -1,10 +1,12 @@
 from dataclasses import dataclass, field
-from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses, TypeNameServers
 from typing import List, Optional, Set
 
-from ..base import MTU, Base, InterfaceName, LinkLocalAdressing, MacAddress, PositiveInt
+from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
+
+from ..base import Base
 from ..l3.nameserver import NameServers
 from ..l3.route import Route
+from ..typing import MTU, InterfaceName, LinkLocalAdressing, MacAddress, PositiveInt
 
 
 @dataclass
