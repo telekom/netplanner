@@ -1,8 +1,12 @@
 [Match]
+{%- if interface.mac_address is not None %}
+PermanentMACAddress={{ interface.mac_address }}
+{%- else %}
 OriginalName={{ interface_name }}
+{%- endif %}
 
 [Link]
-{% if interface_kind is 'Network' %}
-WakeOnLan={{ 'on' if interface.wakeonlan else 'off' }}
+{% if interface_kind is 'Ethernet' %}
+WakeOnLan=off
 {% endif %}
 MTUBytes={{ interface.mtu }}
