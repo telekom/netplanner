@@ -77,7 +77,8 @@ network:
     version: 3
     renderer: networkd
     vrfs:
-        Vrf_customer01: {}
+        Vrf_customer01:
+            table: 5000
     vxlans:
         vx.5000:
             vrf: Vrf_customer01

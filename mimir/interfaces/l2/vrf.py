@@ -12,7 +12,7 @@ from ..typing import MTU, IPInterfaceAddresses, LinkLocalAdressing, PositiveInt
 class VRF(Base):
     mtu: Optional[MTU]
     nameservers: Optional[NameServers]
-    table: PositiveInt = field(default=254)
+    table: PositiveInt # = field(default=254) this is the table for the default vrf
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)

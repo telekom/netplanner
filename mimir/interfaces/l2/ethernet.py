@@ -12,7 +12,6 @@ from ..typing import (
     IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
-    MatchObject,
     VirtualFunctionCount,
 )
 
