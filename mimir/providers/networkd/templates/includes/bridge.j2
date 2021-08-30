@@ -1,15 +1,26 @@
-STP={{ "Yes" if interface.parameters.stp else "No" }}
-
-HelloTimeSec={{ interface.parameters. }}
-MaxAgeSec={{ interface.parameters. }}
-ForwardDelaySec={{ interface.parameters. }}
-AgeingTimeSec={{ interface.parameters. }}
-Priority={{ interface.parameters. }}
-GroupForwardMask={{ interface.parameters. }}
-DefaultPVID={{ interface.parameters. }}
-MulticastQuerier={{ interface.parameters. }}
-MulticastSnooping={{ interface.parameters. }}
-VLANFiltering={{ interface.parameters. }}
-VLANProtocol={{ interface.parameters. }}
+# MIMIR managed
 STP={{ "yes" if interface.parameters.stp else "no" }}
-MulticastIGMPVersion={{ interface.parameters. }}
+{%- if interface.parameters.hello_time is not None %}
+HelloTimeSec={{ interface.parameters.hello_time }}
+{%- endif %}
+{%- if interface.parameters.max_age is not None %}
+MaxAgeSec={{ interface.parameters.max_age }}
+{%- endif %}
+{%- if interface.parameters.forward_delay is not None %}
+ForwardDelaySec={{ interface.parameters.forward_delay }}
+{%- endif %}
+{%- if interface.parameters.ageing_time is not None %}
+AgeingTimeSec={{ interface.parameters.ageing_time }}
+{%- endif %}
+{%- if interface.parameters.priority is not None %}
+Priority={{ interface.parameters.priority }}
+{%- endif %}
+{%- if interface.parameters.default_vlan_port_id is not None %}
+DefaultPVID={{ interface.parameters.default_vlan_port_id }}
+{%- endif %}
+{%- if interface.parameters.vlan_filtering is not None %}
+VLANFiltering={{ "yes" if interface.parameters.vlan_filtering else "no" }}
+{%- endif %}
+{%- if interface.parameters.vlan_protocol is not None %}
+VLANProtocol={{ interface.parameters.vlan_protocol }}
+{%- endif -%}

@@ -7,44 +7,49 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-
-
 DESCRIPTOR = _descriptor.FileDescriptor(
-  name='frr-northbound.proto',
-  package='frr',
-  syntax='proto3',
-  serialized_options=None,
-  create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14\x66rr-northbound.proto\x12\x03\x66rr\"\x18\n\x16GetCapabilitiesRequest\"\xa0\x01\n\x17GetCapabilitiesResponse\x12\x13\n\x0b\x66rr_version\x18\x01 \x01(\t\x12\x18\n\x10rollback_support\x18\x02 \x01(\x08\x12*\n\x11supported_modules\x18\x03 \x03(\x0b\x32\x0f.frr.ModuleData\x12*\n\x13supported_encodings\x18\x04 \x03(\x0e\x32\r.frr.Encoding\"\xa6\x01\n\nGetRequest\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.frr.GetRequest.DataType\x12\x1f\n\x08\x65ncoding\x18\x02 \x01(\x0e\x32\r.frr.Encoding\x12\x15\n\rwith_defaults\x18\x03 \x01(\x08\x12\x0c\n\x04path\x18\x04 \x03(\t\"*\n\x08\x44\x61taType\x12\x07\n\x03\x41LL\x10\x00\x12\n\n\x06\x43ONFIG\x10\x01\x12\t\n\x05STATE\x10\x02\"=\n\x0bGetResponse\x12\x11\n\ttimestamp\x18\x01 \x01(\x03\x12\x1b\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\r.frr.DataTree\"\x18\n\x16\x43reateCandidateRequest\"/\n\x17\x43reateCandidateResponse\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\".\n\x16\x44\x65leteCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\"\x19\n\x17\x44\x65leteCandidateResponse\".\n\x16UpdateCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\"\x19\n\x17UpdateCandidateResponse\"l\n\x14\x45\x64itCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\x1e\n\x06update\x18\x02 \x03(\x0b\x32\x0e.frr.PathValue\x12\x1e\n\x06\x64\x65lete\x18\x03 \x03(\x0b\x32\x0e.frr.PathValue\"\x17\n\x15\x45\x64itCandidateResponse\"\xa5\x01\n\x16LoadToCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\x32\n\x04type\x18\x02 \x01(\x0e\x32$.frr.LoadToCandidateRequest.LoadType\x12\x1d\n\x06\x63onfig\x18\x03 \x01(\x0b\x32\r.frr.DataTree\"\"\n\x08LoadType\x12\t\n\x05MERGE\x10\x00\x12\x0b\n\x07REPLACE\x10\x01\"\x19\n\x17LoadToCandidateResponse\"\xa2\x01\n\rCommitRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\'\n\x05phase\x18\x02 \x01(\x0e\x32\x18.frr.CommitRequest.Phase\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t\"A\n\x05Phase\x12\x0c\n\x08VALIDATE\x10\x00\x12\x0b\n\x07PREPARE\x10\x01\x12\t\n\x05\x41\x42ORT\x10\x02\x12\t\n\x05\x41PPLY\x10\x03\x12\x07\n\x03\x41LL\x10\x04\"?\n\x0e\x43ommitResponse\x12\x16\n\x0etransaction_id\x18\x01 \x01(\r\x12\x15\n\rerror_message\x18\x02 \x01(\t\"\x19\n\x17ListTransactionsRequest\"U\n\x18ListTransactionsResponse\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06\x63lient\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\x12\x0f\n\x07\x63omment\x18\x04 \x01(\t\"g\n\x15GetTransactionRequest\x12\x16\n\x0etransaction_id\x18\x01 \x01(\r\x12\x1f\n\x08\x65ncoding\x18\x02 \x01(\x0e\x32\r.frr.Encoding\x12\x15\n\rwith_defaults\x18\x03 \x01(\x08\"7\n\x16GetTransactionResponse\x12\x1d\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\r.frr.DataTree\"\x13\n\x11LockConfigRequest\"\x14\n\x12LockConfigResponse\"\x15\n\x13UnlockConfigRequest\"\x16\n\x14UnlockConfigResponse\"=\n\x0e\x45xecuteRequest\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x1d\n\x05input\x18\x02 \x03(\x0b\x32\x0e.frr.PathValue\"1\n\x0f\x45xecuteResponse\x12\x1e\n\x06output\x18\x01 \x03(\x0b\x32\x0e.frr.PathValue\"B\n\nModuleData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0corganization\x18\x02 \x01(\t\x12\x10\n\x08revision\x18\x03 \x01(\t\"(\n\tPathValue\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"9\n\x08\x44\x61taTree\x12\x1f\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32\r.frr.Encoding\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t*\x1d\n\x08\x45ncoding\x12\x08\n\x04JSON\x10\x00\x12\x07\n\x03XML\x10\x01\x32\xab\x07\n\nNorthbound\x12N\n\x0fGetCapabilities\x12\x1b.frr.GetCapabilitiesRequest\x1a\x1c.frr.GetCapabilitiesResponse\"\x00\x12,\n\x03Get\x12\x0f.frr.GetRequest\x1a\x10.frr.GetResponse\"\x00\x30\x01\x12N\n\x0f\x43reateCandidate\x12\x1b.frr.CreateCandidateRequest\x1a\x1c.frr.CreateCandidateResponse\"\x00\x12N\n\x0f\x44\x65leteCandidate\x12\x1b.frr.DeleteCandidateRequest\x1a\x1c.frr.DeleteCandidateResponse\"\x00\x12N\n\x0fUpdateCandidate\x12\x1b.frr.UpdateCandidateRequest\x1a\x1c.frr.UpdateCandidateResponse\"\x00\x12H\n\rEditCandidate\x12\x19.frr.EditCandidateRequest\x1a\x1a.frr.EditCandidateResponse\"\x00\x12N\n\x0fLoadToCandidate\x12\x1b.frr.LoadToCandidateRequest\x1a\x1c.frr.LoadToCandidateResponse\"\x00\x12\x33\n\x06\x43ommit\x12\x12.frr.CommitRequest\x1a\x13.frr.CommitResponse\"\x00\x12S\n\x10ListTransactions\x12\x1c.frr.ListTransactionsRequest\x1a\x1d.frr.ListTransactionsResponse\"\x00\x30\x01\x12K\n\x0eGetTransaction\x12\x1a.frr.GetTransactionRequest\x1a\x1b.frr.GetTransactionResponse\"\x00\x12?\n\nLockConfig\x12\x16.frr.LockConfigRequest\x1a\x17.frr.LockConfigResponse\"\x00\x12\x45\n\x0cUnlockConfig\x12\x18.frr.UnlockConfigRequest\x1a\x19.frr.UnlockConfigResponse\"\x00\x12\x36\n\x07\x45xecute\x12\x13.frr.ExecuteRequest\x1a\x14.frr.ExecuteResponse\"\x00\x62\x06proto3'
+    name="frr-northbound.proto",
+    package="frr",
+    syntax="proto3",
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+    serialized_pb=b'\n\x14\x66rr-northbound.proto\x12\x03\x66rr"\x18\n\x16GetCapabilitiesRequest"\xa0\x01\n\x17GetCapabilitiesResponse\x12\x13\n\x0b\x66rr_version\x18\x01 \x01(\t\x12\x18\n\x10rollback_support\x18\x02 \x01(\x08\x12*\n\x11supported_modules\x18\x03 \x03(\x0b\x32\x0f.frr.ModuleData\x12*\n\x13supported_encodings\x18\x04 \x03(\x0e\x32\r.frr.Encoding"\xa6\x01\n\nGetRequest\x12&\n\x04type\x18\x01 \x01(\x0e\x32\x18.frr.GetRequest.DataType\x12\x1f\n\x08\x65ncoding\x18\x02 \x01(\x0e\x32\r.frr.Encoding\x12\x15\n\rwith_defaults\x18\x03 \x01(\x08\x12\x0c\n\x04path\x18\x04 \x03(\t"*\n\x08\x44\x61taType\x12\x07\n\x03\x41LL\x10\x00\x12\n\n\x06\x43ONFIG\x10\x01\x12\t\n\x05STATE\x10\x02"=\n\x0bGetResponse\x12\x11\n\ttimestamp\x18\x01 \x01(\x03\x12\x1b\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\r.frr.DataTree"\x18\n\x16\x43reateCandidateRequest"/\n\x17\x43reateCandidateResponse\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r".\n\x16\x44\x65leteCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r"\x19\n\x17\x44\x65leteCandidateResponse".\n\x16UpdateCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r"\x19\n\x17UpdateCandidateResponse"l\n\x14\x45\x64itCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\x1e\n\x06update\x18\x02 \x03(\x0b\x32\x0e.frr.PathValue\x12\x1e\n\x06\x64\x65lete\x18\x03 \x03(\x0b\x32\x0e.frr.PathValue"\x17\n\x15\x45\x64itCandidateResponse"\xa5\x01\n\x16LoadToCandidateRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\x32\n\x04type\x18\x02 \x01(\x0e\x32$.frr.LoadToCandidateRequest.LoadType\x12\x1d\n\x06\x63onfig\x18\x03 \x01(\x0b\x32\r.frr.DataTree""\n\x08LoadType\x12\t\n\x05MERGE\x10\x00\x12\x0b\n\x07REPLACE\x10\x01"\x19\n\x17LoadToCandidateResponse"\xa2\x01\n\rCommitRequest\x12\x14\n\x0c\x63\x61ndidate_id\x18\x01 \x01(\r\x12\'\n\x05phase\x18\x02 \x01(\x0e\x32\x18.frr.CommitRequest.Phase\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t"A\n\x05Phase\x12\x0c\n\x08VALIDATE\x10\x00\x12\x0b\n\x07PREPARE\x10\x01\x12\t\n\x05\x41\x42ORT\x10\x02\x12\t\n\x05\x41PPLY\x10\x03\x12\x07\n\x03\x41LL\x10\x04"?\n\x0e\x43ommitResponse\x12\x16\n\x0etransaction_id\x18\x01 \x01(\r\x12\x15\n\rerror_message\x18\x02 \x01(\t"\x19\n\x17ListTransactionsRequest"U\n\x18ListTransactionsResponse\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06\x63lient\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\x12\x0f\n\x07\x63omment\x18\x04 \x01(\t"g\n\x15GetTransactionRequest\x12\x16\n\x0etransaction_id\x18\x01 \x01(\r\x12\x1f\n\x08\x65ncoding\x18\x02 \x01(\x0e\x32\r.frr.Encoding\x12\x15\n\rwith_defaults\x18\x03 \x01(\x08"7\n\x16GetTransactionResponse\x12\x1d\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\r.frr.DataTree"\x13\n\x11LockConfigRequest"\x14\n\x12LockConfigResponse"\x15\n\x13UnlockConfigRequest"\x16\n\x14UnlockConfigResponse"=\n\x0e\x45xecuteRequest\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x1d\n\x05input\x18\x02 \x03(\x0b\x32\x0e.frr.PathValue"1\n\x0f\x45xecuteResponse\x12\x1e\n\x06output\x18\x01 \x03(\x0b\x32\x0e.frr.PathValue"B\n\nModuleData\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0corganization\x18\x02 \x01(\t\x12\x10\n\x08revision\x18\x03 \x01(\t"(\n\tPathValue\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t"9\n\x08\x44\x61taTree\x12\x1f\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32\r.frr.Encoding\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t*\x1d\n\x08\x45ncoding\x12\x08\n\x04JSON\x10\x00\x12\x07\n\x03XML\x10\x01\x32\xab\x07\n\nNorthbound\x12N\n\x0fGetCapabilities\x12\x1b.frr.GetCapabilitiesRequest\x1a\x1c.frr.GetCapabilitiesResponse"\x00\x12,\n\x03Get\x12\x0f.frr.GetRequest\x1a\x10.frr.GetResponse"\x00\x30\x01\x12N\n\x0f\x43reateCandidate\x12\x1b.frr.CreateCandidateRequest\x1a\x1c.frr.CreateCandidateResponse"\x00\x12N\n\x0f\x44\x65leteCandidate\x12\x1b.frr.DeleteCandidateRequest\x1a\x1c.frr.DeleteCandidateResponse"\x00\x12N\n\x0fUpdateCandidate\x12\x1b.frr.UpdateCandidateRequest\x1a\x1c.frr.UpdateCandidateResponse"\x00\x12H\n\rEditCandidate\x12\x19.frr.EditCandidateRequest\x1a\x1a.frr.EditCandidateResponse"\x00\x12N\n\x0fLoadToCandidate\x12\x1b.frr.LoadToCandidateRequest\x1a\x1c.frr.LoadToCandidateResponse"\x00\x12\x33\n\x06\x43ommit\x12\x12.frr.CommitRequest\x1a\x13.frr.CommitResponse"\x00\x12S\n\x10ListTransactions\x12\x1c.frr.ListTransactionsRequest\x1a\x1d.frr.ListTransactionsResponse"\x00\x30\x01\x12K\n\x0eGetTransaction\x12\x1a.frr.GetTransactionRequest\x1a\x1b.frr.GetTransactionResponse"\x00\x12?\n\nLockConfig\x12\x16.frr.LockConfigRequest\x1a\x17.frr.LockConfigResponse"\x00\x12\x45\n\x0cUnlockConfig\x12\x18.frr.UnlockConfigRequest\x1a\x19.frr.UnlockConfigResponse"\x00\x12\x36\n\x07\x45xecute\x12\x13.frr.ExecuteRequest\x1a\x14.frr.ExecuteResponse"\x00\x62\x06proto3',
 )
 
 _ENCODING = _descriptor.EnumDescriptor(
-  name='Encoding',
-  full_name='frr.Encoding',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='JSON', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='XML', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=1884,
-  serialized_end=1913,
+    name="Encoding",
+    full_name="frr.Encoding",
+    filename=None,
+    file=DESCRIPTOR,
+    create_key=_descriptor._internal_create_key,
+    values=[
+        _descriptor.EnumValueDescriptor(
+            name="JSON",
+            index=0,
+            number=0,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="XML",
+            index=1,
+            number=1,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    containing_type=None,
+    serialized_options=None,
+    serialized_start=1884,
+    serialized_end=1913,
 )
 _sym_db.RegisterEnumDescriptor(_ENCODING)
 
@@ -54,1520 +59,2077 @@ XML = 1
 
 
 _GETREQUEST_DATATYPE = _descriptor.EnumDescriptor(
-  name='DataType',
-  full_name='frr.GetRequest.DataType',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='ALL', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='CONFIG', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='STATE', index=2, number=2,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=343,
-  serialized_end=385,
+    name="DataType",
+    full_name="frr.GetRequest.DataType",
+    filename=None,
+    file=DESCRIPTOR,
+    create_key=_descriptor._internal_create_key,
+    values=[
+        _descriptor.EnumValueDescriptor(
+            name="ALL",
+            index=0,
+            number=0,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="CONFIG",
+            index=1,
+            number=1,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="STATE",
+            index=2,
+            number=2,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    containing_type=None,
+    serialized_options=None,
+    serialized_start=343,
+    serialized_end=385,
 )
 _sym_db.RegisterEnumDescriptor(_GETREQUEST_DATATYPE)
 
 _LOADTOCANDIDATEREQUEST_LOADTYPE = _descriptor.EnumDescriptor(
-  name='LoadType',
-  full_name='frr.LoadToCandidateRequest.LoadType',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='MERGE', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='REPLACE', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=942,
-  serialized_end=976,
+    name="LoadType",
+    full_name="frr.LoadToCandidateRequest.LoadType",
+    filename=None,
+    file=DESCRIPTOR,
+    create_key=_descriptor._internal_create_key,
+    values=[
+        _descriptor.EnumValueDescriptor(
+            name="MERGE",
+            index=0,
+            number=0,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="REPLACE",
+            index=1,
+            number=1,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    containing_type=None,
+    serialized_options=None,
+    serialized_start=942,
+    serialized_end=976,
 )
 _sym_db.RegisterEnumDescriptor(_LOADTOCANDIDATEREQUEST_LOADTYPE)
 
 _COMMITREQUEST_PHASE = _descriptor.EnumDescriptor(
-  name='Phase',
-  full_name='frr.CommitRequest.Phase',
-  filename=None,
-  file=DESCRIPTOR,
-  create_key=_descriptor._internal_create_key,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='VALIDATE', index=0, number=0,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='PREPARE', index=1, number=1,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='ABORT', index=2, number=2,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='APPLY', index=3, number=3,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='ALL', index=4, number=4,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-  ],
-  containing_type=None,
-  serialized_options=None,
-  serialized_start=1103,
-  serialized_end=1168,
+    name="Phase",
+    full_name="frr.CommitRequest.Phase",
+    filename=None,
+    file=DESCRIPTOR,
+    create_key=_descriptor._internal_create_key,
+    values=[
+        _descriptor.EnumValueDescriptor(
+            name="VALIDATE",
+            index=0,
+            number=0,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="PREPARE",
+            index=1,
+            number=1,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="ABORT",
+            index=2,
+            number=2,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="APPLY",
+            index=3,
+            number=3,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="ALL",
+            index=4,
+            number=4,
+            serialized_options=None,
+            type=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    containing_type=None,
+    serialized_options=None,
+    serialized_start=1103,
+    serialized_end=1168,
 )
 _sym_db.RegisterEnumDescriptor(_COMMITREQUEST_PHASE)
 
 
 _GETCAPABILITIESREQUEST = _descriptor.Descriptor(
-  name='GetCapabilitiesRequest',
-  full_name='frr.GetCapabilitiesRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=29,
-  serialized_end=53,
+    name="GetCapabilitiesRequest",
+    full_name="frr.GetCapabilitiesRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=29,
+    serialized_end=53,
 )
 
 
 _GETCAPABILITIESRESPONSE = _descriptor.Descriptor(
-  name='GetCapabilitiesResponse',
-  full_name='frr.GetCapabilitiesResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='frr_version', full_name='frr.GetCapabilitiesResponse.frr_version', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='rollback_support', full_name='frr.GetCapabilitiesResponse.rollback_support', index=1,
-      number=2, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='supported_modules', full_name='frr.GetCapabilitiesResponse.supported_modules', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='supported_encodings', full_name='frr.GetCapabilitiesResponse.supported_encodings', index=3,
-      number=4, type=14, cpp_type=8, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=56,
-  serialized_end=216,
+    name="GetCapabilitiesResponse",
+    full_name="frr.GetCapabilitiesResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="frr_version",
+            full_name="frr.GetCapabilitiesResponse.frr_version",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="rollback_support",
+            full_name="frr.GetCapabilitiesResponse.rollback_support",
+            index=1,
+            number=2,
+            type=8,
+            cpp_type=7,
+            label=1,
+            has_default_value=False,
+            default_value=False,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="supported_modules",
+            full_name="frr.GetCapabilitiesResponse.supported_modules",
+            index=2,
+            number=3,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="supported_encodings",
+            full_name="frr.GetCapabilitiesResponse.supported_encodings",
+            index=3,
+            number=4,
+            type=14,
+            cpp_type=8,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=56,
+    serialized_end=216,
 )
 
 
 _GETREQUEST = _descriptor.Descriptor(
-  name='GetRequest',
-  full_name='frr.GetRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='type', full_name='frr.GetRequest.type', index=0,
-      number=1, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='encoding', full_name='frr.GetRequest.encoding', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='with_defaults', full_name='frr.GetRequest.with_defaults', index=2,
-      number=3, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='path', full_name='frr.GetRequest.path', index=3,
-      number=4, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-    _GETREQUEST_DATATYPE,
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=219,
-  serialized_end=385,
+    name="GetRequest",
+    full_name="frr.GetRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="type",
+            full_name="frr.GetRequest.type",
+            index=0,
+            number=1,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="encoding",
+            full_name="frr.GetRequest.encoding",
+            index=1,
+            number=2,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="with_defaults",
+            full_name="frr.GetRequest.with_defaults",
+            index=2,
+            number=3,
+            type=8,
+            cpp_type=7,
+            label=1,
+            has_default_value=False,
+            default_value=False,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="path",
+            full_name="frr.GetRequest.path",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[
+        _GETREQUEST_DATATYPE,
+    ],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=219,
+    serialized_end=385,
 )
 
 
 _GETRESPONSE = _descriptor.Descriptor(
-  name='GetResponse',
-  full_name='frr.GetResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='timestamp', full_name='frr.GetResponse.timestamp', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='data', full_name='frr.GetResponse.data', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=387,
-  serialized_end=448,
+    name="GetResponse",
+    full_name="frr.GetResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="timestamp",
+            full_name="frr.GetResponse.timestamp",
+            index=0,
+            number=1,
+            type=3,
+            cpp_type=2,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="data",
+            full_name="frr.GetResponse.data",
+            index=1,
+            number=2,
+            type=11,
+            cpp_type=10,
+            label=1,
+            has_default_value=False,
+            default_value=None,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=387,
+    serialized_end=448,
 )
 
 
 _CREATECANDIDATEREQUEST = _descriptor.Descriptor(
-  name='CreateCandidateRequest',
-  full_name='frr.CreateCandidateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=450,
-  serialized_end=474,
+    name="CreateCandidateRequest",
+    full_name="frr.CreateCandidateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=450,
+    serialized_end=474,
 )
 
 
 _CREATECANDIDATERESPONSE = _descriptor.Descriptor(
-  name='CreateCandidateResponse',
-  full_name='frr.CreateCandidateResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.CreateCandidateResponse.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=476,
-  serialized_end=523,
+    name="CreateCandidateResponse",
+    full_name="frr.CreateCandidateResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.CreateCandidateResponse.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=476,
+    serialized_end=523,
 )
 
 
 _DELETECANDIDATEREQUEST = _descriptor.Descriptor(
-  name='DeleteCandidateRequest',
-  full_name='frr.DeleteCandidateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.DeleteCandidateRequest.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=525,
-  serialized_end=571,
+    name="DeleteCandidateRequest",
+    full_name="frr.DeleteCandidateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.DeleteCandidateRequest.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=525,
+    serialized_end=571,
 )
 
 
 _DELETECANDIDATERESPONSE = _descriptor.Descriptor(
-  name='DeleteCandidateResponse',
-  full_name='frr.DeleteCandidateResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=573,
-  serialized_end=598,
+    name="DeleteCandidateResponse",
+    full_name="frr.DeleteCandidateResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=573,
+    serialized_end=598,
 )
 
 
 _UPDATECANDIDATEREQUEST = _descriptor.Descriptor(
-  name='UpdateCandidateRequest',
-  full_name='frr.UpdateCandidateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.UpdateCandidateRequest.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=600,
-  serialized_end=646,
+    name="UpdateCandidateRequest",
+    full_name="frr.UpdateCandidateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.UpdateCandidateRequest.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=600,
+    serialized_end=646,
 )
 
 
 _UPDATECANDIDATERESPONSE = _descriptor.Descriptor(
-  name='UpdateCandidateResponse',
-  full_name='frr.UpdateCandidateResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=648,
-  serialized_end=673,
+    name="UpdateCandidateResponse",
+    full_name="frr.UpdateCandidateResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=648,
+    serialized_end=673,
 )
 
 
 _EDITCANDIDATEREQUEST = _descriptor.Descriptor(
-  name='EditCandidateRequest',
-  full_name='frr.EditCandidateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.EditCandidateRequest.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='update', full_name='frr.EditCandidateRequest.update', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='delete', full_name='frr.EditCandidateRequest.delete', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=675,
-  serialized_end=783,
+    name="EditCandidateRequest",
+    full_name="frr.EditCandidateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.EditCandidateRequest.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="update",
+            full_name="frr.EditCandidateRequest.update",
+            index=1,
+            number=2,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="delete",
+            full_name="frr.EditCandidateRequest.delete",
+            index=2,
+            number=3,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=675,
+    serialized_end=783,
 )
 
 
 _EDITCANDIDATERESPONSE = _descriptor.Descriptor(
-  name='EditCandidateResponse',
-  full_name='frr.EditCandidateResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=785,
-  serialized_end=808,
+    name="EditCandidateResponse",
+    full_name="frr.EditCandidateResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=785,
+    serialized_end=808,
 )
 
 
 _LOADTOCANDIDATEREQUEST = _descriptor.Descriptor(
-  name='LoadToCandidateRequest',
-  full_name='frr.LoadToCandidateRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.LoadToCandidateRequest.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='frr.LoadToCandidateRequest.type', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='config', full_name='frr.LoadToCandidateRequest.config', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-    _LOADTOCANDIDATEREQUEST_LOADTYPE,
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=811,
-  serialized_end=976,
+    name="LoadToCandidateRequest",
+    full_name="frr.LoadToCandidateRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.LoadToCandidateRequest.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="type",
+            full_name="frr.LoadToCandidateRequest.type",
+            index=1,
+            number=2,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="config",
+            full_name="frr.LoadToCandidateRequest.config",
+            index=2,
+            number=3,
+            type=11,
+            cpp_type=10,
+            label=1,
+            has_default_value=False,
+            default_value=None,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[
+        _LOADTOCANDIDATEREQUEST_LOADTYPE,
+    ],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=811,
+    serialized_end=976,
 )
 
 
 _LOADTOCANDIDATERESPONSE = _descriptor.Descriptor(
-  name='LoadToCandidateResponse',
-  full_name='frr.LoadToCandidateResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=978,
-  serialized_end=1003,
+    name="LoadToCandidateResponse",
+    full_name="frr.LoadToCandidateResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=978,
+    serialized_end=1003,
 )
 
 
 _COMMITREQUEST = _descriptor.Descriptor(
-  name='CommitRequest',
-  full_name='frr.CommitRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='candidate_id', full_name='frr.CommitRequest.candidate_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='phase', full_name='frr.CommitRequest.phase', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='comment', full_name='frr.CommitRequest.comment', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-    _COMMITREQUEST_PHASE,
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1006,
-  serialized_end=1168,
+    name="CommitRequest",
+    full_name="frr.CommitRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="candidate_id",
+            full_name="frr.CommitRequest.candidate_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="phase",
+            full_name="frr.CommitRequest.phase",
+            index=1,
+            number=2,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="comment",
+            full_name="frr.CommitRequest.comment",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[
+        _COMMITREQUEST_PHASE,
+    ],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1006,
+    serialized_end=1168,
 )
 
 
 _COMMITRESPONSE = _descriptor.Descriptor(
-  name='CommitResponse',
-  full_name='frr.CommitResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='transaction_id', full_name='frr.CommitResponse.transaction_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='error_message', full_name='frr.CommitResponse.error_message', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1170,
-  serialized_end=1233,
+    name="CommitResponse",
+    full_name="frr.CommitResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="transaction_id",
+            full_name="frr.CommitResponse.transaction_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="error_message",
+            full_name="frr.CommitResponse.error_message",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1170,
+    serialized_end=1233,
 )
 
 
 _LISTTRANSACTIONSREQUEST = _descriptor.Descriptor(
-  name='ListTransactionsRequest',
-  full_name='frr.ListTransactionsRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1235,
-  serialized_end=1260,
+    name="ListTransactionsRequest",
+    full_name="frr.ListTransactionsRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1235,
+    serialized_end=1260,
 )
 
 
 _LISTTRANSACTIONSRESPONSE = _descriptor.Descriptor(
-  name='ListTransactionsResponse',
-  full_name='frr.ListTransactionsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='frr.ListTransactionsResponse.id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='client', full_name='frr.ListTransactionsResponse.client', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='date', full_name='frr.ListTransactionsResponse.date', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='comment', full_name='frr.ListTransactionsResponse.comment', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1262,
-  serialized_end=1347,
+    name="ListTransactionsResponse",
+    full_name="frr.ListTransactionsResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="id",
+            full_name="frr.ListTransactionsResponse.id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="client",
+            full_name="frr.ListTransactionsResponse.client",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="date",
+            full_name="frr.ListTransactionsResponse.date",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="comment",
+            full_name="frr.ListTransactionsResponse.comment",
+            index=3,
+            number=4,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1262,
+    serialized_end=1347,
 )
 
 
 _GETTRANSACTIONREQUEST = _descriptor.Descriptor(
-  name='GetTransactionRequest',
-  full_name='frr.GetTransactionRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='transaction_id', full_name='frr.GetTransactionRequest.transaction_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='encoding', full_name='frr.GetTransactionRequest.encoding', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='with_defaults', full_name='frr.GetTransactionRequest.with_defaults', index=2,
-      number=3, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1349,
-  serialized_end=1452,
+    name="GetTransactionRequest",
+    full_name="frr.GetTransactionRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="transaction_id",
+            full_name="frr.GetTransactionRequest.transaction_id",
+            index=0,
+            number=1,
+            type=13,
+            cpp_type=3,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="encoding",
+            full_name="frr.GetTransactionRequest.encoding",
+            index=1,
+            number=2,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="with_defaults",
+            full_name="frr.GetTransactionRequest.with_defaults",
+            index=2,
+            number=3,
+            type=8,
+            cpp_type=7,
+            label=1,
+            has_default_value=False,
+            default_value=False,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1349,
+    serialized_end=1452,
 )
 
 
 _GETTRANSACTIONRESPONSE = _descriptor.Descriptor(
-  name='GetTransactionResponse',
-  full_name='frr.GetTransactionResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='config', full_name='frr.GetTransactionResponse.config', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1454,
-  serialized_end=1509,
+    name="GetTransactionResponse",
+    full_name="frr.GetTransactionResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="config",
+            full_name="frr.GetTransactionResponse.config",
+            index=0,
+            number=1,
+            type=11,
+            cpp_type=10,
+            label=1,
+            has_default_value=False,
+            default_value=None,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1454,
+    serialized_end=1509,
 )
 
 
 _LOCKCONFIGREQUEST = _descriptor.Descriptor(
-  name='LockConfigRequest',
-  full_name='frr.LockConfigRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1511,
-  serialized_end=1530,
+    name="LockConfigRequest",
+    full_name="frr.LockConfigRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1511,
+    serialized_end=1530,
 )
 
 
 _LOCKCONFIGRESPONSE = _descriptor.Descriptor(
-  name='LockConfigResponse',
-  full_name='frr.LockConfigResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1532,
-  serialized_end=1552,
+    name="LockConfigResponse",
+    full_name="frr.LockConfigResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1532,
+    serialized_end=1552,
 )
 
 
 _UNLOCKCONFIGREQUEST = _descriptor.Descriptor(
-  name='UnlockConfigRequest',
-  full_name='frr.UnlockConfigRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1554,
-  serialized_end=1575,
+    name="UnlockConfigRequest",
+    full_name="frr.UnlockConfigRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1554,
+    serialized_end=1575,
 )
 
 
 _UNLOCKCONFIGRESPONSE = _descriptor.Descriptor(
-  name='UnlockConfigResponse',
-  full_name='frr.UnlockConfigResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1577,
-  serialized_end=1599,
+    name="UnlockConfigResponse",
+    full_name="frr.UnlockConfigResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1577,
+    serialized_end=1599,
 )
 
 
 _EXECUTEREQUEST = _descriptor.Descriptor(
-  name='ExecuteRequest',
-  full_name='frr.ExecuteRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='path', full_name='frr.ExecuteRequest.path', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='input', full_name='frr.ExecuteRequest.input', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1601,
-  serialized_end=1662,
+    name="ExecuteRequest",
+    full_name="frr.ExecuteRequest",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="path",
+            full_name="frr.ExecuteRequest.path",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="input",
+            full_name="frr.ExecuteRequest.input",
+            index=1,
+            number=2,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1601,
+    serialized_end=1662,
 )
 
 
 _EXECUTERESPONSE = _descriptor.Descriptor(
-  name='ExecuteResponse',
-  full_name='frr.ExecuteResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='output', full_name='frr.ExecuteResponse.output', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1664,
-  serialized_end=1713,
+    name="ExecuteResponse",
+    full_name="frr.ExecuteResponse",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="output",
+            full_name="frr.ExecuteResponse.output",
+            index=0,
+            number=1,
+            type=11,
+            cpp_type=10,
+            label=3,
+            has_default_value=False,
+            default_value=[],
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1664,
+    serialized_end=1713,
 )
 
 
 _MODULEDATA = _descriptor.Descriptor(
-  name='ModuleData',
-  full_name='frr.ModuleData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='frr.ModuleData.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='organization', full_name='frr.ModuleData.organization', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='revision', full_name='frr.ModuleData.revision', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1715,
-  serialized_end=1781,
+    name="ModuleData",
+    full_name="frr.ModuleData",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="name",
+            full_name="frr.ModuleData.name",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="organization",
+            full_name="frr.ModuleData.organization",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="revision",
+            full_name="frr.ModuleData.revision",
+            index=2,
+            number=3,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1715,
+    serialized_end=1781,
 )
 
 
 _PATHVALUE = _descriptor.Descriptor(
-  name='PathValue',
-  full_name='frr.PathValue',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='path', full_name='frr.PathValue.path', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='frr.PathValue.value', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1783,
-  serialized_end=1823,
+    name="PathValue",
+    full_name="frr.PathValue",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="path",
+            full_name="frr.PathValue.path",
+            index=0,
+            number=1,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="value",
+            full_name="frr.PathValue.value",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1783,
+    serialized_end=1823,
 )
 
 
 _DATATREE = _descriptor.Descriptor(
-  name='DataTree',
-  full_name='frr.DataTree',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='encoding', full_name='frr.DataTree.encoding', index=0,
-      number=1, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='data', full_name='frr.DataTree.data', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1825,
-  serialized_end=1882,
+    name="DataTree",
+    full_name="frr.DataTree",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    create_key=_descriptor._internal_create_key,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="encoding",
+            full_name="frr.DataTree.encoding",
+            index=0,
+            number=1,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.FieldDescriptor(
+            name="data",
+            full_name="frr.DataTree.data",
+            index=1,
+            number=2,
+            type=9,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"".decode("utf-8"),
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1825,
+    serialized_end=1882,
 )
 
-_GETCAPABILITIESRESPONSE.fields_by_name['supported_modules'].message_type = _MODULEDATA
-_GETCAPABILITIESRESPONSE.fields_by_name['supported_encodings'].enum_type = _ENCODING
-_GETREQUEST.fields_by_name['type'].enum_type = _GETREQUEST_DATATYPE
-_GETREQUEST.fields_by_name['encoding'].enum_type = _ENCODING
+_GETCAPABILITIESRESPONSE.fields_by_name["supported_modules"].message_type = _MODULEDATA
+_GETCAPABILITIESRESPONSE.fields_by_name["supported_encodings"].enum_type = _ENCODING
+_GETREQUEST.fields_by_name["type"].enum_type = _GETREQUEST_DATATYPE
+_GETREQUEST.fields_by_name["encoding"].enum_type = _ENCODING
 _GETREQUEST_DATATYPE.containing_type = _GETREQUEST
-_GETRESPONSE.fields_by_name['data'].message_type = _DATATREE
-_EDITCANDIDATEREQUEST.fields_by_name['update'].message_type = _PATHVALUE
-_EDITCANDIDATEREQUEST.fields_by_name['delete'].message_type = _PATHVALUE
-_LOADTOCANDIDATEREQUEST.fields_by_name['type'].enum_type = _LOADTOCANDIDATEREQUEST_LOADTYPE
-_LOADTOCANDIDATEREQUEST.fields_by_name['config'].message_type = _DATATREE
+_GETRESPONSE.fields_by_name["data"].message_type = _DATATREE
+_EDITCANDIDATEREQUEST.fields_by_name["update"].message_type = _PATHVALUE
+_EDITCANDIDATEREQUEST.fields_by_name["delete"].message_type = _PATHVALUE
+_LOADTOCANDIDATEREQUEST.fields_by_name[
+    "type"
+].enum_type = _LOADTOCANDIDATEREQUEST_LOADTYPE
+_LOADTOCANDIDATEREQUEST.fields_by_name["config"].message_type = _DATATREE
 _LOADTOCANDIDATEREQUEST_LOADTYPE.containing_type = _LOADTOCANDIDATEREQUEST
-_COMMITREQUEST.fields_by_name['phase'].enum_type = _COMMITREQUEST_PHASE
+_COMMITREQUEST.fields_by_name["phase"].enum_type = _COMMITREQUEST_PHASE
 _COMMITREQUEST_PHASE.containing_type = _COMMITREQUEST
-_GETTRANSACTIONREQUEST.fields_by_name['encoding'].enum_type = _ENCODING
-_GETTRANSACTIONRESPONSE.fields_by_name['config'].message_type = _DATATREE
-_EXECUTEREQUEST.fields_by_name['input'].message_type = _PATHVALUE
-_EXECUTERESPONSE.fields_by_name['output'].message_type = _PATHVALUE
-_DATATREE.fields_by_name['encoding'].enum_type = _ENCODING
-DESCRIPTOR.message_types_by_name['GetCapabilitiesRequest'] = _GETCAPABILITIESREQUEST
-DESCRIPTOR.message_types_by_name['GetCapabilitiesResponse'] = _GETCAPABILITIESRESPONSE
-DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
-DESCRIPTOR.message_types_by_name['GetResponse'] = _GETRESPONSE
-DESCRIPTOR.message_types_by_name['CreateCandidateRequest'] = _CREATECANDIDATEREQUEST
-DESCRIPTOR.message_types_by_name['CreateCandidateResponse'] = _CREATECANDIDATERESPONSE
-DESCRIPTOR.message_types_by_name['DeleteCandidateRequest'] = _DELETECANDIDATEREQUEST
-DESCRIPTOR.message_types_by_name['DeleteCandidateResponse'] = _DELETECANDIDATERESPONSE
-DESCRIPTOR.message_types_by_name['UpdateCandidateRequest'] = _UPDATECANDIDATEREQUEST
-DESCRIPTOR.message_types_by_name['UpdateCandidateResponse'] = _UPDATECANDIDATERESPONSE
-DESCRIPTOR.message_types_by_name['EditCandidateRequest'] = _EDITCANDIDATEREQUEST
-DESCRIPTOR.message_types_by_name['EditCandidateResponse'] = _EDITCANDIDATERESPONSE
-DESCRIPTOR.message_types_by_name['LoadToCandidateRequest'] = _LOADTOCANDIDATEREQUEST
-DESCRIPTOR.message_types_by_name['LoadToCandidateResponse'] = _LOADTOCANDIDATERESPONSE
-DESCRIPTOR.message_types_by_name['CommitRequest'] = _COMMITREQUEST
-DESCRIPTOR.message_types_by_name['CommitResponse'] = _COMMITRESPONSE
-DESCRIPTOR.message_types_by_name['ListTransactionsRequest'] = _LISTTRANSACTIONSREQUEST
-DESCRIPTOR.message_types_by_name['ListTransactionsResponse'] = _LISTTRANSACTIONSRESPONSE
-DESCRIPTOR.message_types_by_name['GetTransactionRequest'] = _GETTRANSACTIONREQUEST
-DESCRIPTOR.message_types_by_name['GetTransactionResponse'] = _GETTRANSACTIONRESPONSE
-DESCRIPTOR.message_types_by_name['LockConfigRequest'] = _LOCKCONFIGREQUEST
-DESCRIPTOR.message_types_by_name['LockConfigResponse'] = _LOCKCONFIGRESPONSE
-DESCRIPTOR.message_types_by_name['UnlockConfigRequest'] = _UNLOCKCONFIGREQUEST
-DESCRIPTOR.message_types_by_name['UnlockConfigResponse'] = _UNLOCKCONFIGRESPONSE
-DESCRIPTOR.message_types_by_name['ExecuteRequest'] = _EXECUTEREQUEST
-DESCRIPTOR.message_types_by_name['ExecuteResponse'] = _EXECUTERESPONSE
-DESCRIPTOR.message_types_by_name['ModuleData'] = _MODULEDATA
-DESCRIPTOR.message_types_by_name['PathValue'] = _PATHVALUE
-DESCRIPTOR.message_types_by_name['DataTree'] = _DATATREE
-DESCRIPTOR.enum_types_by_name['Encoding'] = _ENCODING
+_GETTRANSACTIONREQUEST.fields_by_name["encoding"].enum_type = _ENCODING
+_GETTRANSACTIONRESPONSE.fields_by_name["config"].message_type = _DATATREE
+_EXECUTEREQUEST.fields_by_name["input"].message_type = _PATHVALUE
+_EXECUTERESPONSE.fields_by_name["output"].message_type = _PATHVALUE
+_DATATREE.fields_by_name["encoding"].enum_type = _ENCODING
+DESCRIPTOR.message_types_by_name["GetCapabilitiesRequest"] = _GETCAPABILITIESREQUEST
+DESCRIPTOR.message_types_by_name["GetCapabilitiesResponse"] = _GETCAPABILITIESRESPONSE
+DESCRIPTOR.message_types_by_name["GetRequest"] = _GETREQUEST
+DESCRIPTOR.message_types_by_name["GetResponse"] = _GETRESPONSE
+DESCRIPTOR.message_types_by_name["CreateCandidateRequest"] = _CREATECANDIDATEREQUEST
+DESCRIPTOR.message_types_by_name["CreateCandidateResponse"] = _CREATECANDIDATERESPONSE
+DESCRIPTOR.message_types_by_name["DeleteCandidateRequest"] = _DELETECANDIDATEREQUEST
+DESCRIPTOR.message_types_by_name["DeleteCandidateResponse"] = _DELETECANDIDATERESPONSE
+DESCRIPTOR.message_types_by_name["UpdateCandidateRequest"] = _UPDATECANDIDATEREQUEST
+DESCRIPTOR.message_types_by_name["UpdateCandidateResponse"] = _UPDATECANDIDATERESPONSE
+DESCRIPTOR.message_types_by_name["EditCandidateRequest"] = _EDITCANDIDATEREQUEST
+DESCRIPTOR.message_types_by_name["EditCandidateResponse"] = _EDITCANDIDATERESPONSE
+DESCRIPTOR.message_types_by_name["LoadToCandidateRequest"] = _LOADTOCANDIDATEREQUEST
+DESCRIPTOR.message_types_by_name["LoadToCandidateResponse"] = _LOADTOCANDIDATERESPONSE
+DESCRIPTOR.message_types_by_name["CommitRequest"] = _COMMITREQUEST
+DESCRIPTOR.message_types_by_name["CommitResponse"] = _COMMITRESPONSE
+DESCRIPTOR.message_types_by_name["ListTransactionsRequest"] = _LISTTRANSACTIONSREQUEST
+DESCRIPTOR.message_types_by_name["ListTransactionsResponse"] = _LISTTRANSACTIONSRESPONSE
+DESCRIPTOR.message_types_by_name["GetTransactionRequest"] = _GETTRANSACTIONREQUEST
+DESCRIPTOR.message_types_by_name["GetTransactionResponse"] = _GETTRANSACTIONRESPONSE
+DESCRIPTOR.message_types_by_name["LockConfigRequest"] = _LOCKCONFIGREQUEST
+DESCRIPTOR.message_types_by_name["LockConfigResponse"] = _LOCKCONFIGRESPONSE
+DESCRIPTOR.message_types_by_name["UnlockConfigRequest"] = _UNLOCKCONFIGREQUEST
+DESCRIPTOR.message_types_by_name["UnlockConfigResponse"] = _UNLOCKCONFIGRESPONSE
+DESCRIPTOR.message_types_by_name["ExecuteRequest"] = _EXECUTEREQUEST
+DESCRIPTOR.message_types_by_name["ExecuteResponse"] = _EXECUTERESPONSE
+DESCRIPTOR.message_types_by_name["ModuleData"] = _MODULEDATA
+DESCRIPTOR.message_types_by_name["PathValue"] = _PATHVALUE
+DESCRIPTOR.message_types_by_name["DataTree"] = _DATATREE
+DESCRIPTOR.enum_types_by_name["Encoding"] = _ENCODING
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-GetCapabilitiesRequest = _reflection.GeneratedProtocolMessageType('GetCapabilitiesRequest', (_message.Message,), {
-  'DESCRIPTOR' : _GETCAPABILITIESREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetCapabilitiesRequest)
-  })
+GetCapabilitiesRequest = _reflection.GeneratedProtocolMessageType(
+    "GetCapabilitiesRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETCAPABILITIESREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetCapabilitiesRequest)
+    },
+)
 _sym_db.RegisterMessage(GetCapabilitiesRequest)
 
-GetCapabilitiesResponse = _reflection.GeneratedProtocolMessageType('GetCapabilitiesResponse', (_message.Message,), {
-  'DESCRIPTOR' : _GETCAPABILITIESRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetCapabilitiesResponse)
-  })
+GetCapabilitiesResponse = _reflection.GeneratedProtocolMessageType(
+    "GetCapabilitiesResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETCAPABILITIESRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetCapabilitiesResponse)
+    },
+)
 _sym_db.RegisterMessage(GetCapabilitiesResponse)
 
-GetRequest = _reflection.GeneratedProtocolMessageType('GetRequest', (_message.Message,), {
-  'DESCRIPTOR' : _GETREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetRequest)
-  })
+GetRequest = _reflection.GeneratedProtocolMessageType(
+    "GetRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetRequest)
+    },
+)
 _sym_db.RegisterMessage(GetRequest)
 
-GetResponse = _reflection.GeneratedProtocolMessageType('GetResponse', (_message.Message,), {
-  'DESCRIPTOR' : _GETRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetResponse)
-  })
+GetResponse = _reflection.GeneratedProtocolMessageType(
+    "GetResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetResponse)
+    },
+)
 _sym_db.RegisterMessage(GetResponse)
 
-CreateCandidateRequest = _reflection.GeneratedProtocolMessageType('CreateCandidateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _CREATECANDIDATEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.CreateCandidateRequest)
-  })
+CreateCandidateRequest = _reflection.GeneratedProtocolMessageType(
+    "CreateCandidateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _CREATECANDIDATEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.CreateCandidateRequest)
+    },
+)
 _sym_db.RegisterMessage(CreateCandidateRequest)
 
-CreateCandidateResponse = _reflection.GeneratedProtocolMessageType('CreateCandidateResponse', (_message.Message,), {
-  'DESCRIPTOR' : _CREATECANDIDATERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.CreateCandidateResponse)
-  })
+CreateCandidateResponse = _reflection.GeneratedProtocolMessageType(
+    "CreateCandidateResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _CREATECANDIDATERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.CreateCandidateResponse)
+    },
+)
 _sym_db.RegisterMessage(CreateCandidateResponse)
 
-DeleteCandidateRequest = _reflection.GeneratedProtocolMessageType('DeleteCandidateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _DELETECANDIDATEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.DeleteCandidateRequest)
-  })
+DeleteCandidateRequest = _reflection.GeneratedProtocolMessageType(
+    "DeleteCandidateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _DELETECANDIDATEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.DeleteCandidateRequest)
+    },
+)
 _sym_db.RegisterMessage(DeleteCandidateRequest)
 
-DeleteCandidateResponse = _reflection.GeneratedProtocolMessageType('DeleteCandidateResponse', (_message.Message,), {
-  'DESCRIPTOR' : _DELETECANDIDATERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.DeleteCandidateResponse)
-  })
+DeleteCandidateResponse = _reflection.GeneratedProtocolMessageType(
+    "DeleteCandidateResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _DELETECANDIDATERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.DeleteCandidateResponse)
+    },
+)
 _sym_db.RegisterMessage(DeleteCandidateResponse)
 
-UpdateCandidateRequest = _reflection.GeneratedProtocolMessageType('UpdateCandidateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _UPDATECANDIDATEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.UpdateCandidateRequest)
-  })
+UpdateCandidateRequest = _reflection.GeneratedProtocolMessageType(
+    "UpdateCandidateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _UPDATECANDIDATEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.UpdateCandidateRequest)
+    },
+)
 _sym_db.RegisterMessage(UpdateCandidateRequest)
 
-UpdateCandidateResponse = _reflection.GeneratedProtocolMessageType('UpdateCandidateResponse', (_message.Message,), {
-  'DESCRIPTOR' : _UPDATECANDIDATERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.UpdateCandidateResponse)
-  })
+UpdateCandidateResponse = _reflection.GeneratedProtocolMessageType(
+    "UpdateCandidateResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _UPDATECANDIDATERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.UpdateCandidateResponse)
+    },
+)
 _sym_db.RegisterMessage(UpdateCandidateResponse)
 
-EditCandidateRequest = _reflection.GeneratedProtocolMessageType('EditCandidateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _EDITCANDIDATEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.EditCandidateRequest)
-  })
+EditCandidateRequest = _reflection.GeneratedProtocolMessageType(
+    "EditCandidateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _EDITCANDIDATEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.EditCandidateRequest)
+    },
+)
 _sym_db.RegisterMessage(EditCandidateRequest)
 
-EditCandidateResponse = _reflection.GeneratedProtocolMessageType('EditCandidateResponse', (_message.Message,), {
-  'DESCRIPTOR' : _EDITCANDIDATERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.EditCandidateResponse)
-  })
+EditCandidateResponse = _reflection.GeneratedProtocolMessageType(
+    "EditCandidateResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _EDITCANDIDATERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.EditCandidateResponse)
+    },
+)
 _sym_db.RegisterMessage(EditCandidateResponse)
 
-LoadToCandidateRequest = _reflection.GeneratedProtocolMessageType('LoadToCandidateRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LOADTOCANDIDATEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.LoadToCandidateRequest)
-  })
+LoadToCandidateRequest = _reflection.GeneratedProtocolMessageType(
+    "LoadToCandidateRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOADTOCANDIDATEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.LoadToCandidateRequest)
+    },
+)
 _sym_db.RegisterMessage(LoadToCandidateRequest)
 
-LoadToCandidateResponse = _reflection.GeneratedProtocolMessageType('LoadToCandidateResponse', (_message.Message,), {
-  'DESCRIPTOR' : _LOADTOCANDIDATERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.LoadToCandidateResponse)
-  })
+LoadToCandidateResponse = _reflection.GeneratedProtocolMessageType(
+    "LoadToCandidateResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOADTOCANDIDATERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.LoadToCandidateResponse)
+    },
+)
 _sym_db.RegisterMessage(LoadToCandidateResponse)
 
-CommitRequest = _reflection.GeneratedProtocolMessageType('CommitRequest', (_message.Message,), {
-  'DESCRIPTOR' : _COMMITREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.CommitRequest)
-  })
+CommitRequest = _reflection.GeneratedProtocolMessageType(
+    "CommitRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _COMMITREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.CommitRequest)
+    },
+)
 _sym_db.RegisterMessage(CommitRequest)
 
-CommitResponse = _reflection.GeneratedProtocolMessageType('CommitResponse', (_message.Message,), {
-  'DESCRIPTOR' : _COMMITRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.CommitResponse)
-  })
+CommitResponse = _reflection.GeneratedProtocolMessageType(
+    "CommitResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _COMMITRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.CommitResponse)
+    },
+)
 _sym_db.RegisterMessage(CommitResponse)
 
-ListTransactionsRequest = _reflection.GeneratedProtocolMessageType('ListTransactionsRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LISTTRANSACTIONSREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.ListTransactionsRequest)
-  })
+ListTransactionsRequest = _reflection.GeneratedProtocolMessageType(
+    "ListTransactionsRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LISTTRANSACTIONSREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.ListTransactionsRequest)
+    },
+)
 _sym_db.RegisterMessage(ListTransactionsRequest)
 
-ListTransactionsResponse = _reflection.GeneratedProtocolMessageType('ListTransactionsResponse', (_message.Message,), {
-  'DESCRIPTOR' : _LISTTRANSACTIONSRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.ListTransactionsResponse)
-  })
+ListTransactionsResponse = _reflection.GeneratedProtocolMessageType(
+    "ListTransactionsResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LISTTRANSACTIONSRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.ListTransactionsResponse)
+    },
+)
 _sym_db.RegisterMessage(ListTransactionsResponse)
 
-GetTransactionRequest = _reflection.GeneratedProtocolMessageType('GetTransactionRequest', (_message.Message,), {
-  'DESCRIPTOR' : _GETTRANSACTIONREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetTransactionRequest)
-  })
+GetTransactionRequest = _reflection.GeneratedProtocolMessageType(
+    "GetTransactionRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETTRANSACTIONREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetTransactionRequest)
+    },
+)
 _sym_db.RegisterMessage(GetTransactionRequest)
 
-GetTransactionResponse = _reflection.GeneratedProtocolMessageType('GetTransactionResponse', (_message.Message,), {
-  'DESCRIPTOR' : _GETTRANSACTIONRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.GetTransactionResponse)
-  })
+GetTransactionResponse = _reflection.GeneratedProtocolMessageType(
+    "GetTransactionResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _GETTRANSACTIONRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.GetTransactionResponse)
+    },
+)
 _sym_db.RegisterMessage(GetTransactionResponse)
 
-LockConfigRequest = _reflection.GeneratedProtocolMessageType('LockConfigRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LOCKCONFIGREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.LockConfigRequest)
-  })
+LockConfigRequest = _reflection.GeneratedProtocolMessageType(
+    "LockConfigRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOCKCONFIGREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.LockConfigRequest)
+    },
+)
 _sym_db.RegisterMessage(LockConfigRequest)
 
-LockConfigResponse = _reflection.GeneratedProtocolMessageType('LockConfigResponse', (_message.Message,), {
-  'DESCRIPTOR' : _LOCKCONFIGRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.LockConfigResponse)
-  })
+LockConfigResponse = _reflection.GeneratedProtocolMessageType(
+    "LockConfigResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _LOCKCONFIGRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.LockConfigResponse)
+    },
+)
 _sym_db.RegisterMessage(LockConfigResponse)
 
-UnlockConfigRequest = _reflection.GeneratedProtocolMessageType('UnlockConfigRequest', (_message.Message,), {
-  'DESCRIPTOR' : _UNLOCKCONFIGREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.UnlockConfigRequest)
-  })
+UnlockConfigRequest = _reflection.GeneratedProtocolMessageType(
+    "UnlockConfigRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _UNLOCKCONFIGREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.UnlockConfigRequest)
+    },
+)
 _sym_db.RegisterMessage(UnlockConfigRequest)
 
-UnlockConfigResponse = _reflection.GeneratedProtocolMessageType('UnlockConfigResponse', (_message.Message,), {
-  'DESCRIPTOR' : _UNLOCKCONFIGRESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.UnlockConfigResponse)
-  })
+UnlockConfigResponse = _reflection.GeneratedProtocolMessageType(
+    "UnlockConfigResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _UNLOCKCONFIGRESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.UnlockConfigResponse)
+    },
+)
 _sym_db.RegisterMessage(UnlockConfigResponse)
 
-ExecuteRequest = _reflection.GeneratedProtocolMessageType('ExecuteRequest', (_message.Message,), {
-  'DESCRIPTOR' : _EXECUTEREQUEST,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.ExecuteRequest)
-  })
+ExecuteRequest = _reflection.GeneratedProtocolMessageType(
+    "ExecuteRequest",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _EXECUTEREQUEST,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.ExecuteRequest)
+    },
+)
 _sym_db.RegisterMessage(ExecuteRequest)
 
-ExecuteResponse = _reflection.GeneratedProtocolMessageType('ExecuteResponse', (_message.Message,), {
-  'DESCRIPTOR' : _EXECUTERESPONSE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.ExecuteResponse)
-  })
+ExecuteResponse = _reflection.GeneratedProtocolMessageType(
+    "ExecuteResponse",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _EXECUTERESPONSE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.ExecuteResponse)
+    },
+)
 _sym_db.RegisterMessage(ExecuteResponse)
 
-ModuleData = _reflection.GeneratedProtocolMessageType('ModuleData', (_message.Message,), {
-  'DESCRIPTOR' : _MODULEDATA,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.ModuleData)
-  })
+ModuleData = _reflection.GeneratedProtocolMessageType(
+    "ModuleData",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _MODULEDATA,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.ModuleData)
+    },
+)
 _sym_db.RegisterMessage(ModuleData)
 
-PathValue = _reflection.GeneratedProtocolMessageType('PathValue', (_message.Message,), {
-  'DESCRIPTOR' : _PATHVALUE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.PathValue)
-  })
+PathValue = _reflection.GeneratedProtocolMessageType(
+    "PathValue",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _PATHVALUE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.PathValue)
+    },
+)
 _sym_db.RegisterMessage(PathValue)
 
-DataTree = _reflection.GeneratedProtocolMessageType('DataTree', (_message.Message,), {
-  'DESCRIPTOR' : _DATATREE,
-  '__module__' : 'frr_northbound_pb2'
-  # @@protoc_insertion_point(class_scope:frr.DataTree)
-  })
+DataTree = _reflection.GeneratedProtocolMessageType(
+    "DataTree",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _DATATREE,
+        "__module__": "frr_northbound_pb2"
+        # @@protoc_insertion_point(class_scope:frr.DataTree)
+    },
+)
 _sym_db.RegisterMessage(DataTree)
 
 
-
 _NORTHBOUND = _descriptor.ServiceDescriptor(
-  name='Northbound',
-  full_name='frr.Northbound',
-  file=DESCRIPTOR,
-  index=0,
-  serialized_options=None,
-  create_key=_descriptor._internal_create_key,
-  serialized_start=1916,
-  serialized_end=2855,
-  methods=[
-  _descriptor.MethodDescriptor(
-    name='GetCapabilities',
-    full_name='frr.Northbound.GetCapabilities',
+    name="Northbound",
+    full_name="frr.Northbound",
+    file=DESCRIPTOR,
     index=0,
-    containing_service=None,
-    input_type=_GETCAPABILITIESREQUEST,
-    output_type=_GETCAPABILITIESRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Get',
-    full_name='frr.Northbound.Get',
-    index=1,
-    containing_service=None,
-    input_type=_GETREQUEST,
-    output_type=_GETRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='CreateCandidate',
-    full_name='frr.Northbound.CreateCandidate',
-    index=2,
-    containing_service=None,
-    input_type=_CREATECANDIDATEREQUEST,
-    output_type=_CREATECANDIDATERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='DeleteCandidate',
-    full_name='frr.Northbound.DeleteCandidate',
-    index=3,
-    containing_service=None,
-    input_type=_DELETECANDIDATEREQUEST,
-    output_type=_DELETECANDIDATERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UpdateCandidate',
-    full_name='frr.Northbound.UpdateCandidate',
-    index=4,
-    containing_service=None,
-    input_type=_UPDATECANDIDATEREQUEST,
-    output_type=_UPDATECANDIDATERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='EditCandidate',
-    full_name='frr.Northbound.EditCandidate',
-    index=5,
-    containing_service=None,
-    input_type=_EDITCANDIDATEREQUEST,
-    output_type=_EDITCANDIDATERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LoadToCandidate',
-    full_name='frr.Northbound.LoadToCandidate',
-    index=6,
-    containing_service=None,
-    input_type=_LOADTOCANDIDATEREQUEST,
-    output_type=_LOADTOCANDIDATERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Commit',
-    full_name='frr.Northbound.Commit',
-    index=7,
-    containing_service=None,
-    input_type=_COMMITREQUEST,
-    output_type=_COMMITRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='ListTransactions',
-    full_name='frr.Northbound.ListTransactions',
-    index=8,
-    containing_service=None,
-    input_type=_LISTTRANSACTIONSREQUEST,
-    output_type=_LISTTRANSACTIONSRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='GetTransaction',
-    full_name='frr.Northbound.GetTransaction',
-    index=9,
-    containing_service=None,
-    input_type=_GETTRANSACTIONREQUEST,
-    output_type=_GETTRANSACTIONRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LockConfig',
-    full_name='frr.Northbound.LockConfig',
-    index=10,
-    containing_service=None,
-    input_type=_LOCKCONFIGREQUEST,
-    output_type=_LOCKCONFIGRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UnlockConfig',
-    full_name='frr.Northbound.UnlockConfig',
-    index=11,
-    containing_service=None,
-    input_type=_UNLOCKCONFIGREQUEST,
-    output_type=_UNLOCKCONFIGRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Execute',
-    full_name='frr.Northbound.Execute',
-    index=12,
-    containing_service=None,
-    input_type=_EXECUTEREQUEST,
-    output_type=_EXECUTERESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-])
+    serialized_start=1916,
+    serialized_end=2855,
+    methods=[
+        _descriptor.MethodDescriptor(
+            name="GetCapabilities",
+            full_name="frr.Northbound.GetCapabilities",
+            index=0,
+            containing_service=None,
+            input_type=_GETCAPABILITIESREQUEST,
+            output_type=_GETCAPABILITIESRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="Get",
+            full_name="frr.Northbound.Get",
+            index=1,
+            containing_service=None,
+            input_type=_GETREQUEST,
+            output_type=_GETRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="CreateCandidate",
+            full_name="frr.Northbound.CreateCandidate",
+            index=2,
+            containing_service=None,
+            input_type=_CREATECANDIDATEREQUEST,
+            output_type=_CREATECANDIDATERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="DeleteCandidate",
+            full_name="frr.Northbound.DeleteCandidate",
+            index=3,
+            containing_service=None,
+            input_type=_DELETECANDIDATEREQUEST,
+            output_type=_DELETECANDIDATERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="UpdateCandidate",
+            full_name="frr.Northbound.UpdateCandidate",
+            index=4,
+            containing_service=None,
+            input_type=_UPDATECANDIDATEREQUEST,
+            output_type=_UPDATECANDIDATERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="EditCandidate",
+            full_name="frr.Northbound.EditCandidate",
+            index=5,
+            containing_service=None,
+            input_type=_EDITCANDIDATEREQUEST,
+            output_type=_EDITCANDIDATERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="LoadToCandidate",
+            full_name="frr.Northbound.LoadToCandidate",
+            index=6,
+            containing_service=None,
+            input_type=_LOADTOCANDIDATEREQUEST,
+            output_type=_LOADTOCANDIDATERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="Commit",
+            full_name="frr.Northbound.Commit",
+            index=7,
+            containing_service=None,
+            input_type=_COMMITREQUEST,
+            output_type=_COMMITRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="ListTransactions",
+            full_name="frr.Northbound.ListTransactions",
+            index=8,
+            containing_service=None,
+            input_type=_LISTTRANSACTIONSREQUEST,
+            output_type=_LISTTRANSACTIONSRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="GetTransaction",
+            full_name="frr.Northbound.GetTransaction",
+            index=9,
+            containing_service=None,
+            input_type=_GETTRANSACTIONREQUEST,
+            output_type=_GETTRANSACTIONRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="LockConfig",
+            full_name="frr.Northbound.LockConfig",
+            index=10,
+            containing_service=None,
+            input_type=_LOCKCONFIGREQUEST,
+            output_type=_LOCKCONFIGRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="UnlockConfig",
+            full_name="frr.Northbound.UnlockConfig",
+            index=11,
+            containing_service=None,
+            input_type=_UNLOCKCONFIGREQUEST,
+            output_type=_UNLOCKCONFIGRESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+        _descriptor.MethodDescriptor(
+            name="Execute",
+            full_name="frr.Northbound.Execute",
+            index=12,
+            containing_service=None,
+            input_type=_EXECUTEREQUEST,
+            output_type=_EXECUTERESPONSE,
+            serialized_options=None,
+            create_key=_descriptor._internal_create_key,
+        ),
+    ],
+)
 _sym_db.RegisterServiceDescriptor(_NORTHBOUND)
 
-DESCRIPTOR.services_by_name['Northbound'] = _NORTHBOUND
+DESCRIPTOR.services_by_name["Northbound"] = _NORTHBOUND
 
 # @@protoc_insertion_point(module_scope)

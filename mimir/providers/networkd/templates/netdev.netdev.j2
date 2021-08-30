@@ -14,6 +14,8 @@ MACAddress={{ interface.macaddress }}
 [{{ interface.object_name }}]
 {%- if interface.object_name is "Bridge" %}
 {% include "includes/bridge.j2" %}
+{%- elif interface.object_name is "VLAN" %}
+{% include "includes/vlan.j2" %}
 {%- elif interface.object_name is "VXLAN" %}
 {% include "includes/vxlan.j2" %}
 {%- elif interface.object_name is "Bond" %}

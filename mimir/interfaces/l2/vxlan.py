@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
+from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses, TypeNameServers
 from typing import List, Optional, Set
 
 from ..base import MTU, Base, InterfaceName, LinkLocalAdressing, MacAddress, PositiveInt

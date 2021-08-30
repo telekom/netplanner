@@ -1,4 +1,61 @@
-Id={{ interface.vni }}
-DestinationPort={{ interface.parameters.destination_port }}
+# MIMIR managed
+VNI={{ interface.parameters.vni }}
 Local={{ interface.parameters.local }}
-MacLearning={{ interface.parameters.mac_learning | str | lower }}
+DestinationPort={{ interface.parameters.destination_port }}
+{%- if interface.parameters.remote is not None %}
+Remote={{ interface.parameters.remote }}
+{%- endif %}
+{%- if interface.parameters.tos is not None %}
+TOS={{ interface.parameters.tos }}
+{%- endif %}
+{%- if interface.parameters.ttl is not None %}
+TTL={{ interface.parameters.ttl }}
+{%- endif %}
+{%- if interface.parameters.mac_learning is not None %}
+MacLearning={{ "yes" if interface.parameters.mac_learning else "no" }}
+{%- endif %}
+{%- if interface.parameters.fdb_ageing_sec is not None %}
+FDBAgeingSec={{ interface.parameters.fdb_ageing_sec }}
+{%- endif %}
+{%- if interface.parameters.maximum_fdb_entries is not None %}
+MaximumFDBEntries={{ interface.parameters.maximum_fdb_entries }}
+{%- endif %}
+{%- if interface.parameters.reduce_arp_proxy is not None %}
+ReduceARPProxy={{ "yes" if interface.parameters.reduce_arp_proxy else "no" }}
+{%- endif %}
+{%- if interface.parameters.l2_miss_notification is not None %}
+L2MissNotification={{ "yes" if interface.parameters.l2_miss_notification else "no" }}
+{%- endif %}
+{%- if interface.parameters.l3_miss_notification is not None %}
+L3MissNotification={{ "yes" if interface.parameters.l3_miss_notification else "no" }}
+{%- endif %}
+{%- if interface.parameters.route_short_circuit is not None %}
+RouteShortCircuit={{ "yes" if interface.parameters.route_short_circuit else "no" }}
+{%- endif %}
+{%- if interface.parameters.udp_checksum is not None %}
+UDPChecksum={{ "yes" if interface.parameters.udp_checksum else "no" }}
+{%- endif %}
+{%- if interface.parameters.udp_6_zero_checksum_tx is not None %}
+UDP6ZeroChecksumTx={{ "yes" if interface.parameters.udp_6_zero_checksum_tx else "no" }}
+{%- endif %}
+{%- if interface.parameters.udp_6_zero_checksum_rx is not None %}
+UDP6ZeroChecksumRx={{ "yes" if interface.parameters.udp_6_zero_checksum_rx else "no" }}
+{%- endif %}
+{%- if interface.parameters.remote_checksum_tx is not None %}
+RemoteChecksumTx={{ "yes" if interface.parameters.remote_checksum_tx else "no" }}
+{%- endif %}
+{%- if interface.parameters.remote_checksum_rx is not None %}
+RemoteChecksumRx={{ "yes" if interface.parameters.remote_checksum_rx else "no" }}
+{%- endif %}
+{%- if interface.parameters.group_policy_extension is not None %}
+GroupPolicyExtension={{ "yes" if interface.parameters.group_policy_extension else "no" }}
+{%- endif %}
+{%- if interface.parameters.generic_protocol_extension is not None %}
+GenericProtocolExtension={{ "yes" if interface.parameters.generic_protocol_extension else "no" }}
+{%- endif %}
+{%- if interface.parameters.flow_label is not None %}
+FlowLabel={{ interface.parameters.flow_label }}
+{%- endif %}
+{%- if interface.parameters.ip_do_not_fragment is not None %}
+IPDoNotFragment={{ "yes" if interface.parameters.ip_do_not_fragment else "no" }}
+{%- endif -%}

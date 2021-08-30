@@ -6,8 +6,7 @@ import frr_northbound_pb2 as frr__northbound__pb2
 
 
 class NorthboundStub(object):
-    """Service specification for the FRR northbound interface.
-    """
+    """Service specification for the FRR northbound interface."""
 
     def __init__(self, channel):
         """Constructor.
@@ -16,104 +15,100 @@ class NorthboundStub(object):
             channel: A grpc.Channel.
         """
         self.GetCapabilities = channel.unary_unary(
-                '/frr.Northbound/GetCapabilities',
-                request_serializer=frr__northbound__pb2.GetCapabilitiesRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.GetCapabilitiesResponse.FromString,
-                )
+            "/frr.Northbound/GetCapabilities",
+            request_serializer=frr__northbound__pb2.GetCapabilitiesRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.GetCapabilitiesResponse.FromString,
+        )
         self.Get = channel.unary_stream(
-                '/frr.Northbound/Get',
-                request_serializer=frr__northbound__pb2.GetRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.GetResponse.FromString,
-                )
+            "/frr.Northbound/Get",
+            request_serializer=frr__northbound__pb2.GetRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.GetResponse.FromString,
+        )
         self.CreateCandidate = channel.unary_unary(
-                '/frr.Northbound/CreateCandidate',
-                request_serializer=frr__northbound__pb2.CreateCandidateRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.CreateCandidateResponse.FromString,
-                )
+            "/frr.Northbound/CreateCandidate",
+            request_serializer=frr__northbound__pb2.CreateCandidateRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.CreateCandidateResponse.FromString,
+        )
         self.DeleteCandidate = channel.unary_unary(
-                '/frr.Northbound/DeleteCandidate',
-                request_serializer=frr__northbound__pb2.DeleteCandidateRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.DeleteCandidateResponse.FromString,
-                )
+            "/frr.Northbound/DeleteCandidate",
+            request_serializer=frr__northbound__pb2.DeleteCandidateRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.DeleteCandidateResponse.FromString,
+        )
         self.UpdateCandidate = channel.unary_unary(
-                '/frr.Northbound/UpdateCandidate',
-                request_serializer=frr__northbound__pb2.UpdateCandidateRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.UpdateCandidateResponse.FromString,
-                )
+            "/frr.Northbound/UpdateCandidate",
+            request_serializer=frr__northbound__pb2.UpdateCandidateRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.UpdateCandidateResponse.FromString,
+        )
         self.EditCandidate = channel.unary_unary(
-                '/frr.Northbound/EditCandidate',
-                request_serializer=frr__northbound__pb2.EditCandidateRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.EditCandidateResponse.FromString,
-                )
+            "/frr.Northbound/EditCandidate",
+            request_serializer=frr__northbound__pb2.EditCandidateRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.EditCandidateResponse.FromString,
+        )
         self.LoadToCandidate = channel.unary_unary(
-                '/frr.Northbound/LoadToCandidate',
-                request_serializer=frr__northbound__pb2.LoadToCandidateRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.LoadToCandidateResponse.FromString,
-                )
+            "/frr.Northbound/LoadToCandidate",
+            request_serializer=frr__northbound__pb2.LoadToCandidateRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.LoadToCandidateResponse.FromString,
+        )
         self.Commit = channel.unary_unary(
-                '/frr.Northbound/Commit',
-                request_serializer=frr__northbound__pb2.CommitRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.CommitResponse.FromString,
-                )
+            "/frr.Northbound/Commit",
+            request_serializer=frr__northbound__pb2.CommitRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.CommitResponse.FromString,
+        )
         self.ListTransactions = channel.unary_stream(
-                '/frr.Northbound/ListTransactions',
-                request_serializer=frr__northbound__pb2.ListTransactionsRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.ListTransactionsResponse.FromString,
-                )
+            "/frr.Northbound/ListTransactions",
+            request_serializer=frr__northbound__pb2.ListTransactionsRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.ListTransactionsResponse.FromString,
+        )
         self.GetTransaction = channel.unary_unary(
-                '/frr.Northbound/GetTransaction',
-                request_serializer=frr__northbound__pb2.GetTransactionRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.GetTransactionResponse.FromString,
-                )
+            "/frr.Northbound/GetTransaction",
+            request_serializer=frr__northbound__pb2.GetTransactionRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.GetTransactionResponse.FromString,
+        )
         self.LockConfig = channel.unary_unary(
-                '/frr.Northbound/LockConfig',
-                request_serializer=frr__northbound__pb2.LockConfigRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.LockConfigResponse.FromString,
-                )
+            "/frr.Northbound/LockConfig",
+            request_serializer=frr__northbound__pb2.LockConfigRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.LockConfigResponse.FromString,
+        )
         self.UnlockConfig = channel.unary_unary(
-                '/frr.Northbound/UnlockConfig',
-                request_serializer=frr__northbound__pb2.UnlockConfigRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.UnlockConfigResponse.FromString,
-                )
+            "/frr.Northbound/UnlockConfig",
+            request_serializer=frr__northbound__pb2.UnlockConfigRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.UnlockConfigResponse.FromString,
+        )
         self.Execute = channel.unary_unary(
-                '/frr.Northbound/Execute',
-                request_serializer=frr__northbound__pb2.ExecuteRequest.SerializeToString,
-                response_deserializer=frr__northbound__pb2.ExecuteResponse.FromString,
-                )
+            "/frr.Northbound/Execute",
+            request_serializer=frr__northbound__pb2.ExecuteRequest.SerializeToString,
+            response_deserializer=frr__northbound__pb2.ExecuteResponse.FromString,
+        )
 
 
 class NorthboundServicer(object):
-    """Service specification for the FRR northbound interface.
-    """
+    """Service specification for the FRR northbound interface."""
 
     def GetCapabilities(self, request, context):
-        """Retrieve the capabilities supported by the target.
-        """
+        """Retrieve the capabilities supported by the target."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Get(self, request, context):
-        """Retrieve configuration data, state data or both from the target.
-        """
+        """Retrieve configuration data, state data or both from the target."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def CreateCandidate(self, request, context):
         """Create a new candidate configuration and return a reference to it. The
         created candidate is a copy of the running configuration.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def DeleteCandidate(self, request, context):
-        """Delete a candidate configuration.
-        """
+        """Delete a candidate configuration."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def UpdateCandidate(self, request, context):
         """Update a candidate configuration by rebasing the changes on top of the
@@ -121,365 +116,517 @@ class NorthboundServicer(object):
         preference to the changes done in the candidate configuration.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def EditCandidate(self, request, context):
         """Edit a candidate configuration. All changes are discarded if any error
         happens.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def LoadToCandidate(self, request, context):
         """Load configuration data into a candidate configuration. Both merge and
         replace semantics are supported.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Commit(self, request, context):
-        """Create a new configuration transaction using a two-phase commit protocol.
-        """
+        """Create a new configuration transaction using a two-phase commit protocol."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def ListTransactions(self, request, context):
         """List the metadata of all configuration transactions recorded in the
         transactions database.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def GetTransaction(self, request, context):
         """Fetch a configuration (identified by its transaction ID) from the
         transactions database.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def LockConfig(self, request, context):
-        """Lock the running configuration, preventing other users from changing it.
-        """
+        """Lock the running configuration, preventing other users from changing it."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def UnlockConfig(self, request, context):
-        """Unlock the running configuration.
-        """
+        """Unlock the running configuration."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Execute(self, request, context):
-        """Execute a YANG RPC.
-        """
+        """Execute a YANG RPC."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_NorthboundServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetCapabilities': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetCapabilities,
-                    request_deserializer=frr__northbound__pb2.GetCapabilitiesRequest.FromString,
-                    response_serializer=frr__northbound__pb2.GetCapabilitiesResponse.SerializeToString,
-            ),
-            'Get': grpc.unary_stream_rpc_method_handler(
-                    servicer.Get,
-                    request_deserializer=frr__northbound__pb2.GetRequest.FromString,
-                    response_serializer=frr__northbound__pb2.GetResponse.SerializeToString,
-            ),
-            'CreateCandidate': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateCandidate,
-                    request_deserializer=frr__northbound__pb2.CreateCandidateRequest.FromString,
-                    response_serializer=frr__northbound__pb2.CreateCandidateResponse.SerializeToString,
-            ),
-            'DeleteCandidate': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteCandidate,
-                    request_deserializer=frr__northbound__pb2.DeleteCandidateRequest.FromString,
-                    response_serializer=frr__northbound__pb2.DeleteCandidateResponse.SerializeToString,
-            ),
-            'UpdateCandidate': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateCandidate,
-                    request_deserializer=frr__northbound__pb2.UpdateCandidateRequest.FromString,
-                    response_serializer=frr__northbound__pb2.UpdateCandidateResponse.SerializeToString,
-            ),
-            'EditCandidate': grpc.unary_unary_rpc_method_handler(
-                    servicer.EditCandidate,
-                    request_deserializer=frr__northbound__pb2.EditCandidateRequest.FromString,
-                    response_serializer=frr__northbound__pb2.EditCandidateResponse.SerializeToString,
-            ),
-            'LoadToCandidate': grpc.unary_unary_rpc_method_handler(
-                    servicer.LoadToCandidate,
-                    request_deserializer=frr__northbound__pb2.LoadToCandidateRequest.FromString,
-                    response_serializer=frr__northbound__pb2.LoadToCandidateResponse.SerializeToString,
-            ),
-            'Commit': grpc.unary_unary_rpc_method_handler(
-                    servicer.Commit,
-                    request_deserializer=frr__northbound__pb2.CommitRequest.FromString,
-                    response_serializer=frr__northbound__pb2.CommitResponse.SerializeToString,
-            ),
-            'ListTransactions': grpc.unary_stream_rpc_method_handler(
-                    servicer.ListTransactions,
-                    request_deserializer=frr__northbound__pb2.ListTransactionsRequest.FromString,
-                    response_serializer=frr__northbound__pb2.ListTransactionsResponse.SerializeToString,
-            ),
-            'GetTransaction': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetTransaction,
-                    request_deserializer=frr__northbound__pb2.GetTransactionRequest.FromString,
-                    response_serializer=frr__northbound__pb2.GetTransactionResponse.SerializeToString,
-            ),
-            'LockConfig': grpc.unary_unary_rpc_method_handler(
-                    servicer.LockConfig,
-                    request_deserializer=frr__northbound__pb2.LockConfigRequest.FromString,
-                    response_serializer=frr__northbound__pb2.LockConfigResponse.SerializeToString,
-            ),
-            'UnlockConfig': grpc.unary_unary_rpc_method_handler(
-                    servicer.UnlockConfig,
-                    request_deserializer=frr__northbound__pb2.UnlockConfigRequest.FromString,
-                    response_serializer=frr__northbound__pb2.UnlockConfigResponse.SerializeToString,
-            ),
-            'Execute': grpc.unary_unary_rpc_method_handler(
-                    servicer.Execute,
-                    request_deserializer=frr__northbound__pb2.ExecuteRequest.FromString,
-                    response_serializer=frr__northbound__pb2.ExecuteResponse.SerializeToString,
-            ),
+        "GetCapabilities": grpc.unary_unary_rpc_method_handler(
+            servicer.GetCapabilities,
+            request_deserializer=frr__northbound__pb2.GetCapabilitiesRequest.FromString,
+            response_serializer=frr__northbound__pb2.GetCapabilitiesResponse.SerializeToString,
+        ),
+        "Get": grpc.unary_stream_rpc_method_handler(
+            servicer.Get,
+            request_deserializer=frr__northbound__pb2.GetRequest.FromString,
+            response_serializer=frr__northbound__pb2.GetResponse.SerializeToString,
+        ),
+        "CreateCandidate": grpc.unary_unary_rpc_method_handler(
+            servicer.CreateCandidate,
+            request_deserializer=frr__northbound__pb2.CreateCandidateRequest.FromString,
+            response_serializer=frr__northbound__pb2.CreateCandidateResponse.SerializeToString,
+        ),
+        "DeleteCandidate": grpc.unary_unary_rpc_method_handler(
+            servicer.DeleteCandidate,
+            request_deserializer=frr__northbound__pb2.DeleteCandidateRequest.FromString,
+            response_serializer=frr__northbound__pb2.DeleteCandidateResponse.SerializeToString,
+        ),
+        "UpdateCandidate": grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateCandidate,
+            request_deserializer=frr__northbound__pb2.UpdateCandidateRequest.FromString,
+            response_serializer=frr__northbound__pb2.UpdateCandidateResponse.SerializeToString,
+        ),
+        "EditCandidate": grpc.unary_unary_rpc_method_handler(
+            servicer.EditCandidate,
+            request_deserializer=frr__northbound__pb2.EditCandidateRequest.FromString,
+            response_serializer=frr__northbound__pb2.EditCandidateResponse.SerializeToString,
+        ),
+        "LoadToCandidate": grpc.unary_unary_rpc_method_handler(
+            servicer.LoadToCandidate,
+            request_deserializer=frr__northbound__pb2.LoadToCandidateRequest.FromString,
+            response_serializer=frr__northbound__pb2.LoadToCandidateResponse.SerializeToString,
+        ),
+        "Commit": grpc.unary_unary_rpc_method_handler(
+            servicer.Commit,
+            request_deserializer=frr__northbound__pb2.CommitRequest.FromString,
+            response_serializer=frr__northbound__pb2.CommitResponse.SerializeToString,
+        ),
+        "ListTransactions": grpc.unary_stream_rpc_method_handler(
+            servicer.ListTransactions,
+            request_deserializer=frr__northbound__pb2.ListTransactionsRequest.FromString,
+            response_serializer=frr__northbound__pb2.ListTransactionsResponse.SerializeToString,
+        ),
+        "GetTransaction": grpc.unary_unary_rpc_method_handler(
+            servicer.GetTransaction,
+            request_deserializer=frr__northbound__pb2.GetTransactionRequest.FromString,
+            response_serializer=frr__northbound__pb2.GetTransactionResponse.SerializeToString,
+        ),
+        "LockConfig": grpc.unary_unary_rpc_method_handler(
+            servicer.LockConfig,
+            request_deserializer=frr__northbound__pb2.LockConfigRequest.FromString,
+            response_serializer=frr__northbound__pb2.LockConfigResponse.SerializeToString,
+        ),
+        "UnlockConfig": grpc.unary_unary_rpc_method_handler(
+            servicer.UnlockConfig,
+            request_deserializer=frr__northbound__pb2.UnlockConfigRequest.FromString,
+            response_serializer=frr__northbound__pb2.UnlockConfigResponse.SerializeToString,
+        ),
+        "Execute": grpc.unary_unary_rpc_method_handler(
+            servicer.Execute,
+            request_deserializer=frr__northbound__pb2.ExecuteRequest.FromString,
+            response_serializer=frr__northbound__pb2.ExecuteResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'frr.Northbound', rpc_method_handlers)
+        "frr.Northbound", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class Northbound(object):
-    """Service specification for the FRR northbound interface.
-    """
+    """Service specification for the FRR northbound interface."""
 
     @staticmethod
-    def GetCapabilities(request,
+    def GetCapabilities(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/GetCapabilities',
+            "/frr.Northbound/GetCapabilities",
             frr__northbound__pb2.GetCapabilitiesRequest.SerializeToString,
             frr__northbound__pb2.GetCapabilitiesResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Get(request,
+    def Get(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_stream(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/frr.Northbound/Get',
+            "/frr.Northbound/Get",
             frr__northbound__pb2.GetRequest.SerializeToString,
             frr__northbound__pb2.GetResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def CreateCandidate(request,
+    def CreateCandidate(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/CreateCandidate',
+            "/frr.Northbound/CreateCandidate",
             frr__northbound__pb2.CreateCandidateRequest.SerializeToString,
             frr__northbound__pb2.CreateCandidateResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def DeleteCandidate(request,
+    def DeleteCandidate(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/DeleteCandidate',
+            "/frr.Northbound/DeleteCandidate",
             frr__northbound__pb2.DeleteCandidateRequest.SerializeToString,
             frr__northbound__pb2.DeleteCandidateResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def UpdateCandidate(request,
+    def UpdateCandidate(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/UpdateCandidate',
+            "/frr.Northbound/UpdateCandidate",
             frr__northbound__pb2.UpdateCandidateRequest.SerializeToString,
             frr__northbound__pb2.UpdateCandidateResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def EditCandidate(request,
+    def EditCandidate(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/EditCandidate',
+            "/frr.Northbound/EditCandidate",
             frr__northbound__pb2.EditCandidateRequest.SerializeToString,
             frr__northbound__pb2.EditCandidateResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def LoadToCandidate(request,
+    def LoadToCandidate(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/LoadToCandidate',
+            "/frr.Northbound/LoadToCandidate",
             frr__northbound__pb2.LoadToCandidateRequest.SerializeToString,
             frr__northbound__pb2.LoadToCandidateResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Commit(request,
+    def Commit(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/Commit',
+            "/frr.Northbound/Commit",
             frr__northbound__pb2.CommitRequest.SerializeToString,
             frr__northbound__pb2.CommitResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def ListTransactions(request,
+    def ListTransactions(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_stream(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/frr.Northbound/ListTransactions',
+            "/frr.Northbound/ListTransactions",
             frr__northbound__pb2.ListTransactionsRequest.SerializeToString,
             frr__northbound__pb2.ListTransactionsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def GetTransaction(request,
+    def GetTransaction(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/GetTransaction',
+            "/frr.Northbound/GetTransaction",
             frr__northbound__pb2.GetTransactionRequest.SerializeToString,
             frr__northbound__pb2.GetTransactionResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def LockConfig(request,
+    def LockConfig(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/LockConfig',
+            "/frr.Northbound/LockConfig",
             frr__northbound__pb2.LockConfigRequest.SerializeToString,
             frr__northbound__pb2.LockConfigResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def UnlockConfig(request,
+    def UnlockConfig(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/UnlockConfig',
+            "/frr.Northbound/UnlockConfig",
             frr__northbound__pb2.UnlockConfigRequest.SerializeToString,
             frr__northbound__pb2.UnlockConfigResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Execute(request,
+    def Execute(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/frr.Northbound/Execute',
+            "/frr.Northbound/Execute",
             frr__northbound__pb2.ExecuteRequest.SerializeToString,
             frr__northbound__pb2.ExecuteResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )

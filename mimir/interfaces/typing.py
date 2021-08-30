@@ -1,3 +1,4 @@
+from mimir.interfaces.l3.nameserver import NameServers
 from typing import Union, List
 from ipaddress import (
     IPv4Address,

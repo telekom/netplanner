@@ -1,9 +1,11 @@
 from dataclasses import dataclass, field
-from mimir.interfaces.typing import IPInterfaceAddresses
-from mimir.interfaces.l3.routing_policy import RoutingPolicy
 from typing import List, Optional, Set
 
-from ..base import MTU, Base, InterfaceName, LinkLocalAdressing
+from mimir.interfaces.l3.routing_policy import RoutingPolicy
+from mimir.interfaces.typing import IPInterfaceAddresses
+
+from ..base import (MTU, Base, InterfaceName, LinkLocalAdressing,
+                    VLANId, VLANType)
 from ..l3.nameserver import NameServers
 from ..l3.route import Route
 
@@ -11,6 +13,9 @@ from ..l3.route import Route
 @dataclass
 class BridgeParameters(Base):
     ageing_time: Optional[int]
+    vlan_protocol: Optional[VLANType]
+    vlan_filtering: Optional[bool]
+    default_vlan_port_id: Optional[VLANId]
     priority: Optional[int]
     port_priority: Optional[int]
     forward_delay: Optional[int]
