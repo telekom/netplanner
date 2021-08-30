@@ -21,6 +21,7 @@ RESERVED = ["from"]
 
 class Base:
     description: Optional[str]
+
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -121,7 +122,7 @@ class Base:
                     IPv4Address,
                     IPv6Address,
                     VLANType,
-                    VLANId
+                    VLANId,
                 ],
                 check_types=True,
                 strict=True,
@@ -151,11 +152,13 @@ class VLANType(Enum):
     Q1802 = "802.1q"
     AD1802 = "802.1ad"
 
+
 class VLANId(int):
     def __new__(cls, value: int):
         if value and not (2 <= value <= 4094):
             raise ValueError(f"VLAN Id={value} not in 2 - 4094")
         return super().__new__(cls, value)
+
 
 class MTU(int):
     def __new__(cls, value: int):
@@ -169,6 +172,7 @@ class VirtualFunctionCount(int):
         if not (0 <= value <= 255):
             raise ValueError(f"VirtualFunctionCount={value} not in 0 - 255")
         return super().__new__(cls, value)
+
 
 class PositiveInt(int):
     def __new__(cls, value: int):

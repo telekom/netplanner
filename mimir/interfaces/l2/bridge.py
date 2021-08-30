@@ -4,8 +4,7 @@ from typing import List, Optional, Set
 from mimir.interfaces.l3.routing_policy import RoutingPolicy
 from mimir.interfaces.typing import IPInterfaceAddresses
 
-from ..base import (MTU, Base, InterfaceName, LinkLocalAdressing,
-                    VLANId, VLANType)
+from ..base import MTU, Base, InterfaceName, LinkLocalAdressing, VLANId, VLANType
 from ..l3.nameserver import NameServers
 from ..l3.route import Route
 

@@ -6,7 +6,16 @@ from mimir.interfaces.l3.route import Route
 from mimir.interfaces.l3.routing_policy import RoutingPolicy
 from mimir.interfaces.typing import IPInterfaceAddresses
 
-from ..base import MTU, Base, InterfaceName, LinkLocalAdressing, MacAddress, VLANId, VLANType
+from ..base import (
+    MTU,
+    Base,
+    InterfaceName,
+    LinkLocalAdressing,
+    MacAddress,
+    VLANId,
+    VLANType,
+)
+
 
 @dataclass
 class VLANParameters(Base):
@@ -15,6 +24,7 @@ class VLANParameters(Base):
     mvrp: Optional[bool]
     loose_binding: Optional[bool]
     reorder_header: Optional[bool]
+
 
 @dataclass
 class VLAN(Base):
@@ -32,4 +42,3 @@ class VLAN(Base):
 
     def __post_init__(self):
         self.link_local.add(LinkLocalAdressing("ipv6"))
-
