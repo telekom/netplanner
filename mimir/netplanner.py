@@ -96,7 +96,6 @@ network:
         vx.5000:
             description: "The Root of all hell"
             vrf: default
-            link: dummy.underlay
             parameters:
                 vni: 5000
                 #default destination-port: 4789
