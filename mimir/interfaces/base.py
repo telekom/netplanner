@@ -27,6 +27,7 @@ from .typing import (
 RESERVED = ["from"]
 
 
+@dataclass
 class Base:
     description: Optional[str]
 
@@ -108,7 +109,9 @@ class Base:
 
     @classmethod
     def from_dict(cls, data: dict):
-        data = Base.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
+        data = (
+            Base.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
+        )
         return dacite.from_dict(
             data_class=cls,
             data=data,
@@ -143,5 +146,6 @@ class Base:
             asdict(self, dict_factory=Base.dict_factory), old_char="_", new_char="-"
         )
 
+    @property
     def object_name(self) -> str:
         return self.__class__.__name__

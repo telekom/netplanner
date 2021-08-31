@@ -1,19 +1,20 @@
-from dataclasses import dataclass, field
-from mimir.interfaces.l2.dummy import Dummy
-from typing import Dict, Optional, Union
-
-from .interfaces.base import Base
-from .interfaces.typing import InterfaceName, NetworkRenderer, Version
-from .interfaces.l2.bridge import Bridge
-from .interfaces.l2.ethernet import Ethernet
-from .interfaces.l2.vlan import VLAN
-from .interfaces.l2.vxlan import VXLAN
-from .interfaces.l2.vrf import VRF
-from .interfaces.l2.bond import Bond
-from pprint import pprint
-import json
+from dataclasses import dataclass, field, fields
 from pathlib import Path
+from pprint import pprint
+from typing import Dict, Union
 
+import yaml
+
+from mimir.interfaces.l2.dummy import Dummy
+
+from mimir.interfaces.base import Base
+from mimir.interfaces.l2.bond import Bond
+from mimir.interfaces.l2.bridge import Bridge
+from mimir.interfaces.l2.ethernet import Ethernet
+from mimir.interfaces.l2.vlan import VLAN
+from mimir.interfaces.l2.vrf import VRF
+from mimir.interfaces.l2.vxlan import VXLAN
+from mimir.interfaces.typing import InterfaceName, NetworkRenderer, Version
 
 local = "./"
 networkd_path = Path(f"{local}etc/systemd/network")
@@ -93,6 +94,7 @@ network:
             table: 1
     vxlans:
         vx.5000:
+            description: "The Root of all hell"
             vrf: default
             link: dummy.underlay
             parameters:
@@ -111,7 +113,7 @@ network:
 """
 
 
-@dataclass(frozen=True)
+@dataclass
 class NetworkConfig(Base):
     version: Version
     renderer: NetworkRenderer
@@ -119,24 +121,31 @@ class NetworkConfig(Base):
     ethernets: Dict[InterfaceName, Ethernet] = field(default_factory=dict)
     bridges: Dict[InterfaceName, Bridge] = field(default_factory=dict)
     vxlans: Dict[InterfaceName, VXLAN] = field(default_factory=dict)
-    bonds: Dict[InterfaceName, Bond]= field(default_factory=dict)
+    bonds: Dict[InterfaceName, Bond] = field(default_factory=dict)
     vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
     vrfs: Dict[InterfaceName, VRF] = field(default_factory=dict)
 
-    def lookup(self, name: InterfaceName)-> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF]]:
-        return {key: value for field in self.__dataclass_fields__ if isinstance(getattr(self, field), dict) for key, value in getattr(self, field).items() if key == name}
+    def lookup(
+        self, name: InterfaceName
+    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF]]:
+        return {
+            key: value
+            for field in fields(self)
+            if isinstance(getattr(self, field.name), dict)
+            for key, value in getattr(self, field.name).items()
+            if key == name
+        }
 
-@dataclass(frozen=True)
+
+@dataclass
 class NetplannerConfig(Base):
     network: NetworkConfig
 
 
 if __name__ == "__main__":
-    import yaml
-
     config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))
     pprint(config)
-    pprint(config.network.lookup('vx.5000'))
+    pprint(config.network.lookup("vx.5000"))
     # print(json.dumps(config.as_dict(), indent=2))
     assert config.network.renderer == NetworkRenderer.NETWORKD
     assert InterfaceName("0123456789abcd") == "0123456789abcd"

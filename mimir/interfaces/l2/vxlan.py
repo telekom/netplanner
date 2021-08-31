@@ -3,10 +3,16 @@ from typing import List, Optional, Set
 
 from mimir.interfaces.typing import IPAddress, IPInterfaceAddresses
 
-from ..base import Base
-from ..l3.nameserver import NameServers
-from ..l3.route import Route
-from ..typing import MTU, InterfaceName, LinkLocalAdressing, MacAddress, PositiveInt
+from mimir.interfaces.base import Base
+from mimir.interfaces.l3.nameserver import NameServers
+from mimir.interfaces.l3.route import Route
+from mimir.interfaces.typing import (
+    MTU,
+    InterfaceName,
+    LinkLocalAdressing,
+    MacAddress,
+    PositiveInt,
+)
 
 
 @dataclass
@@ -58,12 +64,13 @@ class VXLAN(Base):
     nameservers: Optional[NameServers]
     mtu: Optional[MTU]
     link: Optional[InterfaceName]
+    link_local: Optional[Set[LinkLocalAdressing]]
     macaddress: Optional[MacAddress]
     vrf: InterfaceName = field(default=InterfaceName("default"))
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
-    link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
 
     def __post_init__(self):
         if self.link_local is None:
+            self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))

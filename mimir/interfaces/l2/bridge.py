@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Set
 
-from ..base import Base
-from ..l3.nameserver import NameServers
-from ..l3.route import Route
-from ..l3.routing_policy import RoutingPolicy
-from ..typing import (
+from mimir.interfaces.base import Base
+from mimir.interfaces.l3.nameserver import NameServers
+from mimir.interfaces.l3.route import Route
+from mimir.interfaces.l3.routing_policy import RoutingPolicy
+from mimir.interfaces.typing import (
     MTU,
     InterfaceName,
     IPInterfaceAddresses,
@@ -48,12 +48,13 @@ class Bridge(Base):
     nameservers: Optional[NameServers]
     vrf: Optional[InterfaceName]
     mtu: Optional[MTU]
+    link_local: Optional[Set[LinkLocalAdressing]]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
-    link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
 
     def __post_init__(self):
         if self.link_local is None:
+            self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
