@@ -108,7 +108,7 @@ class Base:
 
     @classmethod
     def from_dict(cls, data: dict):
-        data = Base.streamline_keys(data) if cls.__name__ == "NetplanConfig" else data
+        data = Base.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
         return dacite.from_dict(
             data_class=cls,
             data=data,

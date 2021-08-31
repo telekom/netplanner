@@ -57,6 +57,7 @@ class VXLAN(Base):
     parameters: VXLANParameters
     nameservers: Optional[NameServers]
     mtu: Optional[MTU]
+    link: Optional[InterfaceName]
     macaddress: Optional[MacAddress]
     vrf: InterfaceName = field(default=InterfaceName("default"))
     addresses: IPInterfaceAddresses = field(default_factory=list)
@@ -64,4 +65,5 @@ class VXLAN(Base):
     link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
 
     def __post_init__(self):
-        self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.link_local is None:
+            self.link_local.add(LinkLocalAdressing("ipv6"))

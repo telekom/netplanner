@@ -55,4 +55,5 @@ class Bridge(Base):
     link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
 
     def __post_init__(self):
-        self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.link_local is None:
+            self.link_local.add(LinkLocalAdressing("ipv6"))

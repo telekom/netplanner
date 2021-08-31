@@ -12,7 +12,6 @@ from ..typing import (
     IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
-    VirtualFunctionCount,
 )
 
 
@@ -24,14 +23,12 @@ class Dummy(Base):
     match: Optional[MatchObject]
     link: Optional[InterfaceName]
     mtu: Optional[MTU]
-    virtual_function_count: Optional[VirtualFunctionCount]
     vrf: InterfaceName = InterfaceName("default")
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
-    emit_lldp: bool = False
-    wakeonlan: bool = False
     link_local: Optional[Set[LinkLocalAdressing]] = field(default_factory=set)
 
     def __post_init__(self):
-        self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.link_local is None:
+            self.link_local.add(LinkLocalAdressing("ipv6"))
