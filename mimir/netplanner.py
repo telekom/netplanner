@@ -53,35 +53,42 @@ network:
 """
 worker_config = """
 network:
+    dummies:
+        
     ethernets:
         lo:
-            link-local: []
+            link-local: ["ipv6"]
+            vrf: Vrf_underlay
             addresses:
                 - 192.168.0.45/32
         ens1f0:
             link-local: ["ipv6"]
             emit-lldp: true
+            vrf: Vrf_underlay
             virtual-function-count: 16
         ens1f1:
             link-local: ["ipv6"]
             emit-lldp: true
+            vrf: Vrf_underlay
             virtual-function-count: 16
         ens2f0:
             link-local: ["ipv6"]
             emit-lldp: true
+            vrf: Vrf_underlay
             virtual-function-count: 16
         ens2f1:
             link-local: ["ipv6"]
             emit-lldp: true
+            vrf: Vrf_underlay
             virtual-function-count: 16
     version: 3
     renderer: networkd
     vrfs:
-        Vrf_customer01:
-            table: 5000
+        Vrf_underlay:
+            table: 1
     vxlans:
         vx.5000:
-            vrf: Vrf_customer01
+            vrf: default
             parameters:
                 vni: 5000
                 #default destination-port: 4789
@@ -92,7 +99,7 @@ network:
             nameservers: {}
             parameters:
                 stp: false
-            vrf: Vrf_customer01
+            vrf: Vrf_underlay
             interfaces:
                 - vx.5000
 """
@@ -111,14 +118,14 @@ class NetworkConfig(Base):
 
 
 @dataclass(frozen=True)
-class NetplanConfig(Base):
+class NetplannerConfig(Base):
     network: NetworkConfig
 
 
 if __name__ == "__main__":
     import yaml
 
-    config = NetplanConfig.from_dict(yaml.safe_load(worker_config))
+    config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))
     pprint(config)
     print(json.dumps(config.as_dict(), indent=2))
     assert config.network.renderer == NetworkRenderer.NETWORKD
