@@ -27,9 +27,10 @@ from mimir.interfaces.typing import (
 RESERVED = ["from"]
 
 
+
 @dataclass
-class Base:
-    description: Optional[str]
+class BaseSerializer:
+    
 
     @staticmethod
     def streamline_keys(
@@ -52,7 +53,7 @@ class Base:
                     else key.replace(old_char, new_char)
                     if level not in ignore_levels
                     else key
-                ] = Base.streamline_keys(
+                ] = BaseSerializer.streamline_keys(
                     dictionary[key],
                     level=level + 1,
                     old_char=old_char,
@@ -102,24 +103,24 @@ class Base:
     @staticmethod
     def to_complex_serializable(data):
         return (
-            [Base.to_complex_serializable(item) for item in data]
+            [BaseSerializer.to_complex_serializable(item) for item in data]
             if isinstance(data, (list, set))
             else {
-                Base.to_serializable(key): Base.to_complex_serializable(val)
+                BaseSerializer.to_serializable(key): BaseSerializer.to_complex_serializable(val)
                 for key, val in data.items()
             }
             if isinstance(data, dict)
-            else Base.to_serializable(data)
+            else BaseSerializer.to_serializable(data)
         )
 
     @staticmethod
     def dict_factory(data):
-        return {field: Base.to_complex_serializable(value) for field, value in data}
+        return {field: BaseSerializer.to_complex_serializable(value) for field, value in data}
 
     @classmethod
     def from_dict(cls, data: dict):
         data = (
-            Base.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
+            BaseSerializer.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
         )
         return dacite.from_dict(
             data_class=cls,
@@ -151,10 +152,14 @@ class Base:
         )
 
     def as_dict(self):
-        return Base.streamline_keys(
-            asdict(self, dict_factory=Base.dict_factory), old_char="_", new_char="-"
+        return BaseSerializer.streamline_keys(
+            asdict(self, dict_factory=BaseSerializer.dict_factory), old_char="_", new_char="-"
         )
 
     @property
     def object_name(self) -> str:
         return self.__class__.__name__
+
+@dataclass
+class Base(BaseSerializer):
+    description: Optional[str]
