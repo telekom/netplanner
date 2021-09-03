@@ -25,22 +25,9 @@ from . import pci
 DEFAULT_CONF_FILE = "/etc/mimir/interfaces.yaml"
 
 
-def configure(config_file: str = DEFAULT_CONF_FILE):
+def configure(configuration: dict):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
-    configuration = {}
-    path = Path(config_file)
-    if path.exists():
-        with open(path, "r") as conf:
-            configuration = yaml.safe_load(conf)
-    else:
-        logging.warn("No configuration file found, skipping configuration")
-        return
 
-    if not configuration or "interfaces" not in configuration:
-        logging.warn(
-            "No interfaces section in configuration file, skipping " "configuration"
-        )
-        return
 
     interfaces = configuration["interfaces"]
     for interface_name in interfaces:
@@ -101,7 +88,21 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
 
     try:
-        args.func(args.config)
+        configuration = {}
+        path = Path(args.config)
+        if path.exists():
+            with open(path, "r") as conf:
+                configuration = yaml.safe_load(conf)
+        else:
+            logging.warn("No configuration file found, skipping configuration")
+            return
+
+        if not configuration or "interfaces" not in configuration:
+            logging.warn(
+                "No interfaces section in configuration file, skipping " "configuration"
+            )
+            return
+        args.func(configuration)
     except Exception as e:
         parser.print_help()
         raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))

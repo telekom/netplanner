@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field, fields
 from pathlib import Path
 from pprint import pprint
-from typing import Dict, Union
+from typing import Dict, List, Optional, Union
 
 import yaml
 
@@ -16,10 +16,6 @@ from mimir.interfaces.l2.vrf import VRF
 from mimir.interfaces.l2.vxlan import VXLAN
 from mimir.interfaces.typing import InterfaceName, NetworkRenderer, Version
 
-local = "./"
-networkd_path = Path(f"{local}etc/systemd/network")
-if local:
-    networkd_path.mkdir(parents=True, exist_ok=True)
 
 master_config = """
 # This is the network config written by 'subiquity'
@@ -109,6 +105,90 @@ network:
             vrf: default
             interfaces:
                 - vx.5000
+    additionals:
+        10-default:
+            - Match:
+                - OriginalName: "vx*"
+            - Link:
+                - NamePolicy: "keep kernel database onboard slot path"
+                - AlternativeNamesPolicy: "database onboard slot path"
+                - MACAddressPolicy: "none"
+        lo:
+            - Match:
+                - Name: "lo"
+            - Network:
+                - DHCP: "no"
+                - IPv6AcceptRA: "no"
+                - Address: "192.168.0.45/32"
+        eth0:
+            - Match:
+                - Name: "eth0"
+            - Network:
+                - DHCP: "no"
+                - IPv6AcceptRA: "no"
+                - DNS: 8.8.8.8
+                - DNS: 8.8.4.4
+                - Domains: "telekom.local"
+                - Address: "10.0.2.2/24"
+                - Gateway: "10.0.2.15"
+        eth1:
+            - Match:
+                - Name: "eth1"
+            - Network:
+                - VRF: "tenant_vrf"
+                - DHCP: "no"
+                - IPv6AcceptRA: "yes"
+                - LinkLocalAddressing: "ipv6"
+                - LLDP: "routers-only"
+                - EmitLLDP: "yes"
+                - LinkLocalAddressing: "ipv6"
+                # - Address: "fd03:0:a802::73/127"
+        eth2:
+            - Match:
+                - Name: "eth2"
+            - Network:
+                - VRF: "tenant_vrf"
+                - DHCP: "no"
+                - IPv6AcceptRA: "yes"
+                - LLDP: "routers-only"
+                - EmitLLDP: "yes"
+                - LinkLocalAddressing: "ipv6"
+                # - Address: "fd03:0:a802::75/127"
+        tenant_vrf: 
+            - Match:
+                - Name: "tenant_vrf"
+        br-vxl10:  
+            - Match:
+                - Name: "br-vxl10"
+            - Network:
+                - VRF: "tenant_vrf"
+                - VXLAN: "vxl10"
+                - LinkLocalAddressing: "no"
+        vxl10:
+            - Match: 
+                - Name: "vxl10"
+            
+        tenant_vrf:
+            - NetDev: 
+                - Name: "tenant_vrf"
+                - Kind: "vrf"
+            - VRF:
+                - Table: "5000"
+        vxl10: 
+            - NetDev:
+                - Name: "vxl10"
+                - Kind: "vxlan"
+            - VXLAN:
+                - Id: "5000" # The VXLAN ID to use
+                - DestinationPort: "4789" # DestinationPort**
+                - Local: 192.168.0.45
+                - MacLearning: "no"
+        br-vxl10:
+            - NetDev:
+                - Name: "br-vxl10"
+                - Kind: "bridge"
+            - Bridge:
+                - STP: "no"
 """
 
 
@@ -123,6 +203,7 @@ class NetworkConfig(Base):
     bonds: Dict[InterfaceName, Bond] = field(default_factory=dict)
     vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
     vrfs: Dict[InterfaceName, VRF] = field(default_factory=dict)
+    additionals: Dict[str, List] = field(default_factory=dict)
 
     def lookup(
         self, name: InterfaceName

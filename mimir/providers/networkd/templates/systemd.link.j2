@@ -1,12 +1,12 @@
+# MIMIR managed
 [Match]
-{%- if interface.mac_address is not None %}
+{%- if interface.mac_address != None and interface.mac_address %}
 PermanentMACAddress={{ interface.mac_address }}
 {%- else %}
 OriginalName={{ interface_name }}
 {%- endif %}
-
 [Link]
-{% if interface_kind is 'Ethernet' %}
+{%- if interface.object_name == 'Ethernet' %}
 WakeOnLan=off
-{% endif %}
+{%- endif %}
 MTUBytes={{ interface.mtu }}

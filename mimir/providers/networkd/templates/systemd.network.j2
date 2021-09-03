@@ -1,0 +1,20 @@
+# MIMIR managed
+[Match]
+{%- if interface.mac_address != None and interface.object_name in ['Ethernet'] %}
+PermanentMACAddress={{ interface.mac_address }}
+{%- else %}
+Name={{ interface_name }}
+{%- endif %}
+
+[Network]
+{%- if interface.description is defined %}
+Description={{ interface.description }}
+{%- endif %}
+VRF={{ interface.vrf }}
+{%- if interface.object_name in ['Bond' 'Bridge'] %}
+{%- for child_interface_name, child_interface in child_interfaces.items() %}
+{{ child_interface.object_name }}={{ child_interface_name }}
+{%- endfor %}
+{%- endif %}
+LinkLocalAddressing={{ "yes" if 'ipv6' in interface.link_local else "no" }}
+IPv6LinkLocalAddressGenerationMode=eui64

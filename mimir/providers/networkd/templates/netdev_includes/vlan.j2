@@ -1,15 +1,14 @@
-# MIMIR managed
 Id={{ interface.id }}
 {%- if interface.parameters.protocol %}
 Protocol={{ interface.parameters.protocol }}
 {%- endif %}
-{%- if interface.parameters.gvrp is not None %}
+{%- if interface.parameters.gvrp != None %}
 GVRP={{ "yes" if interface.parameters.gvrp else "no" }}
 {%- endif %}
-{%- if interface.parameters.mvrp is not None %}
+{%- if interface.parameters.mvrp != None %}
 MVRP={{ "yes" if interface.parameters.mvrp else "no" }}
 {%- endif %}
-{% if interface.parameters.loose_binding is not None %}
+{% if interface.parameters.loose_binding != None %}
 LooseBinding={{ interface.parameters.loose_binding }}
 {%- endif %}
 {%- if interface.parameters.reorder_header %}
