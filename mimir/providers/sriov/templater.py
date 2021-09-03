@@ -1,11 +1,7 @@
-from mimir.interfaces.base import Base
-from mimir.interfaces.typing import InterfaceName
-from mimir.sriov.config import SRIOVConfig
-from jinja2 import Environment, PackageLoader
-from mimir.netplanner import NetplannerConfig, worker_config
-import yaml
-import json
 from pathlib import Path
+
+import yaml
+from mimir.sriov.config import SRIOVConfig
 
 
 class MIMIRTemplater:
@@ -22,9 +18,16 @@ class MIMIRTemplater:
         self.path = Path(f"{prefix}{path}")
         self.path.mkdir(parents=True, exist_ok=True)
 
-    def render(self):
+    def render_init(self):
+        pass
+
+    def render_vfs(self):
         with open(self.path / "mimir.yaml", "w") as file:
             file.write(yaml.safe_dump(self.config.as_dict()))
+    def render(self):
+        self.render_vfs()
+        self.render_init()
+
 
 if __name__ == "__main__":
     config_raw = """
