@@ -60,6 +60,14 @@ network:
         dummy.cluster:
             link_local: []
             vrf: default
+            nameservers:
+                addresses:
+                - 10.90.24.1
+                - 10.90.24.17
+                search:
+                - sa2.ba.schiff.telekom.de
+                - schiff.telekom.de
+                - das-schiff.telekom.de
             addresses:
                 - 172.23.166.150/32
     ethernets:  

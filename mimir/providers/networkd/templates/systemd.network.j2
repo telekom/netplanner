@@ -6,15 +6,7 @@ PermanentMACAddress={{ interface.mac_address }}
 Name={{ interface_name }}
 {%- endif %}
 
-[Network]
-{%- if interface.description is defined %}
-Description={{ interface.description }}
-{%- endif %}
-VRF={{ interface.vrf }}
-{%- if interface.object_name in ['Bond' 'Bridge'] %}
-{%- for child_interface_name, child_interface in child_interfaces.items() %}
-{{ child_interface.object_name }}={{ child_interface_name }}
-{%- endfor %}
-{%- endif %}
-LinkLocalAddressing={{ "yes" if 'ipv6' in interface.link_local else "no" }}
-IPv6LinkLocalAddressGenerationMode=eui64
+{%- include 'network_includes/network.j2' -%}
+{%- include 'network_includes/nameserver.j2' -%}
+
+{% include 'network_includes/link.j2' %}

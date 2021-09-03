@@ -1,0 +1,11 @@
+{%- if interface.nameservers is defined and interface.nameservers != None %}
+{%- for address in interface.nameservers.addresses %}
+DNS={{ address }}
+{%- endfor %}
+Domains={{ interface.nameservers.search | join(" ") }}
+{%- endif %}
+{#
+DNSOverTLS=
+DNSSEC=
+DNSSECNegativeTrustAnchors=
+#}

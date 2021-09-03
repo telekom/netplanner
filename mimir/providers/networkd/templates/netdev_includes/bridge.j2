@@ -18,7 +18,7 @@ Priority={{ interface.parameters.priority }}
 DefaultPVID={{ interface.parameters.default_vlan_port_id }}
 {%- endif %}
 {%- if interface.parameters.vlan_filtering != None %}
-VLANFiltering={{ "yes" if interface.parameters.vlan_filtering else "no" }}
+VLANFiltering={{ interface.parameters.vlan_filtering | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.vlan_protocol != None %}
 VLANProtocol={{ interface.parameters.vlan_protocol }}

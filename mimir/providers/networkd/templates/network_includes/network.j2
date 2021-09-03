@@ -1,47 +1,37 @@
 # MIMIR managed
 [Network]
-Description=
-DHCP=
-DHCPServer=
-LinkLocalAddressing=
-IPv6LinkLocalAddressGenerationMode=
-IPv6StableSecretAddress=
-IPv4LLRoute=
-DefaultRouteOnDevice=
-IPv6Token=
-LLMNR=
-MulticastDNS=
-DNSOverTLS=
-DNSSEC=
-DNSSECNegativeTrustAnchors=
-LLDP=
-EmitLLDP=
-BindCarrier=
-Address=
-Gateway=
-DNS=
-Domains=
+{%- if interface.description != None %}
+Description={{ interface.description }}
+{%- endif %}
+{%- if interface.vrf is defined and interface.vrf != None %}
+VRF={{ interface.vrf }}
+{%- endif %}
+{%- if interface.description != None %}
+Description={{ interface.description }}
+{%- endif %}
+{%- if interface.link_local %}
+LinkLocalAddressing={{ interface.link_local | to_systemd_link_local }}
+{%- if 'ipv6' in interface.link_local %}
+IPv6LinkLocalAddressGenerationMode=eui64
+{%- endif %}
+{%- endif %}
+{%- if interface.emit_lldp != None %}
+EmitLLDP={{ interface.emit_lldp | to_systemd_bool }}
+{%- endif %}
+{%- if interface.addresses %}
+{%- for address in interface.addresses %}
+Address={{ address }}
+{%- endfor %}
+{%- endif %}
+{%- if interface.object_name in ['Bond' 'Bridge'] %}
+{%- for child_interface_name, child_interface in child_interfaces.items() %}
+{{ child_interface.object_name }}={{ child_interface_name }}
+{%- endfor %}
+{%- endif %}
+{#
 DNSDefaultRoute=
 NTP=
-IPForward=
-IPMasquerade=
-IPv6PrivacyExtensions=
-IPv6AcceptRA=
-IPv6DuplicateAddressDetection=
-IPv6HopLimit=
-IPv4AcceptLocal=
-IPv4RouteLocalnet=
-IPv4ProxyARP=
-IPv6ProxyNDP=
-IPv6ProxyNDPAddress=
-IPv6SendRA=
-DHCPv6PrefixDelegation=
-IPv6MTUBytes=
-BatmanAdvanced=
 IPVLAN=
 ActiveSlave=
 PrimarySlave=
-ConfigureWithoutCarrier=
-IgnoreCarrierLoss=
-Xfrm=
-KeepConfiguration=
+#}

@@ -10,6 +10,7 @@ from mimir.interfaces.typing import (
     InterfaceName,
     IPInterfaceAddresses,
     LinkLocalAdressing,
+    MacAddress,
     VLANId,
     VLANType,
 )
@@ -48,6 +49,7 @@ class Bridge(Base):
     nameservers: Optional[NameServers]
     vrf: Optional[InterfaceName]
     mtu: Optional[MTU]
+    macaddress: Optional[MacAddress]
     link_local: Optional[Set[LinkLocalAdressing]]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: IPInterfaceAddresses = field(default_factory=list)

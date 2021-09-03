@@ -1,12 +1,16 @@
 [Link]
-MACAddress=
-MTUBytes=
-ARP=
-Multicast=
-AllMulticast=
-Promiscuous=
-Unmanaged=
-Group=
-RequiredForOnline=
-RequiredFamilyForOnline=
-ActivationPolicy=
+{%- if interface.mtu != None %}
+MTUBytes={{ interface.mtu }}
+{%- endif %}
+{%- if interface.macaddress != None %}
+MACAddress={{ interface.macaddress }}
+{%- endif %}
+# ARP=
+# Multicast=
+# AllMulticast=
+# Promiscuous=
+# Unmanaged=
+# Group=
+# RequiredForOnline=
+# RequiredFamilyForOnline=
+# ActivationPolicy=

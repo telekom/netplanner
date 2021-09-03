@@ -11,7 +11,7 @@ TOS={{ interface.parameters.tos }}
 TTL={{ interface.parameters.ttl }}
 {%- endif %}
 {%- if interface.parameters.mac_learning != None %}
-MacLearning={{ "yes" if interface.parameters.mac_learning else "no" }}
+MacLearning={{ interface.parameters.mac_learning | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.fdb_ageing_sec != None %}
 FDBAgeingSec={{ interface.parameters.fdb_ageing_sec }}
@@ -20,41 +20,41 @@ FDBAgeingSec={{ interface.parameters.fdb_ageing_sec }}
 MaximumFDBEntries={{ interface.parameters.maximum_fdb_entries }}
 {%- endif %}
 {%- if interface.parameters.reduce_arp_proxy != None %}
-ReduceARPProxy={{ "yes" if interface.parameters.reduce_arp_proxy else "no" }}
+ReduceARPProxy={{ interface.parameters.reduce_arp_proxy | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.l2_miss_notification != None %}
-L2MissNotification={{ "yes" if interface.parameters.l2_miss_notification else "no" }}
+L2MissNotification={{ interface.parameters.l2_miss_notification | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.l3_miss_notification != None %}
-L3MissNotification={{ "yes" if interface.parameters.l3_miss_notification else "no" }}
+L3MissNotification={{ interface.parameters.l3_miss_notification | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.route_short_circuit != None %}
-RouteShortCircuit={{ "yes" if interface.parameters.route_short_circuit else "no" }}
+RouteShortCircuit={{ interface.parameters.route_short_circuit | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.udp_checksum != None %}
-UDPChecksum={{ "yes" if interface.parameters.udp_checksum else "no" }}
+UDPChecksum={{ interface.parameters.udp_checksum | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.udp_6_zero_checksum_tx != None %}
-UDP6ZeroChecksumTx={{ "yes" if interface.parameters.udp_6_zero_checksum_tx else "no" }}
+UDP6ZeroChecksumTx={{ interface.parameters.udp_6_zero_checksum_tx | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.udp_6_zero_checksum_rx != None %}
-UDP6ZeroChecksumRx={{ "yes" if interface.parameters.udp_6_zero_checksum_rx else "no" }}
+UDP6ZeroChecksumRx={{ interface.parameters.udp_6_zero_checksum_rx | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.remote_checksum_tx != None %}
-RemoteChecksumTx={{ "yes" if interface.parameters.remote_checksum_tx else "no" }}
+RemoteChecksumTx={{ interface.parameters.remote_checksum_tx | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.remote_checksum_rx != None %}
-RemoteChecksumRx={{ "yes" if interface.parameters.remote_checksum_rx else "no" }}
+RemoteChecksumRx={{ interface.parameters.remote_checksum_rx | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.group_policy_extension != None %}
-GroupPolicyExtension={{ "yes" if interface.parameters.group_policy_extension else "no" }}
+GroupPolicyExtension={{ interface.parameters.group_policy_extension | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.generic_protocol_extension != None %}
-GenericProtocolExtension={{ "yes" if interface.parameters.generic_protocol_extension else "no" }}
+GenericProtocolExtension={{ interface.parameters.generic_protocol_extension | to_systemd_bool }}
 {%- endif %}
 {%- if interface.parameters.flow_label != None %}
 FlowLabel={{ interface.parameters.flow_label }}
 {%- endif %}
 {%- if interface.parameters.ip_do_not_fragment != None %}
-IPDoNotFragment={{ "yes" if interface.parameters.ip_do_not_fragment else "no" }}
+IPDoNotFragment={{ interface.parameters.ip_do_not_fragment | to_systemd_bool }}
 {%- endif -%}

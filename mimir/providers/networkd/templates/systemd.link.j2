@@ -9,4 +9,6 @@ OriginalName={{ interface_name }}
 {%- if interface.object_name == 'Ethernet' %}
 WakeOnLan=off
 {%- endif %}
+{%- if interface.mtu != None %}
 MTUBytes={{ interface.mtu }}
+{%- endif %}
