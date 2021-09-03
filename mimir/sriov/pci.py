@@ -19,6 +19,7 @@ import glob
 import shlex
 import subprocess
 from pathlib import Path
+from typing import Optional
 
 
 def format_pci_addr(pci_addr: str) -> str:
@@ -180,7 +181,6 @@ class PCINetDevice(object):
 
     def update_interface_info(self):
         net_devices = get_sysnet_interfaces_and_macs()
-        print(net_devices)
         for interface in net_devices:
             if self.pci_address == interface["pci_address"]:
                 self.interface_name = interface["interface"]
@@ -232,19 +232,21 @@ class PCINetDevices(object):
                 macs.append(pcidev.mac_address)
         return macs
 
-    def get_device_from_mac(self, mac: str) -> PCINetDevice:
+    def get_device_from_mac(self, mac: str) -> Optional[PCINetDevice]:
         for pcidev in self.pci_devices:
             if pcidev.mac_address == mac:
                 return pcidev
         return None
 
-    def get_device_from_pci_address(self, pci_addr: str) -> PCINetDevice:
+    def get_device_from_pci_address(self, pci_addr: str) -> Optional[PCINetDevice]:
         for pcidev in self.pci_devices:
             if pcidev.pci_address == pci_addr:
                 return pcidev
         return None
 
-    def get_device_from_interface_name(self, interface_name: str) -> PCINetDevice:
+    def get_device_from_interface_name(
+        self, interface_name: str
+    ) -> Optional[PCINetDevice]:
         for pcidev in self.pci_devices:
             if pcidev.interface_name == interface_name:
                 return pcidev

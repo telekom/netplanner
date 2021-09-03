@@ -17,6 +17,7 @@
 
 import argparse
 import logging
+from mimir.sriov.config import SRIOVConfig
 import yaml
 from pathlib import Path
 from . import pci
@@ -25,44 +26,45 @@ from . import pci
 DEFAULT_CONF_FILE = "/etc/mimir/interfaces.yaml"
 
 
-def configure(configuration: dict):
+def configure(configuration: SRIOVConfig):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
 
-
-    interfaces = configuration["interfaces"]
-    for interface_name in interfaces:
-        num_vfs = interfaces[interface_name]["num_vfs"]
+    for interface_name in configuration.interfaces:
+        interface_config = configuration.interfaces[interface_name]
         devices = pci.PCINetDevices()
         for device in devices.pci_devices:
             device.update_attributes()
-            print(device.interface_name)
         logging.info([device.interface_name for device in devices.pci_devices])
         device = None
-        if "match" in interfaces[interface_name]:
-            match = interfaces[interface_name]["match"]
-            if "macaddress" in match:
-                device = devices.get_device_from_mac(match["macaddress"])
-            elif "pciaddress" in match:
-                device = devices.get_device_from_pci_address(match["pciaddress"])
+        if match := interface_config.match:
+            if match.macaddress:
+                device = devices.get_device_from_mac(match.macaddress)
+            elif match.pciaddress:
+                device = devices.get_device_from_pci_address(match.pciaddress)
         else:
             device = devices.get_device_from_interface_name(interface_name)
         if device and device.sriov:
-            if num_vfs > device.sriov_totalvfs:
+            if interface_config.num_vfs > device.sriov_totalvfs:
                 logging.warn(
                     "Requested value for sriov_numfs ({}) too "
                     "high for interface {}. Falling back to "
                     "interface totalvfs "
                     "value: {}".format(
-                        num_vfs, device.interface_name, device.sriov_totalvfs
+                        interface_config.num_vfs,
+                        device.interface_name,
+                        device.sriov_totalvfs,
                     )
                 )
-                num_vfs = device.sriov_totalvfs
+                interface_config.num_vfs = device.sriov_totalvfs
 
             logging.info(
                 "Configuring SR-IOV device {} with {} "
-                "VF's".format(device.interface_name, num_vfs)
+                "VF's".format(
+                    device.interface_name,
+                    interface_config.num_vfs,
+                )
             )
-            device.set_sriov_numvfs(num_vfs)
+            device.set_sriov_numvfs(interface_config.num_vfs)
 
 
 def main():
@@ -88,19 +90,13 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
 
     try:
-        configuration = {}
+        configuration = None
         path = Path(args.config)
         if path.exists():
             with open(path, "r") as conf:
-                configuration = yaml.safe_load(conf)
+                configuration = SRIOVConfig.from_dict(yaml.safe_load(conf))
         else:
             logging.warn("No configuration file found, skipping configuration")
-            return
-
-        if not configuration or "interfaces" not in configuration:
-            logging.warn(
-                "No interfaces section in configuration file, skipping " "configuration"
-            )
             return
         args.func(configuration)
     except Exception as e:

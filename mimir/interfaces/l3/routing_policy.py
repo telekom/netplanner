@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from ipaddress import IPv4Network, IPv6Network
-from mimir.interfaces.typing import IPNetwork
 from typing import Optional
 
-from ..base import Base, PositiveInt
+from mimir.interfaces.base import Base, PositiveInt
+from mimir.interfaces.typing import IPNetwork
 
 
 @dataclass

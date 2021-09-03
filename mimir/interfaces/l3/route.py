@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network
-from mimir.interfaces.typing import IPAddress, IPNetwork
-from typing import Optional, Union
-from ..base import MTU, Base, PositiveInt
 from enum import Enum
+from typing import Optional
+
+from mimir.interfaces.base import MTU, Base, PositiveInt
+from mimir.interfaces.typing import IPAddress, IPNetwork
 
 
 class RouteType(Enum):

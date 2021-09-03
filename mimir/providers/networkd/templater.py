@@ -26,21 +26,19 @@ class Templater:
         prefix = "/"
         if local:
             prefix = "./"
-        self.networkd_path = Path(f"{prefix}{path}")
-        self.networkd_path.mkdir(parents=True, exist_ok=True)
+        self.path = Path(f"{prefix}{path}")
+        self.path.mkdir(parents=True, exist_ok=True)
 
     def render_networks(self):
         template = self.env.get_template("systemd.network.j2")
 
-    def render_vfs(self):
-        
     def render_links(self):
         priority: int = 10
         template = self.env.get_template("systemd.link.j2")
 
         for interface_name, interface_config in self.config.network.ethernets.items():
             file_name = f"{priority}-{interface_name}.link"
-            with open(self.networkd_path / file_name, 'w') as file:
+            with open(self.path / file_name, "w") as file:
                 file.write(
                     template.render(
                         interface_name=interface_name, interface=interface_config
@@ -69,7 +67,7 @@ class Templater:
         template = self.env.get_template("additionals.j2")
         for filename_prefix, data in self.config.network.additionals.items():
             file_name = f"{filename_prefix}.{Templater.get_file_ending(data):}"
-            with open(self.networkd_path / file_name, "w") as file:
+            with open(self.path / file_name, "w") as file:
                 file.write(template.render(data=data))
 
 

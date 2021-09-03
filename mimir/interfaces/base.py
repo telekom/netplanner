@@ -13,7 +13,7 @@ from typing import Optional
 import dacite
 from fqdn import FQDN
 
-from .typing import (
+from mimir.interfaces.typing import (
     MTU,
     InterfaceName,
     LinkLocalAdressing,
@@ -38,7 +38,6 @@ class Base:
         old_char: str = "-",
         new_char: str = "_",
         ignore_levels: list = [2],
-        read: bool = True,
     ) -> dict:
         keys = list(dictionary.keys())
         for key in keys:
@@ -93,19 +92,29 @@ class Base:
             )
             else value.relative
             if isinstance(value, FQDN)
+            else str(value)
+            if isinstance(value, str)
+            else int(value)
+            if isinstance(value, int)
             else value
         )
 
     @staticmethod
+    def to_complex_serializable(data):
+        return (
+            [Base.to_complex_serializable(item) for item in data]
+            if isinstance(data, (list, set))
+            else {
+                Base.to_serializable(key): Base.to_complex_serializable(val)
+                for key, val in data.items()
+            }
+            if isinstance(data, dict)
+            else Base.to_serializable(data)
+        )
+
+    @staticmethod
     def dict_factory(data):
-        return {
-            field: (
-                [Base.to_serializable(item) for item in value]
-                if isinstance(value, (list, set))
-                else Base.to_serializable(value)
-            )
-            for field, value in data
-        }
+        return {field: Base.to_complex_serializable(value) for field, value in data}
 
     @classmethod
     def from_dict(cls, data: dict):
