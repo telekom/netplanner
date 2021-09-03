@@ -23,7 +23,7 @@ from pathlib import Path
 from . import pci
 
 
-DEFAULT_CONF_FILE = "/etc/mimir/interfaces.yaml"
+DEFAULT_CONF_FILE = "/etc/mimir/mimir.yaml"
 
 
 def configure(configuration: SRIOVConfig):

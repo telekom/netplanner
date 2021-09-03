@@ -216,7 +216,6 @@ class NetworkConfig(Base):
             if key == name
         }
 
-
 @dataclass
 class NetplannerConfig(Base):
     network: NetworkConfig
