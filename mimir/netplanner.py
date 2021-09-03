@@ -207,7 +207,7 @@ class NetworkConfig(Base):
 
     def lookup(
         self, name: InterfaceName
-    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF]]:
+    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, List]]:
         return {
             key: value
             for field in fields(self)
