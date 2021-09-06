@@ -1,13 +1,9 @@
-# MIMIR managed
 [Network]
 {%- if interface.description != None %}
 Description={{ interface.description }}
 {%- endif %}
 {%- if interface.vrf is defined and interface.vrf != None %}
 VRF={{ interface.vrf }}
-{%- endif %}
-{%- if interface.description != None %}
-Description={{ interface.description }}
 {%- endif %}
 {%- if interface.link_local %}
 LinkLocalAddressing={{ interface.link_local | to_systemd_link_local }}
@@ -23,9 +19,24 @@ EmitLLDP={{ interface.emit_lldp | to_systemd_bool }}
 Address={{ address }}
 {%- endfor %}
 {%- endif %}
-{%- if interface.object_name in ['Bond' 'Bridge'] %}
+{%- if interface.object_name == 'Ethernet' and parent_interface is defined and parent_interface != None %}
+{%- if parent_interface.object_name == 'Bond' and parent_interface.parameters.primary != None %}
+PrimarySlave={{ parent_interface.parameters.primary == interface_name | to_systemd_bool }}
+{%- endif %}
+{%- endif %}
+{%- if interface.object_name not in ['Bond', 'Bridge'] and parent_interface is defined and parent_interface != None %}
+{%- for parent_interface_name, parent_interface in parent_interface.items() %}
+{{ parent_interface.object_name }}={{ parent_interface_name }}
+{%- endfor %}
+{%- endif %}
+{%- if interface.object_name in ['Bond', 'Bridge'] and child_interfaces is defined %}
+{%- if interface.object_name == 'Bond' %}
+ConfigureWithoutCarrier=yes
+{%- endif %}
 {%- for child_interface_name, child_interface in child_interfaces.items() %}
+{%- if child_interface.object_name not in ['Ethernet'] %}
 {{ child_interface.object_name }}={{ child_interface_name }}
+{%- endif %}
 {%- endfor %}
 {%- endif %}
 {#

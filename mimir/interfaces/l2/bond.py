@@ -18,7 +18,7 @@ from mimir.interfaces.typing import (
 class BondParameters(Base):
     mode: BondMode
     primary: Optional[InterfaceName]
-    mii_monitor_interval: Optional[PositiveInt]
+    mii_monitor_interval: PositiveInt = PositiveInt(100)
 
 
 @dataclass

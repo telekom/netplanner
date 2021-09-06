@@ -108,6 +108,7 @@ network:
     bridges:
         br.cluster:
             nameservers: {}
+            link_local: []
             parameters:
                 stp: false
             vrf: default

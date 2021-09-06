@@ -8,7 +8,7 @@ Kind={{ interface.object_name | lower }}
 {%- if interface.mtu != None %}
 MTUBytes={{ interface.mtu }}
 {%- endif %}
-{%- if interface.macaddress != None %}
+{%- if interface.macaddress is defined and interface.macaddress != None %}
 MACAddress={{ interface.macaddress }}
 {%- endif %}
 

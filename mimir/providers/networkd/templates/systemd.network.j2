@@ -5,8 +5,7 @@ PermanentMACAddress={{ interface.mac_address }}
 {%- else %}
 Name={{ interface_name }}
 {%- endif %}
-
-{%- include 'network_includes/network.j2' -%}
+{% include 'network_includes/network.j2' -%}
 {%- include 'network_includes/nameserver.j2' -%}
 
 {% include 'network_includes/link.j2' %}

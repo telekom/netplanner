@@ -1,6 +1,10 @@
+from mimir.interfaces.l2.vlan import VLAN
+from mimir.interfaces.l2.ethernet import Ethernet
+from mimir.interfaces.l2.bond import Bond
+from mimir.interfaces.l2.bridge import Bridge
 import pathlib
 from jinja2 import Environment, PackageLoader
-from mimir.netplanner import NetplannerConfig, worker_config
+from mimir.netplanner import NetplannerConfig, worker_config, master_config
 import yaml
 from pathlib import Path
 
@@ -13,14 +17,16 @@ class NetworkdTemplater:
     @staticmethod
     def to_systemd_bool(value: bool) -> str:
         return "yes" if value else "no"
+
     @staticmethod
     def to_systemd_link_local(value: set) -> str:
-        if 'ipv4' in value and 'ipv6' in value:
+        if "ipv4" in value and "ipv6" in value:
             return "yes"
-        elif 'ipv4' not in value or 'ipv6' not in value:
+        elif "ipv4" not in value or "ipv6" not in value:
             return list(value)[0]
         else:
             return "no"
+
     @staticmethod
     def get_file_ending(data: list):
         for item in data:
@@ -32,8 +38,10 @@ class NetworkdTemplater:
     def __init__(self, config: NetplannerConfig, local=True, path: str = DEFAULT_PATH):
         self.config: NetplannerConfig = config
         # Ensures that user provided strings are normalized.
-        self.env.filters['to_systemd_bool'] = NetworkdTemplater.to_systemd_bool
-        self.env.filters['to_systemd_link_local'] = NetworkdTemplater.to_systemd_link_local
+        self.env.filters["to_systemd_bool"] = NetworkdTemplater.to_systemd_bool
+        self.env.filters[
+            "to_systemd_link_local"
+        ] = NetworkdTemplater.to_systemd_link_local
         path = path.removeprefix("/")
         path = path.removeprefix("./")
         prefix = "/"
@@ -51,15 +59,31 @@ class NetworkdTemplater:
             | self.config.network.bridges
             | self.config.network.bonds
             | self.config.network.dummies
+            | self.config.network.ethernets
         ).items():
+            child_interfaces = {}
+            parent_interface = None
+            if isinstance(interface_config, (Bond, Bridge)):
+                child_interfaces = {
+                    child_interface_name: child_interface_config
+                    for interface_name in interface_config.interfaces
+                    for child_interface_name, child_interface_config in 
+                    self.config.network.lookup(interface_name).items()
+                } | {vlan_name: vlan_config for vlan_name, vlan_config in self.config.network.vlans.items() if interface_name == vlan_config.link}
+            elif isinstance(interface_config, VLAN) and interface_config.link is not None:
+                parent_interface = self.config.network.lookup(interface_config.link)
+            elif isinstance(interface_config, Ethernet):
+                parent_interface = {bond_name: bond_config for bond_name, bond_config in self.config.network.bonds.items() if interface_name in bond_config.interfaces}
             file_name = f"{priority}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
                 file.write(
                     template.render(
-                        interface_name=interface_name, interface=interface_config
+                        interface_name=interface_name,
+                        interface=interface_config,
+                        child_interfaces=child_interfaces,
+                        parent_interface=parent_interface
                     )
                 )
-
 
     def render_links(self):
         priority: int = 10
@@ -89,8 +113,8 @@ class NetworkdTemplater:
                 file.write(
                     template.render(
                         interface_name=interface_name, interface=interface_config
+                    )
                 )
-            )
 
     def render(self):
         self.render_netdevs()
@@ -104,5 +128,5 @@ class NetworkdTemplater:
 
 
 if __name__ == "__main__":
-    config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))
+    config = NetplannerConfig.from_dict(yaml.safe_load(master_config))
     NetworkdTemplater(config=config).render()

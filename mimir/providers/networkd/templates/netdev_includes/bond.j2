@@ -1,7 +1,8 @@
-Mode={{ interface.parameters.mode }}
-{%- if interface.parameters.mii_monitor_interval is not None %}
+Mode={{ interface.parameters.mode.value }}
+{%- if interface.parameters.mii_monitor_interval != None %}
 MIIMonitorSec={{ interface.parameters.mii_monitor_interval }}ms
 {%- endif %}
+{#
 # UpDelaySec=
 # DownDelaySec=
 # LearnPacketIntervalSec=
@@ -21,3 +22,4 @@ MIIMonitorSec={{ interface.parameters.mii_monitor_interval }}ms
 # AllSlavesActive=
 # DynamicTransmitLoadBalancing=
 # MinLinks=
+#}

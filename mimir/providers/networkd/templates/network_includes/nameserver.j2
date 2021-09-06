@@ -2,10 +2,12 @@
 {%- for address in interface.nameservers.addresses %}
 DNS={{ address }}
 {%- endfor %}
+{%- if interface.nameservers.search %}
 Domains={{ interface.nameservers.search | join(" ") }}
 {%- endif %}
-{#
+{%- endif %}
+{#-
 DNSOverTLS=
 DNSSEC=
 DNSSECNegativeTrustAnchors=
-#}
+-#}
