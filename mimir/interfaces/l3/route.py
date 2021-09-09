@@ -6,6 +6,7 @@ from mimir.interfaces.base import MTU, Base, PositiveInt
 from mimir.interfaces.typing import IPAddress, IPNetwork, TableShortInt
 from mimir.interfaces.typing import RouteScope, RouteType
 
+
 @dataclass
 class Route(Base):
     _from: Optional[IPNetwork]

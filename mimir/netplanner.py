@@ -1,21 +1,8 @@
-from dataclasses import dataclass, field, fields
-from pathlib import Path
-from pprint import pprint
-from typing import Dict, List, Optional, Union
-
 import yaml
-
-from mimir.interfaces.l2.dummy import Dummy
-
-from mimir.interfaces.base import Base
-from mimir.interfaces.l2.bond import Bond
-from mimir.interfaces.l2.bridge import Bridge
-from mimir.interfaces.l2.ethernet import Ethernet
-from mimir.interfaces.l2.vlan import VLAN
-from mimir.interfaces.l2.vrf import VRF
-from mimir.interfaces.l2.vxlan import VXLAN
-from mimir.interfaces.typing import InterfaceName, NetworkRenderer, Version
-
+from pprint import pprint
+from .config import NetplannerConfig
+from .config import NetworkRenderer
+from .interfaces.typing import InterfaceName
 
 master_config = """
 # This is the network config written by 'subiquity'
@@ -199,36 +186,6 @@ network:
             - Bridge:
                 - STP: "no"
 """
-
-
-@dataclass
-class NetworkConfig(Base):
-    version: Version
-    renderer: NetworkRenderer
-    dummies: Dict[InterfaceName, Dummy] = field(default_factory=dict)
-    ethernets: Dict[InterfaceName, Ethernet] = field(default_factory=dict)
-    bridges: Dict[InterfaceName, Bridge] = field(default_factory=dict)
-    vxlans: Dict[InterfaceName, VXLAN] = field(default_factory=dict)
-    bonds: Dict[InterfaceName, Bond] = field(default_factory=dict)
-    vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
-    vrfs: Dict[InterfaceName, VRF] = field(default_factory=dict)
-    additionals: Dict[str, List] = field(default_factory=dict)
-
-    def lookup(
-        self, name: InterfaceName
-    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, List]]:
-        return {
-            key: value
-            for field in fields(self)
-            if isinstance(getattr(self, field.name), dict)
-            for key, value in getattr(self, field.name).items()
-            if key == name
-        }
-
-@dataclass
-class NetplannerConfig(Base):
-    network: NetworkConfig
-
 
 if __name__ == "__main__":
     config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))

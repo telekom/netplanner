@@ -24,6 +24,7 @@ class MIMIRTemplater:
     def render_vfs(self):
         with open(self.path / "mimir.yaml", "w") as file:
             file.write(yaml.safe_dump(self.config.as_dict()))
+
     def render(self):
         self.render_vfs()
         self.render_init()

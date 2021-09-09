@@ -13,6 +13,7 @@ class RoutingPolicy(Base):
     priority: Optional[PositiveInt]
     mark: Optional[PositiveInt]
     type_of_service: Optional[UnsignedShortInt]
+
     def __post_init__(self):
         if not self._from and not self.to and not self.mark:
             raise ValueError("Either from or to must")

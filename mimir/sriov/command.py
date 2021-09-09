@@ -17,20 +17,22 @@
 
 import argparse
 import logging
-from mimir.sriov.config import SRIOVConfig
-import yaml
 from pathlib import Path
-from . import pci
 
+import yaml
+from mimir.config import NetplannerConfig
+
+from ..netplanner import worker_config
+from . import pci
 
 DEFAULT_CONF_FILE = "/etc/mimir/mimir.yaml"
 
 
-def configure(configuration: SRIOVConfig):
+def configure(configuration: NetplannerConfig):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
 
-    for interface_name in configuration.interfaces:
-        interface_config = configuration.interfaces[interface_name]
+    for interface_name in configuration.network.ethernets:
+        interface_config = configuration.network.ethernets[interface_name]
         devices = pci.PCINetDevices()
         for device in devices.pci_devices:
             device.update_attributes()
@@ -44,7 +46,7 @@ def configure(configuration: SRIOVConfig):
         else:
             device = devices.get_device_from_interface_name(interface_name)
         if device and device.sriov:
-            if interface_config.num_vfs > device.sriov_totalvfs:
+            if interface_config.virtual_function_count > device.sriov_totalvfs:
                 logging.warn(
                     "Requested value for sriov_numfs ({}) too "
                     "high for interface {}. Falling back to "
@@ -94,7 +96,7 @@ def main():
         path = Path(args.config)
         if path.exists():
             with open(path, "r") as conf:
-                configuration = SRIOVConfig.from_dict(yaml.safe_load(conf))
+                configuration = NetplannerConfig.from_dict(yaml.safe_load(conf))
         else:
             logging.warn("No configuration file found, skipping configuration")
             return

@@ -8,7 +8,12 @@ from ipaddress import (
     IPv6Interface,
     IPv6Network,
 )
-from mimir.interfaces.typing import RouteScope, RouteType, TableShortInt, UnsignedShortInt
+from mimir.interfaces.typing import (
+    RouteScope,
+    RouteType,
+    TableShortInt,
+    UnsignedShortInt,
+)
 from typing import Optional
 
 import dacite
@@ -28,11 +33,8 @@ from mimir.interfaces.typing import (
 RESERVED = ["from"]
 
 
-
 @dataclass
 class BaseSerializer:
-    
-
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -107,7 +109,9 @@ class BaseSerializer:
             [BaseSerializer.to_complex_serializable(item) for item in data]
             if isinstance(data, (list, set))
             else {
-                BaseSerializer.to_serializable(key): BaseSerializer.to_complex_serializable(val)
+                BaseSerializer.to_serializable(
+                    key
+                ): BaseSerializer.to_complex_serializable(val)
                 for key, val in data.items()
             }
             if isinstance(data, dict)
@@ -116,12 +120,17 @@ class BaseSerializer:
 
     @staticmethod
     def dict_factory(data):
-        return {field: BaseSerializer.to_complex_serializable(value) for field, value in data}
+        return {
+            field: BaseSerializer.to_complex_serializable(value)
+            for field, value in data
+        }
 
     @classmethod
     def from_dict(cls, data: dict):
         data = (
-            BaseSerializer.streamline_keys(data) if cls.__name__ == "NetplannerConfig" else data
+            BaseSerializer.streamline_keys(data)
+            if cls.__name__ == "NetplannerConfig"
+            else data
         )
         return dacite.from_dict(
             data_class=cls,
@@ -158,12 +167,15 @@ class BaseSerializer:
 
     def as_dict(self):
         return BaseSerializer.streamline_keys(
-            asdict(self, dict_factory=BaseSerializer.dict_factory), old_char="_", new_char="-"
+            asdict(self, dict_factory=BaseSerializer.dict_factory),
+            old_char="_",
+            new_char="-",
         )
 
     @property
     def object_name(self) -> str:
         return self.__class__.__name__
+
 
 @dataclass
 class Base(BaseSerializer):

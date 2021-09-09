@@ -67,13 +67,24 @@ class NetworkdTemplater:
                 child_interfaces = {
                     child_interface_name: child_interface_config
                     for interface_name in interface_config.interfaces
-                    for child_interface_name, child_interface_config in 
-                    self.config.network.lookup(interface_name).items()
-                } | {vlan_name: vlan_config for vlan_name, vlan_config in self.config.network.vlans.items() if interface_name == vlan_config.link}
-            elif isinstance(interface_config, VLAN) and interface_config.link is not None:
+                    for child_interface_name, child_interface_config in self.config.network.lookup(
+                        interface_name
+                    ).items()
+                } | {
+                    vlan_name: vlan_config
+                    for vlan_name, vlan_config in self.config.network.vlans.items()
+                    if interface_name == vlan_config.link
+                }
+            elif (
+                isinstance(interface_config, VLAN) and interface_config.link is not None
+            ):
                 parent_interface = self.config.network.lookup(interface_config.link)
             elif isinstance(interface_config, Ethernet):
-                parent_interface = {bond_name: bond_config for bond_name, bond_config in self.config.network.bonds.items() if interface_name in bond_config.interfaces}
+                parent_interface = {
+                    bond_name: bond_config
+                    for bond_name, bond_config in self.config.network.bonds.items()
+                    if interface_name in bond_config.interfaces
+                }
             file_name = f"{priority}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
                 file.write(
@@ -81,7 +92,7 @@ class NetworkdTemplater:
                         interface_name=interface_name,
                         interface=interface_config,
                         child_interfaces=child_interfaces,
-                        parent_interface=parent_interface
+                        parent_interface=parent_interface,
                     )
                 )
 
