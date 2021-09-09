@@ -97,3 +97,15 @@ class MacAddress(str):
             raise ValueError(f"MacAddress {content} malformed.")
 
         return str.__new__(cls, content)
+
+class RouteType(Enum):
+    UNREACHABLE = "unreachable"
+    BLACKHOLE = "blackhole"
+    PROHIBIT = "prohibit"
+    UNICAST = "unicast"
+
+
+class RouteScope(Enum):
+    GLOBAL = "global"
+    LINK = "link"
+    HOST = "host"

@@ -128,5 +128,5 @@ class NetworkdTemplater:
 
 
 if __name__ == "__main__":
-    config = NetplannerConfig.from_dict(yaml.safe_load(master_config))
+    config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))
     NetworkdTemplater(config=config).render()

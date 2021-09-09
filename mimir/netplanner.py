@@ -100,6 +100,9 @@ network:
         vx.5000:
             description: "The Root of all hell"
             vrf: default
+            routes:
+                - to: 10.0.0.0/8
+                  via: 192.168.1.1
             parameters:
                 vni: 5000
                 #default destination-port: 4789
