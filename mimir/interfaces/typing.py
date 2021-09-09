@@ -36,8 +36,8 @@ class BondMode(Enum):
 
 class MTU(int):
     def __new__(cls, value: int):
-        if not (256 <= value <= 9166):
-            raise ValueError(f"MTUBytes={value} not in 256 - 9166")
+        if not (1280 <= value <= 9166):
+            raise ValueError(f"MTUBytes={value} not in 1280(ipv6 minimum) - 9166")
         return super().__new__(cls, value)
 
 
