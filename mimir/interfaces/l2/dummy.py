@@ -24,7 +24,7 @@ class Dummy(Base):
     link: Optional[InterfaceName]
     mtu: Optional[MTU]
     link_local: Optional[Set[LinkLocalAdressing]]
-    vrf: InterfaceName = InterfaceName("default")
+    vrf: Optional[InterfaceName]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)

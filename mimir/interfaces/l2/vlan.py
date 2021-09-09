@@ -34,8 +34,8 @@ class VLAN(Base):
     macaddress: Optional[MacAddress]
     nameservers: Optional[NameServers]
     link_local: Optional[Set[LinkLocalAdressing]]
+    vrf: Optional[InterfaceName]
     addresses: IPInterfaceAddresses = field(default_factory=list)
-    vrf: InterfaceName = InterfaceName("default")
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
 
