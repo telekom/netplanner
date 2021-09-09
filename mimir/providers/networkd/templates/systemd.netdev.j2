@@ -1,6 +1,6 @@
 # MIMIR managed
 [NetDev]
-{%- if interface.description is defined %}
+{%- if interface.description != None and interface.description is defined %}
 Description={{ interface.description }}
 {%- endif %}
 Name={{ interface_name }}

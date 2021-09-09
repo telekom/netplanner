@@ -1,9 +1,21 @@
 # MIMIR managed
 [Match]
+{%- if interface.match is defined and interface.match != None %}
+{%- if interface.match.name %}
+Name={{ interface.match.name }}
+{%- endif %}
+{%- if interface.match.macaddress %}
+MACAddress{{ interface.match.macaddress }}
+{%- endif %}
+{%- if interface.match.driver %}
+Driver={{ interface.match.driver }}
+{%- endif %}
+{% else %}
 {%- if interface.mac_address != None and interface.object_name in ['Ethernet'] %}
 PermanentMACAddress={{ interface.mac_address }}
 {%- else %}
 Name={{ interface_name }}
+{%- endif %}
 {%- endif %}
 {%- include 'network_includes/network.j2' %}
 {%- include 'network_includes/nameserver.j2' %}
