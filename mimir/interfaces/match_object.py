@@ -10,3 +10,4 @@ class MatchObject(Base):
     name: Optional[InterfaceName]
     macaddress: Optional[MacAddress]
     driver: Optional[str]
+    pciaddress: Optional[str]
