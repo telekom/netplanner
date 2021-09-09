@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional
 
 from mimir.interfaces.base import MTU, Base, PositiveInt
-from mimir.interfaces.typing import IPAddress, IPNetwork
+from mimir.interfaces.typing import IPAddress, IPNetwork, TableShortInt
 from mimir.interfaces.typing import RouteScope, RouteType
 
 @dataclass
@@ -12,7 +12,7 @@ class Route(Base):
     to: IPNetwork
     via: IPAddress
     on_link: Optional[bool]
-    table: Optional[PositiveInt]
+    table: Optional[TableShortInt]
     metric: Optional[int]
     scope: Optional[RouteScope]
     type: Optional[RouteType]

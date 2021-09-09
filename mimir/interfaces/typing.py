@@ -43,8 +43,26 @@ class MTU(int):
 
 class PositiveInt(int):
     def __new__(cls, value: int):
-        if not value >= 0:
-            raise ValueError(f"PositiveInteger={value} < 0")
+        if not value > 0:
+            raise ValueError(f"PositiveInteger={value} <= 0")
+        return super().__new__(cls, value)
+
+
+class UnsignedShortInt(PositiveInt):
+    def __new__(cls, value: int):
+        if value > 255:
+            raise ValueError(f"UnsignedShortInt={value} > 255")
+        return super().__new__(cls, value)
+
+
+class TableShortInt(UnsignedShortInt):
+    reserved = {255: "local", 254: "main", 253: "default", 0: "unspec"}
+
+    def __new__(cls, value: int):
+        if value in cls.reserved.keys():
+            raise ValueError(
+                f"Table={value} in [{', '.join([f'{value}={key}' for key, value in cls.reserved.items()])}]"
+            )
         return super().__new__(cls, value)
 
 
@@ -97,6 +115,7 @@ class MacAddress(str):
             raise ValueError(f"MacAddress {content} malformed.")
 
         return str.__new__(cls, content)
+
 
 class RouteType(Enum):
     UNREACHABLE = "unreachable"

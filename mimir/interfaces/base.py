@@ -8,7 +8,7 @@ from ipaddress import (
     IPv6Interface,
     IPv6Network,
 )
-from mimir.interfaces.typing import RouteScope, RouteType
+from mimir.interfaces.typing import RouteScope, RouteType, TableShortInt, UnsignedShortInt
 from typing import Optional
 
 import dacite
@@ -133,6 +133,8 @@ class BaseSerializer:
                     MacAddress,
                     VirtualFunctionCount,
                     PositiveInt,
+                    UnsignedShortInt,
+                    TableShortInt,
                     RouteType,
                     RouteScope,
                     LinkLocalAdressing,

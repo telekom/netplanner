@@ -95,7 +95,7 @@ network:
     renderer: networkd
     vrfs:
         Vrf_underlay:
-            table: 1
+            table: 254
     vxlans:
         vx.5000:
             description: "The Root of all hell"

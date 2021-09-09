@@ -1,10 +1,24 @@
+{%- for route_policy in interface.routing_policy %}
 [RoutingPolicyRule]
-TypeOfService=
-From=
-To=
-FirewallMark=
-Table=
-Priority=
+{%- if route_policy.type_of_service != None %}
+TypeOfService={{ route_policy.type_of_service }}
+{%- endif %}
+{%- if route_policy._from != None %}
+From={{ route_policy._from }}
+{%- endif %}
+{%- if route_policy.to != None %}
+To={{ route_policy.to }}
+{%- endif %}
+{%- if route_policy.mark != None %}
+FirewallMark={{ route_policy.mark }}
+{%- endif %}
+{%- if route_policy.table != None %}
+Table={{ route_policy.table }}
+{%- endif %}
+{%- if route_policy.priority != None %}
+Priority={{ route_policy.priority }}
+{%- endif %}
+{#-
 IncomingInterface=
 OutgoingInterface=
 SourcePort=
@@ -15,3 +29,5 @@ Family=
 User=
 SuppressPrefixLength=
 Type=
+-#}
+{%- endfor %}

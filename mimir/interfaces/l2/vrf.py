@@ -10,7 +10,7 @@ from mimir.interfaces.typing import (
     IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
-    PositiveInt,
+    TableShortInt,
 )
 
 
@@ -19,7 +19,7 @@ class VRF(Base):
     mtu: Optional[MTU]
     nameservers: Optional[NameServers]
     macaddress: Optional[MacAddress]
-    table: PositiveInt  # = field(default=254) this is the table for the default vrf
+    table: TableShortInt  # = field(default=254) this is the table for the default vrf
     link_local: Optional[Set[LinkLocalAdressing]]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
