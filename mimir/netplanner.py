@@ -59,7 +59,6 @@ network:
                 - 192.168.0.45/32
         dummy.cluster:
             link_local: []
-            vrf: default
             nameservers:
                 addresses:
                 - 10.90.24.1
@@ -95,11 +94,10 @@ network:
     renderer: networkd
     vrfs:
         Vrf_underlay:
-            table: 254
+            table: 1
     vxlans:
         vx.5000:
             description: "The Root of all hell"
-            vrf: default
             routes:
                 - to: 10.0.0.0/8
                   via: 192.168.1.1
@@ -114,7 +112,6 @@ network:
             link_local: []
             parameters:
                 stp: false
-            vrf: default
             interfaces:
                 - vx.5000
     additionals:
