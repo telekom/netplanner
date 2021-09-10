@@ -1,0 +1,29 @@
+network:
+  vlans:
+    vlan.2257:
+      id: 2257
+      link: bond-uplink
+    #   dhcp4: true
+    #   dhcp4-overrides:
+    #     hostname: bac4
+  bonds:
+    bond-uplink:
+      interfaces:
+      - eno1
+      - eno2
+      parameters:
+        mode: active-backup
+        primary: eno1
+    #   dhcp4: false
+    #   dhcp6: false
+  ethernets:
+    eno1:
+      virtual-function-count: 4
+    #   dhcp4: false
+    #   dhcp6: false
+    eno2:
+        optional: True
+    #   dhcp4: false
+    #   dhcp6: false
+  renderer: networkd
+  version: 3

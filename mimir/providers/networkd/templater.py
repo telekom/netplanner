@@ -2,9 +2,8 @@ from mimir.interfaces.l2.vlan import VLAN
 from mimir.interfaces.l2.ethernet import Ethernet
 from mimir.interfaces.l2.bond import Bond
 from mimir.interfaces.l2.bridge import Bridge
-import pathlib
 from jinja2 import Environment, PackageLoader
-from mimir.netplanner import NetplannerConfig, worker_config, master_config
+from mimir.config import NetplannerConfig
 import yaml
 from pathlib import Path
 
@@ -132,12 +131,16 @@ class NetworkdTemplater:
         self.render_links()
         self.render_networks()
         template = self.env.get_template("additionals.j2")
-        for filename_prefix, data in self.config.network.additionals.items():
-            file_name = f"{filename_prefix}.{NetworkdTemplater.get_file_ending(data):}"
+        for filename, data in self.config.network.additionals.items():
+
+            file_name = f"{filename}"
+            assert file_name.endswith(('link', 'network', 'netdev')), "only networkd endings are allowed."
             with open(self.path / file_name, "w") as file:
                 file.write(template.render(data=data))
 
 
 if __name__ == "__main__":
-    config = NetplannerConfig.from_dict(yaml.safe_load(worker_config))
+    with open('examples/worker-config.yaml') as file:
+        worker_config = yaml.safe_load(file)
+    config = NetplannerConfig.from_dict(worker_config)
     NetworkdTemplater(config=config).render()
