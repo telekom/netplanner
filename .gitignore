@@ -1,5 +1,6 @@
 .venv/
 .vscode
+*.config
 __pycache__/
 dist/
 run/
