@@ -10,9 +10,9 @@ MACAddress{{ interface.match.macaddress }}
 {%- if interface.match.driver %}
 Driver={{ interface.match.driver }}
 {%- endif %}
-{% else %}
-{%- if interface.mac_address != None and interface.mac_address %}
-PermanentMACAddress={{ interface.mac_address }}
+{%- else %}
+{%- if interface.macaddress != None and interface.macaddress %}
+PermanentMACAddress={{ interface.macaddress }}
 {%- else %}
 OriginalName={{ interface_name }}
 {%- endif %}

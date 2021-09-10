@@ -10,14 +10,15 @@ MACAddress{{ interface.match.macaddress }}
 {%- if interface.match.driver %}
 Driver={{ interface.match.driver }}
 {%- endif %}
-{% else %}
-{%- if interface.mac_address != None and interface.object_name in ['Ethernet'] %}
-PermanentMACAddress={{ interface.mac_address }}
+{%- else %}
+{%- if interface.macaddress != None and interface.object_name in ['Ethernet'] %}
+PermanentMACAddress={{ interface.macaddress }}
 {%- else %}
 Name={{ interface_name }}
 {%- endif %}
 {%- endif %}
-{%- include 'network_includes/network.j2' %}
+
+{% include 'network_includes/network.j2' %}
 {%- include 'network_includes/nameserver.j2' %}
 
 {%- include 'network_includes/link.j2' %}
