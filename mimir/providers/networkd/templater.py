@@ -132,10 +132,8 @@ class NetworkdTemplater:
         self.render_networks()
         template = self.env.get_template("additionals.j2")
         for filename, data in self.config.network.additionals.items():
-
-            file_name = f"{filename}"
-            assert file_name.endswith(('link', 'network', 'netdev')), "only networkd endings are allowed."
-            with open(self.path / file_name, "w") as file:
+            assert filename.endswith(('link', 'network', 'netdev')), "only networkd endings are allowed."
+            with open(self.path / filename, "w") as file:
                 file.write(template.render(data=data))
 
 

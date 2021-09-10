@@ -15,20 +15,14 @@
 # limitations under the License.
 # source: https://github.com/openstack-charmers/sriov-netplan-shim/blob/master/sriov_netplan_shim/cmd.py
 
-import argparse
 import logging
-from pathlib import Path
 
-import yaml
 from mimir.config import NetplannerConfig
 
-from ..netplanner import worker_config
 from . import pci
 
-DEFAULT_CONF_FILE = "/etc/mimir/mimir.yaml"
 
-
-def configure(configuration: NetplannerConfig):
+def sriov(configuration: NetplannerConfig):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
 
     for interface_name in configuration.network.ethernets:
@@ -67,40 +61,3 @@ def configure(configuration: NetplannerConfig):
                 )
             )
             device.set_sriov_numvfs(interface_config.num_vfs)
-
-
-def main():
-    """Main entry point for mimir-sriov"""
-    parser = argparse.ArgumentParser("mimir-sriov")
-    parser.set_defaults(prog=parser.prog)
-    subparsers = parser.add_subparsers(
-        title="subcommands",
-        description="valid subcommands",
-        help="sub-command help",
-    )
-    parser.add_argument(
-        "--config",
-        default=DEFAULT_CONF_FILE,
-    )
-    show_subparser = subparsers.add_parser(
-        "configure", help="Configure SR-IOV adapters with VF functions"
-    )
-    show_subparser.set_defaults(func=configure)
-
-    args = parser.parse_args()
-
-    logging.basicConfig(level=logging.DEBUG)
-
-    try:
-        configuration = None
-        path = Path(args.config)
-        if path.exists():
-            with open(path, "r") as conf:
-                configuration = NetplannerConfig.from_dict(yaml.safe_load(conf))
-        else:
-            logging.warn("No configuration file found, skipping configuration")
-            return
-        args.func(configuration)
-    except Exception as e:
-        parser.print_help()
-        raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))
