@@ -1,13 +1,15 @@
 import argparse
-from mimir.providers.networkd.templater import NetworkdTemplater
-import yaml
-from mimir.config import NetplannerConfig
-from mimir.sriov.command import sriov
 import logging
 from pathlib import Path
 
+import yaml
+
+from mimir.config import NetplannerConfig
+from mimir.providers.networkd.templater import NetworkdTemplater
+from mimir.sriov.command import sriov
+
 DEFAULT_CONF_FILE = "/etc/mimir/mimir.yaml"
-DEFAULT_OUTPUT_PATH = "/etc/systemd/networkd"
+DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
 
 
 def configure(configuration: NetplannerConfig, output: str, local: bool):
@@ -30,9 +32,9 @@ def main():
         default=DEFAULT_CONF_FILE,
     )
     parser.add_argument(
-        "--no-local",
+        "--local",
         help="This templates the configuration into a local directory",
-        action="store_false",
+        action="store_true",
     )
     parser.add_argument(
         "--output",

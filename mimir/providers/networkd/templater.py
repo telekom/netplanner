@@ -1,11 +1,13 @@
-from mimir.interfaces.l2.vlan import VLAN
-from mimir.interfaces.l2.ethernet import Ethernet
-from mimir.interfaces.l2.bond import Bond
-from mimir.interfaces.l2.bridge import Bridge
+import logging
+from pathlib import Path
+
+import yaml
 from jinja2 import Environment, PackageLoader
 from mimir.config import NetplannerConfig
-import yaml
-from pathlib import Path
+from mimir.interfaces.l2.bond import Bond
+from mimir.interfaces.l2.bridge import Bridge
+from mimir.interfaces.l2.ethernet import Ethernet
+from mimir.interfaces.l2.vlan import VLAN
 
 
 class NetworkdTemplater:
@@ -15,7 +17,7 @@ class NetworkdTemplater:
 
     @staticmethod
     def to_systemd_bool(value: bool) -> str:
-        return "yes" if value else "no"
+        return "yes" if bool(value) else "no"
 
     @staticmethod
     def to_systemd_link_local(value: set) -> str:
@@ -132,13 +134,16 @@ class NetworkdTemplater:
         self.render_networks()
         template = self.env.get_template("additionals.j2")
         for filename, data in self.config.network.additionals.items():
-            assert filename.endswith(('link', 'network', 'netdev')), "only networkd endings are allowed."
+            logging.info(f"Write: {filename}")
+            assert filename.endswith(
+                ("link", "network", "netdev")
+            ), "only networkd endings are allowed."
             with open(self.path / filename, "w") as file:
                 file.write(template.render(data=data))
 
 
 if __name__ == "__main__":
-    with open('examples/worker-config.yaml') as file:
+    with open("examples/worker-config.yaml") as file:
         worker_config = yaml.safe_load(file)
     config = NetplannerConfig.from_dict(worker_config)
     NetworkdTemplater(config=config).render()

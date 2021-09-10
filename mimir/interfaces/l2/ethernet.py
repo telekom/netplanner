@@ -23,10 +23,10 @@ class Ethernet(Base):
     nameservers: Optional[NameServers]
     match: Optional[MatchObject]
     link: Optional[InterfaceName]
+    vrf: Optional[InterfaceName]
     mtu: Optional[MTU]
     virtual_function_count: Optional[VirtualFunctionCount]
     link_local: Optional[Set[LinkLocalAdressing]]
-    vrf: InterfaceName = InterfaceName("default")
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
