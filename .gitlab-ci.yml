@@ -34,7 +34,7 @@ run:
   script:
     - poetry build
     # an alternative approach is to install and run:
-    - pip install dist/*
+    - pip install dist/*.whl
     # run the command here
     - netplanner --help
   artifacts:
