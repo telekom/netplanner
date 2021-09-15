@@ -21,16 +21,18 @@ variables:
 # them in a virtualenv and cache it as well.
 cache:
   paths:
-    - .cache/pip
-    - venv/
     - .venv/
 
 before_script:
   - python -V  # Print out python version for debugging
   - pip install poetry
+  - poetry config settings.virtualenvs.in-project true
   - poetry install
+  - poetry --version
+  - poetry config repositories.gitlab https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+  - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 
-run:
+build:
   script:
     - poetry build
     # an alternative approach is to install and run:
@@ -41,3 +43,10 @@ run:
     paths:
       - dist/*.whl
       - dist/*.tar.gz
+
+dist:
+  script:
+    - poetry build
+    - poetry publish
+  only:
+    - tags
