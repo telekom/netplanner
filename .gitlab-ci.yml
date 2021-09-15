@@ -30,7 +30,8 @@ before_script:
   - poetry config virtualenvs.in-project true
   - poetry install
   - poetry --version
-
+  - poetry config repositories.gitlab https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+  - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 build:
   script:
     - poetry build
@@ -44,10 +45,6 @@ build:
       - dist/*.tar.gz
 
 dist:
-  before_script:
-    - poetry config repositories.gitlab https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
-    - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
-
   script:
     - poetry build
     - poetry publish gitlab
