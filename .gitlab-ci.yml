@@ -13,6 +13,7 @@ image: python:3.8
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   POETRY_VIRTUALENVS_CREATE: "true"
+  GITLAB: gitlab.devops.telekom.de
   POETRY_VIRTUALENVS_PATH: "$CI_PROJECT_DIR/.venv"
   key: "${CI_COMMIT_REF_SLUG}"
 # Pip's cache doesn't store the python packages
@@ -34,7 +35,7 @@ before_script:
   - poetry config virtualenvs.in-project true
   - poetry install
   - poetry --version
-  - poetry config repositories.gitlab https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+  - poetry config repositories.gitlab https://${GITLAB}/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
   - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 build:
   stage: build
