@@ -1,13 +1,13 @@
-# mimir
+# netplanner
 
 ## How to use it
 
 ```console
 # This is a developer command --local ensures that ./ is set on the output.
-$ mimir --local --config examples/worker-config-old.yaml --output /run/systemd/network --only-networkd configure
+$ netplanner --local --config examples/worker-config-old.yaml --output /run/systemd/network --only-networkd configure
 
-$ mimir --help
-usage: mimir [-h] [--config CONFIG] [--local] [--only-sriov] [--only-networkd] [--output OUTPUT] {configure} ...
+$ netplanner --help
+usage: netplanner [-h] [--config CONFIG] [--local] [--only-sriov] [--only-networkd] [--output OUTPUT] {configure} ...
 
 optional arguments:
   -h, --help       show this help message and exit
@@ -21,7 +21,7 @@ subcommands:
   valid subcommands
 
   {configure}      sub-command help
-    configure      Configure Network Adapters flawlessly with the knowledge of mimir.
+    configure      Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.
 ```
 
 ## Have a look at the examples dir

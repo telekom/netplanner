@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "mimir"
+name = "netplanner"
 version = "0.1.0"
-description = "\"Mimir is the ground of all network wisdöm\""
+description = "\"Netplanner Mimir is the ground of all network wisdöm\""
 authors = ["Marcel Fest <marcel.fest@telekom.de>"]
 license = "MIT"
 
@@ -24,4 +24,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-mimir = 'mimir.__main__:main'
+netplanner = 'netplanner.__main__:main'

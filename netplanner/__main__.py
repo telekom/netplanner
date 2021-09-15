@@ -65,7 +65,7 @@ def main():
         default=DEFAULT_OUTPUT_PATH,
     )
     show_subparser = subparsers.add_parser(
-        "configure", help="Configure Network Adapters flawlessly with the knowledge of netplanner."
+        "configure", help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner."
     )
     show_subparser.set_defaults(func=configure)
 
