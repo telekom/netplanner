@@ -2,6 +2,7 @@ network:
   bonds:
     bond-uplink:
       mtu: 9000
+      link-local: []
       interfaces:
       - ens1f0
       - ens1f1
@@ -12,20 +13,20 @@ network:
   ethernets:
     ens1f0:
       mtu: 9100
-      link_local: []
+      link-local: []
       virtual-function-count: 16
     ens1f1:
       mtu: 9100
-      link_local: []
+      link-local: []
       virtual-function-count: 16
     ens2f0:
       mtu: 9100
-      link_local: []
+      link-local: []
       addresses:
       - "192.168.66.27/25"
     ens2f1:
       mtu: 9100
-      link_local: []
+      link-local: []
       addresses:
       - "192.168.66.34/25"
   version: 3
@@ -40,7 +41,7 @@ network:
       mtu: 1500
       id: 2257
       link: bond-uplink
-      link_local: []
+      link-local: []
       nameservers:
         addresses:
         - 10.90.24.1
@@ -52,20 +53,20 @@ network:
     vlan.2300:
       mtu: 1500
       id: 2300
-      link_local: []
+      link-local: []
       link: bond-uplink
     vlan.2301:
       mtu: 1500
       id: 2301
-      link_local: []
+      link-local: []
       link: bond-uplink
     vlan.2304:
       mtu: 1500
       id: 2304
-      link_local: []
+      link-local: []
       link: bond-uplink
     vlan.2305:
       mtu: 1500
       id: 2305
-      link_local: []
+      link-local: []
       link: bond-uplink

@@ -1,12 +1,12 @@
 network:
   dummies:
     dummy.underlay:
-      link_local: []
+      link-local: []
       vrf: Vrf_underlay
       addresses:
         - 192.168.0.45/32
     dummy.cluster:
-      link_local: []
+      link-local: []
       nameservers:
         addresses:
         - 10.90.24.1
@@ -19,6 +19,7 @@ network:
         - 172.23.166.151/32
   vxlans:
     vx.5000:
+      link-local: []
       description: "The Root of all hell"
       parameters:
         vni: 5000
@@ -26,7 +27,7 @@ network:
         mac-learning: false
   bridges:
     br.cluster:
-      link_local: []
+      link-local: []
       parameters:
         stp: false
       interfaces:
