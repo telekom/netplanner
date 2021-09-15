@@ -24,6 +24,10 @@ cache:
   paths:
     - .venv/
 
+stages:
+  - build
+  - dist
+
 before_script:
   - python -V  # Print out python version for debugging
   - pip install poetry
@@ -33,6 +37,7 @@ before_script:
   - poetry config repositories.gitlab https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
   - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 build:
+  stage: build
   script:
     - poetry build
     # an alternative approach is to install and run:
@@ -45,8 +50,9 @@ build:
       - dist/*.tar.gz
 
 dist:
+  stage: dist
   script:
     - poetry build
-    - poetry publish gitlab
+    - poetry publish -r gitlab
   only:
     - tags
