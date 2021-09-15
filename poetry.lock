@@ -1,4 +1,12 @@
 [[package]]
+name = "altgraph"
+version = "0.17.2"
+description = "Python graph (network) package"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "appdirs"
 version = "1.4.4"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -67,6 +75,14 @@ optional = false
 python-versions = ">=2.7, !=3.0, !=3.1, !=3.2, !=3.3, !=3.4, <4"
 
 [[package]]
+name = "future"
+version = "0.18.2"
+description = "Clean single-source support for Python 3 and 2"
+category = "dev"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+
+[[package]]
 name = "jinja2"
 version = "3.0.1"
 description = "A very fast and expressive template engine."
@@ -79,6 +95,17 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
+
+[[package]]
+name = "macholib"
+version = "1.15.2"
+description = "Mach-O header analysis and editing"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+altgraph = ">=0.15"
 
 [[package]]
 name = "markupsafe"
@@ -120,6 +147,52 @@ description = "Utility library for gitignore style pattern matching of file path
 category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
+
+[[package]]
+name = "pefile"
+version = "2021.9.3"
+description = "Python PE parsing module"
+category = "dev"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+future = "*"
+
+[[package]]
+name = "pyinstaller"
+version = "4.5.1"
+description = "PyInstaller bundles a Python application and all its dependencies into a single package."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+altgraph = "*"
+macholib = {version = ">=1.8", markers = "sys_platform == \"darwin\""}
+pefile = {version = ">=2017.8.1", markers = "sys_platform == \"win32\""}
+pyinstaller-hooks-contrib = ">=2020.6"
+pywin32-ctypes = {version = ">=0.2.0", markers = "sys_platform == \"win32\""}
+
+[package.extras]
+encryption = ["tinyaes (>=1.0.0)"]
+hook_testing = ["pytest (>=2.7.3)", "execnet (>=1.5.0)", "psutil"]
+
+[[package]]
+name = "pyinstaller-hooks-contrib"
+version = "2021.3"
+description = "Community maintained hooks for PyInstaller"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "pywin32-ctypes"
+version = "0.2.0"
+description = ""
+category = "dev"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "pyyaml"
@@ -172,9 +245,13 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "62eaddfe4736635b3536986a36de47eaaa8a10f513fe2560588bbab336e6de0d"
+content-hash = "3d327132f91fd5ee6fb7825a5683603456f58b37bee7cc1396e1bd2e2f5004b5"
 
 [metadata.files]
+altgraph = [
+    {file = "altgraph-0.17.2-py2.py3-none-any.whl", hash = "sha256:743628f2ac6a7c26f5d9223c91ed8ecbba535f506f4b6f558885a8a56a105857"},
+    {file = "altgraph-0.17.2.tar.gz", hash = "sha256:ebf2269361b47d97b3b88e696439f6e4cbc607c17c51feb1754f90fb79839158"},
+]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
     {file = "appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41"},
@@ -199,9 +276,16 @@ fqdn = [
     {file = "fqdn-1.5.1-py3-none-any.whl", hash = "sha256:3a179af3761e4df6eb2e026ff9e1a3033d3587bf980a0b1b2e1e5d08d7358014"},
     {file = "fqdn-1.5.1.tar.gz", hash = "sha256:105ed3677e767fb5ca086a0c1f4bb66ebc3c100be518f0e0d755d9eae164d89f"},
 ]
+future = [
+    {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
+]
 jinja2 = [
     {file = "Jinja2-3.0.1-py3-none-any.whl", hash = "sha256:1f06f2da51e7b56b8f238affdd6b4e2c61e39598a378cc49345bc1bd42a978a4"},
     {file = "Jinja2-3.0.1.tar.gz", hash = "sha256:703f484b47a6af502e743c9122595cc812b0271f661722403114f71a79d0f5a4"},
+]
+macholib = [
+    {file = "macholib-1.15.2-py2.py3-none-any.whl", hash = "sha256:885613dd02d3e26dbd2b541eb4cc4ce611b841f827c0958ab98656e478b9e6f6"},
+    {file = "macholib-1.15.2.tar.gz", hash = "sha256:1542c41da3600509f91c165cb897e7e54c0e74008bd8da5da7ebbee519d593d2"},
 ]
 markupsafe = [
     {file = "MarkupSafe-2.0.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:f9081981fe268bd86831e5c75f7de206ef275defcb82bc70740ae6dc507aee51"},
@@ -271,6 +355,26 @@ mypy-extensions = [
 pathspec = [
     {file = "pathspec-0.9.0-py2.py3-none-any.whl", hash = "sha256:7d15c4ddb0b5c802d161efc417ec1a2558ea2653c2e8ad9c19098201dc1c993a"},
     {file = "pathspec-0.9.0.tar.gz", hash = "sha256:e564499435a2673d586f6b2130bb5b95f04a3ba06f81b8f895b651a3c76aabb1"},
+]
+pefile = [
+    {file = "pefile-2021.9.3.tar.gz", hash = "sha256:344a49e40a94e10849f0fe34dddc80f773a12b40675bf2f7be4b8be578bdd94a"},
+]
+pyinstaller = [
+    {file = "pyinstaller-4.5.1-py3-none-macosx_10_13_universal2.whl", hash = "sha256:ecc2baadeeefd2b6fbf39d13c65d4aa603afdda1c6aaaebc4577ba72893fee9e"},
+    {file = "pyinstaller-4.5.1-py3-none-manylinux2014_aarch64.whl", hash = "sha256:4d848cd782ee0893d7ad9fe2bfe535206a79f0b6760cecc5f2add831258b9322"},
+    {file = "pyinstaller-4.5.1-py3-none-manylinux2014_i686.whl", hash = "sha256:8f747b190e6ad30e2d2fd5da9a64636f61aac8c038c0b7f685efa92c782ea14f"},
+    {file = "pyinstaller-4.5.1-py3-none-manylinux2014_x86_64.whl", hash = "sha256:c587da8f521a7ce1b9efb4e3d0117cd63c92dc6cedff24590aeef89372f53012"},
+    {file = "pyinstaller-4.5.1-py3-none-win32.whl", hash = "sha256:fed9f5e4802769a416a8f2ca171c6be961d1861cc05a0b71d20dfe05423137e9"},
+    {file = "pyinstaller-4.5.1-py3-none-win_amd64.whl", hash = "sha256:aae456205c68355f9597411090576bb31b614e53976b4c102d072bbe5db8392a"},
+    {file = "pyinstaller-4.5.1.tar.gz", hash = "sha256:30733baaf8971902286a0ddf77e5499ac5f7bf8e7c39163e83d4f8c696ef265e"},
+]
+pyinstaller-hooks-contrib = [
+    {file = "pyinstaller-hooks-contrib-2021.3.tar.gz", hash = "sha256:169b09802a19f83593114821d6ba0416a05c7071ef0ca394f7bfb7e2c0c916c8"},
+    {file = "pyinstaller_hooks_contrib-2021.3-py2.py3-none-any.whl", hash = "sha256:a52bc3834281266bbf77239cfc9521923336ca622f44f90924546ed6c6d3ad5e"},
+]
+pywin32-ctypes = [
+    {file = "pywin32-ctypes-0.2.0.tar.gz", hash = "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942"},
+    {file = "pywin32_ctypes-0.2.0-py2.py3-none-any.whl", hash = "sha256:9dc2d991b3479cc2df15930958b674a48a227d5361d413827a4cfd0b5876fc98"},
 ]
 pyyaml = [
     {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},

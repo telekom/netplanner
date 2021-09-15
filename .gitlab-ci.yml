@@ -41,6 +41,7 @@ build:
   stage: build
   script:
     - poetry build
+    - python -OO -m PyInstaller netplanner.spec
     # an alternative approach is to install and run:
     - pip install dist/*.whl
     # run the command here
@@ -49,6 +50,7 @@ build:
     paths:
       - dist/*.whl
       - dist/*.tar.gz
+      - dist/*
 
 dist:
   stage: dist
