@@ -13,7 +13,7 @@ image: python:3.8
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   POETRY_VIRTUALENVS_CREATE: "true"
-
+  POETRY_VIRTUALENVS_PATH: "$CI_PROJECT_DIR/.venv"
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
 #
@@ -23,13 +23,12 @@ cache:
   paths:
     - .cache/pip
     - venv/
-    - .venv
+    - .venv/
 
 before_script:
   - python -V  # Print out python version for debugging
   - pip install poetry
   - poetry install
-  - source .venv/bin/activate
 
 run:
   script:
