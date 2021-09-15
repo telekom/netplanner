@@ -59,6 +59,7 @@ class NetworkdTemplater:
             self.config.network.vxlans
             | self.config.network.vrfs
             | self.config.network.bridges
+            | self.config.network.vlans
             | self.config.network.bonds
             | self.config.network.dummies
             | self.config.network.ethernets
@@ -118,6 +119,7 @@ class NetworkdTemplater:
             self.config.network.vxlans
             | self.config.network.vrfs
             | self.config.network.bridges
+            | self.config.network.vlans
             | self.config.network.bonds
             | self.config.network.dummies
         ).items():

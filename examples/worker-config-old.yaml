@@ -1,0 +1,62 @@
+network:
+  bonds:
+    bond-uplink:
+      mtu: 9000
+      interfaces:
+      - ens1f0
+      - ens1f1
+      parameters:
+        mode: active-backup
+        primary: ens1f0
+        mii-monitor-interval: 1000
+  ethernets:
+    ens1f0:
+      mtu: 9100
+      virtual-function-count: 16
+    ens1f1:
+      mtu: 9100
+      virtual-function-count: 16
+    ens2f0:
+      mtu: 9100
+      addresses:
+      - "192.168.66.27/25"
+    ens2f1:
+      mtu: 9100
+      addresses:
+      - "192.168.66.34/25"
+  version: 3
+  renderer: networkd
+  vlans:
+    vlan.2257:
+      addresses:
+      - "10.145.204.75/26"
+      routes:
+        - to: 0.0.0.0/0
+          via: "10.145.204.65"
+      mtu: 1500
+      id: 2257
+      link: bond-uplink
+      nameservers:
+        addresses:
+        - 10.90.24.1
+        - 10.90.24.17
+        search:
+        - sa2.ba.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+    vlan.2300:
+      mtu: 1500
+      id: 2300
+      link: bond-uplink
+    vlan.2301:
+      mtu: 1500
+      id: 2301
+      link: bond-uplink
+    vlan.2304:
+      mtu: 1500
+      id: 2304
+      link: bond-uplink
+    vlan.2305:
+      mtu: 1500
+      id: 2305
+      link: bond-uplink
