@@ -1,0 +1,48 @@
+network:
+  dummies:
+    dummy.underlay:
+      link_local: []
+      vrf: Vrf_underlay
+      addresses:
+        - 192.168.0.45/32
+    dummy.cluster:
+      link_local: []
+      nameservers:
+        addresses:
+        - 10.90.24.1
+        - 10.90.24.17
+        search:
+        - sa2.ba.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+      addresses:
+        - 172.23.166.151/32
+  vxlans:
+    vx.5000:
+      description: "The Root of all hell"
+      parameters:
+        vni: 5000
+        local: 192.168.0.45
+        mac-learning: false
+  bridges:
+    br.cluster:
+      link_local: []
+      parameters:
+        stp: false
+      interfaces:
+        - vx.5000
+  vrfs:
+    Vrf_underlay:
+      link-local: []
+      table: 1
+  ethernets:
+    eno1:
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+    eno2:
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+  renderer: networkd
+  version: 3

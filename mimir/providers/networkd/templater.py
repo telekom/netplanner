@@ -21,12 +21,13 @@ class NetworkdTemplater:
 
     @staticmethod
     def to_systemd_link_local(value: set) -> str:
+        if not value:
+            return "no"
         if "ipv4" in value and "ipv6" in value:
             return "yes"
         elif "ipv4" not in value or "ipv6" not in value:
             return list(value)[0]
-        else:
-            return "no"
+        return "no"
 
     @staticmethod
     def get_file_ending(data: list):

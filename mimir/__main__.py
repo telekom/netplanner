@@ -12,9 +12,20 @@ DEFAULT_CONF_FILE = "/etc/mimir/mimir.yaml"
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
 
 
-def configure(configuration: NetplannerConfig, output: str, local: bool):
-    sriov(configuration)
-    NetworkdTemplater(config=configuration, local=local, path=output).render()
+def configure(
+    configuration: NetplannerConfig,
+    output: str,
+    local: bool,
+    only_sriov: bool,
+    only_networkd: bool,
+):
+    if not only_sriov and not only_networkd:
+        sriov(configuration)
+        NetworkdTemplater(config=configuration, local=local, path=output).render()
+    elif only_sriov:
+        sriov(configuration)
+    elif only_networkd:
+        NetworkdTemplater(config=configuration, local=local, path=output).render()
 
 
 def main():
@@ -35,6 +46,18 @@ def main():
         "--local",
         help="This templates the configuration into a local directory",
         action="store_true",
+    )
+    parser.add_argument(
+        "--only-sriov",
+        help="This templates the configuration into a local directory",
+        action="store_true",
+        dest="only_sriov",
+    )
+    parser.add_argument(
+        "--only-networkd",
+        help="This templates the configuration into a local directory",
+        action="store_true",
+        dest="only_networkd",
     )
     parser.add_argument(
         "--output",
@@ -59,7 +82,13 @@ def main():
         else:
             logging.warn("No configuration file found, skipping configuration")
             return
-        args.func(configuration, args.output, bool(args.local))
+        args.func(
+            configuration,
+            args.output,
+            bool(args.local),
+            only_sriov=bool(args.only_sriov),
+            only_networkd=bool(args.only_networkd),
+        )
     except Exception as e:
         parser.print_help()
         raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))

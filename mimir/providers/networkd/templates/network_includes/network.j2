@@ -5,7 +5,7 @@ Description={{ interface.description }}
 {%- if interface.vrf is defined and interface.vrf != None %}
 VRF={{ interface.vrf }}
 {%- endif %}
-{%- if interface.link_local %}
+{%- if interface.link_local != None %}
 LinkLocalAddressing={{ interface.link_local | to_systemd_link_local }}
 {%- if 'ipv6' in interface.link_local %}
 IPv6LinkLocalAddressGenerationMode=eui64
