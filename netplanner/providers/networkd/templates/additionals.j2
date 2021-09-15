@@ -1,0 +1,18 @@
+# netplanner managed
+{%- for section_options in data %}
+{%- for section, options in section_options.items() %}
+[{{ section }}]
+{%- for opt in options %}
+{%- for key, val in opt.items() %}
+{%- if val is string or val is not iterable %}
+{{ key }}={{ val }}
+{%- else %}
+{% for subval in val %}
+{{ key }}={{ subval }}
+{%- endfor %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+
+{%- endfor %}
+{%- endfor %}

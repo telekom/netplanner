@@ -1,0 +1,28 @@
+# netplanner managed
+[NetDev]
+{%- if interface.description != None and interface.description is defined %}
+Description={{ interface.description }}
+{%- endif %}
+Name={{ interface_name }}
+Kind={{ interface.object_name | lower }}
+{%- if interface.mtu != None %}
+MTUBytes={{ interface.mtu }}
+{%- endif %}
+{%- if interface.macaddress is defined and interface.macaddress != None %}
+MACAddress={{ interface.macaddress }}
+{%- endif %}
+
+{%- if interface.object_name != "Dummy" %}
+[{{ interface.object_name }}]
+{%- if interface.object_name == "Bridge" %}
+{% include "netdev_includes/bridge.j2" %}
+{%- elif interface.object_name == "VLAN" %}
+{% include "netdev_includes/vlan.j2" %}
+{%- elif interface.object_name == "VXLAN" %}
+{% include "netdev_includes/vxlan.j2" %}
+{%- elif interface.object_name == "Bond" %}
+{% include "netdev_includes/bond.j2" %}
+{%- elif interface.object_name == "VRF" %}
+{% include "netdev_includes/vrf.j2" %}
+{%- endif %}
+{%- endif %}

@@ -1,0 +1,15 @@
+[Unit]
+Description=Configure SR-IOV VF functions on boot
+DefaultDependencies=no
+After=systemd-udevd.service
+Before=network-pre.target openvswitch-switch.service mlnx-switchdev-mode.service
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+KillMode=none
+ExecStart=/usr/bin/netplanner-sriov --config /etc/netplanner/interfaces.yaml configure
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target
