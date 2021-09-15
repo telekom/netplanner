@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "netplanner"
 version = "0.1.1"
-description = "\"Mimir the Netplanner is the ground of all network wisdöm\""
+description = "Mimir the Netplanner is the ground of all network wisdöm"
 authors = ["Marcel Fest <marcel.fest@telekom.de>"]
 license = "MIT"
 readme = "README.md"
