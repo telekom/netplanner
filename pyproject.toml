@@ -24,4 +24,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-mimir-sriov = 'mimir.sriov.__main__:main'
+mimir = 'mimir.__main__:main'

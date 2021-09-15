@@ -49,13 +49,13 @@ def main():
     )
     parser.add_argument(
         "--only-sriov",
-        help="This templates the configuration into a local directory",
+        help="This only runs sriov configuration",
         action="store_true",
         dest="only_sriov",
     )
     parser.add_argument(
         "--only-networkd",
-        help="This templates the configuration into a local directory",
+        help="This templates only networkd",
         action="store_true",
         dest="only_networkd",
     )
@@ -65,7 +65,7 @@ def main():
         default=DEFAULT_OUTPUT_PATH,
     )
     show_subparser = subparsers.add_parser(
-        "configure", help="Configure Network Adapters flawlessly"
+        "configure", help="Configure Network Adapters flawlessly with the knowledge of mimir."
     )
     show_subparser.set_defaults(func=configure)
 
