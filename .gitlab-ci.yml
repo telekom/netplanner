@@ -35,6 +35,8 @@ stages:
   - dist
 
 build:
+  tags:
+    - otc_run_docker_k8s
   stage: build
   image: python:3.9
   before_script:
@@ -59,6 +61,8 @@ build:
       - dist/*.tar.gz
 
 upload:
+  tags:
+    - otc_run_docker_k8s
   stage: upload
   image: curlimages/curl:latest
   script:
@@ -68,6 +72,8 @@ upload:
     - tags
 
 dist:
+  tags:
+    - otc_run_docker_k8s
   stage: dist
   image: python:3.9
   before_script:
@@ -85,6 +91,8 @@ dist:
     - tags
     
 release:
+  tags:
+    - otc_run_docker_k8s
   stage: dist
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
