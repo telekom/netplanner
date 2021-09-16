@@ -11,7 +11,9 @@ from netplanner.interfaces.l2.vlan import VLAN
 
 
 class NetworkdTemplater:
-    env: Environment = Environment(loader=PackageLoader("netplanner.providers.networkd"))
+    env: Environment = Environment(
+        loader=PackageLoader("netplanner.providers.networkd")
+    )
     priority: int = 10
     DEFAULT_PATH = "etc/systemd/network"
 

@@ -37,7 +37,7 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument('--version', action='version', version='0.1.6')
+    parser.add_argument("--version", action="version", version="0.1.7")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file",
@@ -66,7 +66,8 @@ def main():
         default=DEFAULT_OUTPUT_PATH,
     )
     show_subparser = subparsers.add_parser(
-        "configure", help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner."
+        "configure",
+        help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
     )
     show_subparser.set_defaults(func=configure)
 
