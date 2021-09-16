@@ -1,5 +1,0 @@
-# Ansible managed
-
-[Match]
-Name=tenant_vrf
-
