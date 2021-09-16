@@ -41,7 +41,7 @@ def sriov(configuration: NetplannerConfig):
             device = devices.get_device_from_interface_name(interface_name)
         if device and device.sriov:
             if interface_config.virtual_function_count > device.sriov_totalvfs:
-                logging.warn(
+                logging.warning(
                     "Requested value for sriov_numfs ({}) too "
                     "high for interface {}. Falling back to "
                     "interface totalvfs "
