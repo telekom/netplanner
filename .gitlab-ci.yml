@@ -34,16 +34,16 @@ stages:
   - upload
   - dist
 
-before_script:
-  - python -V  # Print out python version for debugging
-  - pip install poetry
-  - poetry config virtualenvs.in-project true
-  - poetry install
-  - poetry --version
-  - poetry config repositories.gitlab ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
-  - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 build:
   stage: build
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+    - poetry install
+    - poetry --version
+    - poetry config repositories.gitlab ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+    - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
   script:
     - poetry build
     - poetry run python -OO -m PyInstaller netplanner.spec
@@ -70,6 +70,14 @@ upload:
 
 dist:
   stage: dist
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+    - poetry install
+    - poetry --version
+    - poetry config repositories.gitlab ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+    - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
   script:
     - poetry build
     - poetry publish -r gitlab
