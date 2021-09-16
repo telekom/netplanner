@@ -8,7 +8,7 @@ Wants=network-pre.target
 [Service]
 Type=oneshot
 KillMode=none
-ExecStart=/usr/bin/netplanner-sriov --config /etc/netplanner/interfaces.yaml configure
+ExecStart=/usr/local/sbin/netplanner --only-sriov configure
 TimeoutSec=0
 
 [Install]

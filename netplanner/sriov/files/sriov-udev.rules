@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="net", ATTRS{sriov_totalvfs}=="?*", RUN+="/usr/local/sbin/netplanner --only-sriov configure"
