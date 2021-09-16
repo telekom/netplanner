@@ -16,6 +16,10 @@ variables:
   GITLAB: gitlab.devops.telekom.de
   POETRY_VIRTUALENVS_PATH: "$CI_PROJECT_DIR/.venv"
   key: "${CI_COMMIT_REF_SLUG}"
+  DARWIN_AMD64_BINARY: "netplanner-darwin-amd64-${CI_COMMIT_TAG}"
+  LINUX_AMD64_BINARY: "netplanner-linux-amd64-${CI_COMMIT_TAG}"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/netplanner/${CI_COMMIT_TAG}/"
+
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
 #
@@ -27,6 +31,7 @@ cache:
 
 stages:
   - build
+  - upload
   - dist
 
 before_script:
@@ -35,7 +40,7 @@ before_script:
   - poetry config virtualenvs.in-project true
   - poetry install
   - poetry --version
-  - poetry config repositories.gitlab https://${GITLAB}/api/v4/projects/${CI_PROJECT_ID}/packages/pypi
+  - poetry config repositories.gitlab ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
   - poetry config http-basic.gitlab gitlab-ci-token ${CI_JOB_TOKEN}
 build:
   stage: build
@@ -46,16 +51,43 @@ build:
     - pip install dist/*.whl
     # run the command here
     - netplanner --help
+    - mkdir -p bin/
+    - cp dist/netplanner "bin/${LINUX_AMD64_BINARY}"
   artifacts:
     paths:
+      - bin/*
       - dist/*.whl
       - dist/*.tar.gz
-      - dist/*
+
+upload:
+  stage: upload
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file bin/${LINUX_AMD64_BINARY} ${PACKAGE_REGISTRY_URL}
+  only:
+    - tags
 
 dist:
   stage: dist
   script:
     - poetry build
     - poetry publish -r gitlab
+  only:
+    - tags
+    
+release:
+  stage: dist
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - |
+      echo "Release: $CI_COMMIT_TAG"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: "Release: $CI_COMMIT_TAG"
+    assets:
+      links:
+        - name: "${LINUX_AMD64_BINARY}"
+          url: "${PACKAGE_REGISTRY_URL}${LINUX_AMD64_BINARY}"
   only:
     - tags
