@@ -36,6 +36,7 @@ stages:
 
 build:
   stage: build
+  image: python:3.8
   before_script:
     - python -V  # Print out python version for debugging
     - pip install poetry
@@ -70,6 +71,7 @@ upload:
 
 dist:
   stage: dist
+  image: python:3.8
   before_script:
     - python -V  # Print out python version for debugging
     - pip install poetry
