@@ -90,6 +90,7 @@ class NetworkdTemplater:
                 }
             file_name = f"{priority}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
+                logging.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name,
@@ -106,6 +107,7 @@ class NetworkdTemplater:
         for interface_name, interface_config in self.config.network.ethernets.items():
             file_name = f"{priority}-{interface_name}.link"
             with open(self.path / file_name, "w") as file:
+                logging.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name, interface=interface_config
@@ -125,6 +127,7 @@ class NetworkdTemplater:
         ).items():
             file_name = f"{priority}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
+                logging.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name, interface=interface_config
@@ -136,12 +139,13 @@ class NetworkdTemplater:
         self.render_links()
         self.render_networks()
         template = self.env.get_template("additionals.j2")
-        for filename, data in self.config.network.additionals.items():
-            logging.info(f"Write: {filename}")
-            assert filename.endswith(
+        for file_name, data in self.config.network.additionals.items():
+            logging.info(f"Write: {file_name}")
+            assert file_name.endswith(
                 ("link", "network", "netdev")
             ), "only networkd endings are allowed."
-            with open(self.path / filename, "w") as file:
+            with open(self.path / file_name, "w") as file:
+                logging.info(f"Write: {self.path / file_name}")
                 file.write(template.render(data=data))
 
 
