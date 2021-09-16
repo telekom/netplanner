@@ -45,9 +45,9 @@ class NetworkdTemplater:
             "to_systemd_link_local"
         ] = NetworkdTemplater.to_systemd_link_local
         if path.startswith("/"):
-            path = path.replace("/", "")
+            path = path.replace("/", "", 1)
         elif path.startswith("./"):
-            path = path.replace("./", "")
+            path = path.replace("./", "", 1)
         prefix = "/"
         if local:
             prefix = "./"
