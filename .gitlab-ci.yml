@@ -29,6 +29,7 @@ cache:
 
 stages:
   - build
+  - test
   - upload
   - dist
 
@@ -53,10 +54,27 @@ build:
     - mkdir -p bin/
     - cp dist/netplanner "bin/${LINUX_AMD64_BINARY}"
   artifacts:
+    expire_in: 30 days
     paths:
       - bin/*
       - dist/*.whl
       - dist/*.tar.gz
+
+test:
+  stage: test
+  image: ubuntu:20.04
+  tags:
+    - otc_run_docker_k8s
+  script:
+    - chmod +x bin/${LINUX_AMD64_BINARY}
+    - bin/${LINUX_AMD64_BINARY} --local --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
+    - bin/${LINUX_AMD64_BINARY} --local --config examples/worker-config-new.yaml --output /run/systemd/networkd/worker-new configure
+    - bin/${LINUX_AMD64_BINARY} --local --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
+    - bin/${LINUX_AMD64_BINARY} --local --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - run/systemd/networkd/*
 
 upload:
   tags:
