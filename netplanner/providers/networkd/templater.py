@@ -140,7 +140,6 @@ class NetworkdTemplater:
         self.render_networks()
         template = self.env.get_template("additionals.j2")
         for file_name, data in self.config.network.additionals.items():
-            logging.info(f"Write: {file_name}")
             assert file_name.endswith(
                 ("link", "network", "netdev")
             ), "only networkd endings are allowed."
