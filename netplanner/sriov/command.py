@@ -27,6 +27,8 @@ def sriov(configuration: NetplannerConfig):
 
     for interface_name in configuration.network.ethernets:
         interface_config = configuration.network.ethernets[interface_name]
+        if interface_config.virtual_function_count is None:
+            continue
         devices = pci.PCINetDevices()
         for device in devices.pci_devices:
             device.update_attributes()

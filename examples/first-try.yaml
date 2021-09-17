@@ -1,0 +1,118 @@
+# Greetings to netplanner
+network:
+  version: 3
+  dummies:
+    dum.underlay:
+      link-local: []
+      vrf: Vrf_underlay
+      addresses:
+        - 192.168.2.1/32
+    dum.ip_tmm2mref:
+      link-local: []
+      vrf: Vrf_ip_tmm2mref
+      addresses:
+        - "10.111.64.1/32"
+    dum.cluster:
+      link-local: []
+      nameservers:
+        addresses:
+        - 10.102.102.132
+        - 10.102.102.133
+        - 10.90.24.1
+        - 10.90.24.17
+        search:
+        - refaz.bn.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+      addresses:
+        - "172.22.140.1/32"
+  vxlans:
+    vx.200:
+      link-local: []
+      description: "Vrf_om_refm2m Networking EVPN Type 5"
+      vrf: Vrf_om_refm2m
+      parameters:
+        vni: 200
+        local: "192.168.2.1"
+        mac-learning: false
+    vx.201:
+      link-local: []
+      description: "Vrf_ip_tmm2mref Networking EVPN Type 5"
+      vrf: Vrf_ip_tmm2mref
+      parameters:
+        vni: 200
+        local: "192.168.2.1"
+        mac-learning: false
+    vx.5000:
+      link-local: []
+      description: "Cluster Networking EVPN Type 5"
+      parameters:
+        vni: 5000
+        local: "192.168.2.1"
+        mac-learning: false
+    vx.400:
+      link-local: []
+      description: "Storage Networking EVPN Type 2"
+      parameters:
+        vni: 400
+        local: "192.168.2.1"
+        mac-learning: true
+  bridges:
+    br.om_refm2m:
+      description: "DummyBridge: Vrf_om_refm2m"
+      link-local: []
+      vrf: Vrf_om_refm2m 
+      parameters:
+        stp: false
+      interfaces:
+        - vx.200
+    br.ip_tmm2mref:
+      description: "DummyBridge: Vrf_ip_tmm2mref"
+      link-local: []
+      vrf: Vrf_ip_tmm2mref
+      parameters:
+        stp: false
+      interfaces:
+        - vx.201
+    ##
+    ## Default Bridges for Kubernetes
+    br.storage:
+      description: "DummyBridge: Vrf_Storage"
+      link-local: []
+      addresses:
+      # ipv6 address
+      - "fd03:0:a802:ffff::1/64"
+      # route-map blocks export of storage network.
+      parameters:
+        stp: false
+      interfaces:
+        - vx.400
+    br.cluster:
+      description: "DummyBridge: Vrf_Cluster internal"
+      link-local: []
+      parameters:
+        stp: false
+      interfaces:
+        - vx.5000
+  vrfs:
+    Vrf_underlay:
+      link-local: []
+      table: 2
+    ##
+    ## Additional Vrfs for customer specific traffic
+    Vrf_om_refm2m:
+      link-local: []
+      table: 3
+    Vrf_ip_tmm2mref:
+      link-local: []
+      table: 4
+  ethernets:
+    eno1:
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+    eno2:
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+  renderer: networkd
