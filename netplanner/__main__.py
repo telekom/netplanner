@@ -37,7 +37,7 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument("--version", action="version", version="0.1.8")
+    parser.add_argument("--version", action="version", version="0.1.9")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file",
@@ -82,7 +82,7 @@ def main():
             with open(path, "r") as conf:
                 configuration = NetplannerConfig.from_dict(yaml.safe_load(conf))
         else:
-            logging.warn("No configuration file found, skipping configuration")
+            logging.warning("No configuration file found, skipping configuration")
             return
         args.func(
             configuration,
