@@ -45,6 +45,8 @@ network:
   vxlans:
     vx.5000:
       description: "The connectivity to the Customer Overlay"
+      link: dum.underlay
+      link_local: []
       parameters:
         vni: 5000
         local: 192.168.0.45

@@ -20,6 +20,7 @@ network:
   vxlans:
     vx.5000:
       link-local: []
+      link: dum.underlay
       description: "The Root of all hell"
       parameters:
         vni: 5000
