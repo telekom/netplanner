@@ -1,12 +1,12 @@
 network:
   dummies:
-    dummy.underlay:
+    dum.underlay:
       description: "Loopback IP for Underlay Network"
       link-local: []
       vrf: Vrf_underlay
       addresses:
         - 192.168.0.45/32
-    dummy.cluster:
+    dum.cluster:
       description: "Loopback IP for the K8s Node"
       link-local: []
       nameservers:
