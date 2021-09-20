@@ -4,10 +4,14 @@ from pathlib import Path
 import yaml
 from jinja2 import Environment, PackageLoader
 from netplanner.config import NetplannerConfig
+from netplanner.interfaces.base import Base
 from netplanner.interfaces.l2.bond import Bond
 from netplanner.interfaces.l2.bridge import Bridge
+from netplanner.interfaces.l2.dummy import Dummy
 from netplanner.interfaces.l2.ethernet import Ethernet
 from netplanner.interfaces.l2.vlan import VLAN
+from netplanner.interfaces.l2.vrf import VRF
+from netplanner.interfaces.l2.vxlan import VXLAN
 
 
 class NetworkdTemplater:
@@ -39,6 +43,24 @@ class NetworkdTemplater:
                     return key.lower()
         raise ValueError("Cannot determine file_ending for {item}")
 
+    @staticmethod
+    def get_priority(interface_type: Base) -> int:
+        if isinstance(interface_type, Ethernet):
+            return 10
+        elif isinstance(interface_type, Bond):
+            return 11
+        elif isinstance(interface_type, Dummy):
+            return 11
+        elif isinstance(interface_type, VRF):
+            return 12
+        elif isinstance(interface_type, Bridge):
+            return 13
+        elif isinstance(interface_type, VXLAN):
+            return 14
+        elif isinstance(interface_type, VLAN):
+            return 15
+        return 16
+
     def __init__(self, config: NetplannerConfig, local=True, path: str = DEFAULT_PATH):
         self.config: NetplannerConfig = config
         # Ensures that user provided strings are normalized.
@@ -56,7 +78,6 @@ class NetworkdTemplater:
 
     def render_networks(self):
         template = self.env.get_template("systemd.network.j2")
-        priority: int = 10
         for interface_name, interface_config in (
             self.config.network.vxlans
             | self.config.network.vrfs
@@ -68,17 +89,17 @@ class NetworkdTemplater:
         ).items():
             child_interfaces = {}
             parent_interface = None
-            if isinstance(interface_config, (Bond, Bridge)):
+            if isinstance(interface_config, Bond):
                 child_interfaces = {
-                    child_interface_name: child_interface_config
-                    for interface_name in interface_config.interfaces
-                    for child_interface_name, child_interface_config in self.config.network.lookup(
-                        interface_name
-                    ).items()
-                } | {
                     vlan_name: vlan_config
                     for vlan_name, vlan_config in self.config.network.vlans.items()
                     if interface_name == vlan_config.link
+                }
+            elif isinstance(interface_config, Dummy):
+                child_interfaces = {
+                    vxlan_name: vxlan_config
+                    for vxlan_name, vxlan_config in self.config.network.vxlans.items()
+                    if interface_name == vxlan_config.link
                 }
             elif (
                 isinstance(interface_config, VLAN) and interface_config.link is not None
@@ -86,11 +107,17 @@ class NetworkdTemplater:
                 parent_interface = self.config.network.lookup(interface_config.link)
             elif isinstance(interface_config, Ethernet):
                 parent_interface = {
-                    bond_name: bond_config
-                    for bond_name, bond_config in self.config.network.bonds.items()
-                    if interface_name in bond_config.interfaces
+                    name: config
+                    for name, config in self.config.network.bonds.items()
+                    if interface_name in config.interfaces
                 }
-            file_name = f"{priority}-{interface_name}.network"
+            elif isinstance(interface_config, VXLAN):
+                parent_interface = {
+                    name: config
+                    for name, config in self.config.network.bridges.items()
+                    if interface_name in config.interfaces
+                }
+            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
@@ -103,11 +130,9 @@ class NetworkdTemplater:
                 )
 
     def render_links(self):
-        priority: int = 10
         template = self.env.get_template("systemd.link.j2")
-
         for interface_name, interface_config in self.config.network.ethernets.items():
-            file_name = f"{priority}-{interface_name}.link"
+            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.link"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
@@ -117,7 +142,6 @@ class NetworkdTemplater:
                 )
 
     def render_netdevs(self):
-        priority: int = 10
         template = self.env.get_template("systemd.netdev.j2")
         for interface_name, interface_config in (
             self.config.network.vxlans
@@ -127,7 +151,7 @@ class NetworkdTemplater:
             | self.config.network.bonds
             | self.config.network.dummies
         ).items():
-            file_name = f"{priority}-{interface_name}.netdev"
+            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(

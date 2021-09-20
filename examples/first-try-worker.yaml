@@ -4,15 +4,18 @@ network:
   dummies:
     dum.underlay:
       link-local: []
+      mtu: 9100
       vrf: Vrf_underlay
       addresses:
-        - 192.168.2.1/32
+        - "192.168.2.2/32" # wrong: {{ ds.meta_data.lan_prefix_0 }}
     dum.ip_tmm2mref:
       link-local: []
+      mtu: 9000
       vrf: Vrf_ip_tmm2mref
       addresses:
         - "10.111.64.1/32"
     dum.cluster:
+      mtu: 9000
       link-local: []
       nameservers:
         addresses:
@@ -25,40 +28,50 @@ network:
         - schiff.telekom.de
         - das-schiff.telekom.de
       addresses:
-        - "172.22.140.1/32"
+        - 172.22.140.1/32 # wrong: {{ ds.meta_data.cluster_prefix_0 }}
+        - 172.22.140.0/32
   vxlans:
     vx.200:
+      mtu: 1500
       link-local: []
       description: "Vrf_om_refm2m Networking EVPN Type 5"
+      link: dum.underlay
       vrf: Vrf_om_refm2m
       parameters:
         vni: 200
-        local: "192.168.2.1"
+        local: "192.168.2.2/32"
         mac-learning: false
     vx.201:
+      mtu: 1500
       link-local: []
       description: "Vrf_ip_tmm2mref Networking EVPN Type 5"
+      link: dum.underlay
       vrf: Vrf_ip_tmm2mref
       parameters:
         vni: 200
-        local: "192.168.2.1"
+        local: "192.168.2.2/32"
         mac-learning: false
     vx.5000:
+      mtu: 9000
       link-local: []
+      link: dum.underlay
       description: "Cluster Networking EVPN Type 5"
       parameters:
         vni: 5000
-        local: "192.168.2.1"
+        local: "192.168.2.2/32"
         mac-learning: false
     vx.400:
+      mtu: 9000
+      link: dum.underlay
       link-local: []
       description: "Storage Networking EVPN Type 2"
       parameters:
         vni: 400
-        local: "192.168.2.1"
+        local: "192.168.2.2/32"
         mac-learning: true
   bridges:
     br.om_refm2m:
+      mtu: 9000
       description: "DummyBridge: Vrf_om_refm2m"
       link-local: []
       vrf: Vrf_om_refm2m 
@@ -67,6 +80,7 @@ network:
       interfaces:
         - vx.200
     br.ip_tmm2mref:
+      mtu: 9000
       description: "DummyBridge: Vrf_ip_tmm2mref"
       link-local: []
       vrf: Vrf_ip_tmm2mref
@@ -77,6 +91,7 @@ network:
     ##
     ## Default Bridges for Kubernetes
     br.storage:
+      mtu: 9000
       description: "DummyBridge: Vrf_Storage"
       link-local: []
       addresses:
@@ -88,6 +103,7 @@ network:
       interfaces:
         - vx.400
     br.cluster:
+      mtu: 9000
       description: "DummyBridge: Vrf_Cluster internal"
       link-local: []
       parameters:
@@ -108,10 +124,12 @@ network:
       table: 4
   ethernets:
     eno1:
+      mtu: 9100
       link-local: [ipv6]
       emit-lldp: true
       vrf: Vrf_underlay
     eno2:
+      mtu: 9100
       link-local: [ipv6]
       emit-lldp: true
       vrf: Vrf_underlay

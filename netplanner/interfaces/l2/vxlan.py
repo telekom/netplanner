@@ -63,7 +63,7 @@ class VXLAN(Base):
     parameters: VXLANParameters
     nameservers: Optional[NameServers]
     mtu: Optional[MTU]
-    # link: Optional[InterfaceName]
+    link: InterfaceName
     link_local: Optional[Set[LinkLocalAdressing]]
     macaddress: Optional[MacAddress]
     vrf: Optional[InterfaceName]

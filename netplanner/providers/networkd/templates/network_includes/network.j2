@@ -26,7 +26,7 @@ PrimarySlave={{ (True if parent_interface_config.parameters.primary == interface
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-{%- if interface.object_name not in ['Bond', 'Bridge'] and parent_interface is defined and parent_interface != None %}
+{%- if interface.object_name not in ['Bond', 'Dummy'] and parent_interface is defined and parent_interface != None %}
 {%- for parent_interface_name, parent_interface in parent_interface.items() %}
 {{ parent_interface.object_name }}={{ parent_interface_name }}
 {%- if parent_interface.object_name == 'Bond' %}
@@ -34,7 +34,7 @@ ConfigureWithoutCarrier=yes
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-{%- if interface.object_name in ['Bond', 'Bridge'] and child_interfaces is defined %}
+{%- if interface.object_name in ['Bond', 'Dummy'] and child_interfaces is defined %}
 {%- if interface.object_name == 'Bond' %}
 ConfigureWithoutCarrier=yes
 {%- endif %}

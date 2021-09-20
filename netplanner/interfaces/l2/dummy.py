@@ -21,7 +21,6 @@ class Dummy(Base):
     optional: Optional[bool]
     nameservers: Optional[NameServers]
     match: Optional[MatchObject]
-    link: Optional[InterfaceName]
     mtu: Optional[MTU]
     link_local: Optional[Set[LinkLocalAdressing]]
     vrf: Optional[InterfaceName]

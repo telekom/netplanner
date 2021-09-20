@@ -1,0 +1,86 @@
+# Greetings to netplanner
+network:
+  version: 3
+  dummies:
+    dum.underlay:
+      link-local: []
+      mtu: 9100
+      vrf: Vrf_underlay
+      addresses:
+        - "192.168.2.1/32" # wrong: {{ ds.meta_data.lan_prefix_0 }}
+    dum.cluster:
+      mtu: 9000
+      link-local: []
+      nameservers:
+        addresses:
+        - 10.102.102.132
+        - 10.102.102.133
+        - 10.90.24.1
+        - 10.90.24.17
+        search:
+        - refaz.bn.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+      addresses:
+        - 172.22.140.1/32 # wrong: {{ ds.meta_data.cluster_prefix_0 }}
+        - 172.22.140.0/32
+  vxlans:
+    vx.200:
+      mtu: 1500
+      link: dum.underlay
+      link-local: []
+      description: "Vrf_om_refm2m Networking EVPN Type 5"
+      parameters:
+        vni: 200
+        local: "192.168.2.1"
+        mac-learning: false
+    vx.5000:
+      mtu: 9000
+      link-local: []
+      link: dum.underlay
+      description: "Cluster Networking EVPN Type 5"
+      parameters:
+        vni: 5000
+        local: "192.168.2.1"
+        mac-learning: false
+  bridges:
+    br.om_refm2m:
+      mtu: 1500
+      description: "DummyBridge: Vrf_om_refm2m"
+      link-local: []
+      vrf: Vrf_om_refm2m 
+      parameters:
+        stp: false
+      interfaces:
+        - vx.200
+    ##
+    ## Default Bridges for Kubernetes
+    br.cluster:
+      mtu: 9000
+      description: "DummyBridge: Vrf_Cluster internal"
+      link-local: []
+      parameters:
+        stp: false
+      interfaces:
+        - vx.5000
+  vrfs:
+    Vrf_underlay:
+      link-local: []
+      table: 2
+    ##
+    ## Additional Vrfs for customer specific traffic
+    Vrf_om_refm2m:
+      link-local: []
+      table: 3
+  ethernets:
+    eno1:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+    eno2:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+  renderer: networkd

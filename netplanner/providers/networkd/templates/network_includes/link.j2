@@ -1,6 +1,6 @@
 {%- if interface.mtu is defined and interface.mtu != None or interface.macaddress is defined and interface.macaddress != None %}
 [Link]
-{%- if interface.mtu != None %}
+{%- if interface.mtu != None and interface.object_name != 'VXLAN' %}
 MTUBytes={{ interface.mtu }}
 {%- endif %}
 {%- if interface.macaddress != None %}
