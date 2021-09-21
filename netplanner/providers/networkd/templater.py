@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
+from subprocess import PIPE, run
 
-import yaml
 from jinja2 import Environment, PackageLoader
 from netplanner.config import NetplannerConfig
 from netplanner.interfaces.base import Base
@@ -20,6 +20,48 @@ class NetworkdTemplater:
     )
     priority: int = 10
     DEFAULT_PATH = "etc/systemd/network"
+
+    @staticmethod
+    def run_command(command: list[str]) -> None:
+        process = run(
+            command,
+            check=True,
+            stdout=PIPE,
+            stderr=PIPE,
+            universal_newlines=True,
+            encoding="utf-8",
+        )
+        if process.stdout:
+            logging.info(process.stdout)
+        if process.stderr:
+            logging.error(process.stderr)
+
+    @staticmethod
+    def networkd(restart: bool = True, status: bool = True):
+        command = ["/usr/bin/env", "systemctl"]
+        if restart:
+            command.append("restart")
+        elif status:
+            command.append("status")
+        else:
+            command.append("show")
+        command.append("systemd-networkd")
+        NetworkdTemplater.run_command(command)
+
+    @staticmethod
+    def networkctl(reload: bool = True, status: bool = False, all: bool = True):
+        command = ["/usr/bin/env", "networkctl"]
+        if reload:
+            command.append("reload")
+        elif status:
+            command.append("status")
+        else:
+            raise NotImplementedError(
+                f"(reload:={reload} and status:={status}) == False is not implemented"
+            )
+        if all:
+            command.append("--all")
+        NetworkdTemplater.run_command(command)
 
     @staticmethod
     def to_systemd_bool(value: bool) -> str:
@@ -175,6 +217,8 @@ class NetworkdTemplater:
 
 
 if __name__ == "__main__":
+    import yaml
+
     with open("examples/worker-config.yaml") as file:
         worker_config = yaml.safe_load(file)
     config = NetplannerConfig.from_dict(worker_config)

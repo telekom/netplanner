@@ -34,6 +34,25 @@ class BondMode(Enum):
     LACP = "802.3ad"
 
 
+class BondADSelect(Enum):
+    STABLE = "stable"
+    BANDWITH = "bandwidth"
+    COUNT = "count"
+
+
+class BondTransmitHashPolicy(Enum):
+    LAYER2 = "layer2"
+    LAYER23 = "layer2+3"
+    LAYER34 = "layer3+4"
+    ENCAP23 = "encap2+3"
+    ENCAP34 = "encap3+4"
+
+
+class BondLACPRate(Enum):
+    SLOW = "slow"
+    FAST = "fast"
+
+
 class MTU(int):
     def __new__(cls, value: int):
         if not (1280 <= value <= 9166):

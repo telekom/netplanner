@@ -7,10 +7,13 @@ from netplanner.interfaces.l3.route import Route
 from netplanner.interfaces.l3.routing_policy import RoutingPolicy
 from netplanner.interfaces.typing import (
     MTU,
+    BondADSelect,
+    BondLACPRate,
+    BondMode,
+    BondTransmitHashPolicy,
     InterfaceName,
     LinkLocalAdressing,
     PositiveInt,
-    BondMode,
 )
 
 
@@ -18,6 +21,9 @@ from netplanner.interfaces.typing import (
 class BondParameters(Base):
     mode: BondMode
     primary: Optional[InterfaceName]
+    transmit_hash_policy: Optional[BondTransmitHashPolicy]
+    ad_select: Optional[BondADSelect]
+    lacp_rate: BondLACPRate = BondLACPRate.FAST
     mii_monitor_interval: PositiveInt = PositiveInt(100)
 
 

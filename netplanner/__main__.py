@@ -19,13 +19,18 @@ def configure(
     only_sriov: bool,
     only_networkd: bool,
 ):
+    templater = NetworkdTemplater(config=configuration, local=local, path=output)
     if not only_sriov and not only_networkd:
         sriov(configuration)
-        NetworkdTemplater(config=configuration, local=local, path=output).render()
+        templater.render()
+        templater.networkd(restart=True)
+        templater.networkctl(reload=True)
     elif only_sriov:
         sriov(configuration)
     elif only_networkd:
-        NetworkdTemplater(config=configuration, local=local, path=output).render()
+        templater.render()
+        templater.networkd(restart=True)
+        templater.networkctl(reload=True)
 
 
 def main():
@@ -37,7 +42,7 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument("--version", action="version", version="0.2.0")
+    parser.add_argument("--version", action="version", version="0.2.1")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file",
