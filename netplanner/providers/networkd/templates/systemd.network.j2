@@ -21,6 +21,8 @@ Name={{ interface_name }}
 {% include 'network_includes/network.j2' %}
 {%- include 'network_includes/nameserver.j2' %}
 
-{#- include 'network_includes/link.j2' -#}
+{%- if interface.object_name == 'Ethernet' %}
+{%- include 'network_includes/link.j2' %}
+{%- endif %}
 {%- include 'network_includes/route.j2' %}
 {%- include 'network_includes/route_policy.j2' %}
