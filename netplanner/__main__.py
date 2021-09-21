@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 
 from netplanner.config import NetplannerConfig
-from netplanner.providers.networkd.templater import NetworkdTemplater
+from netplanner.providers.networkd.provider import NetworkdProvider
 from netplanner.sriov.command import sriov
 
 DEFAULT_CONF_FILE = "/etc/netplanner/netplanner.yaml"
@@ -19,18 +19,18 @@ def configure(
     only_sriov: bool,
     only_networkd: bool,
 ):
-    templater = NetworkdTemplater(config=configuration, local=local, path=output)
+    provider = NetworkdProvider(config=configuration, local=local, path=output)
     if not only_sriov and not only_networkd:
         sriov(configuration)
-        templater.render()
-        templater.networkd(restart=True)
-        templater.networkctl(reload=True)
+        provider.render()
+        provider.networkd(restart=True)
+        provider.networkctl(reload=True)
     elif only_sriov:
         sriov(configuration)
     elif only_networkd:
-        templater.render()
-        templater.networkd(restart=True)
-        templater.networkctl(reload=True)
+        provider.render()
+        provider.networkd(restart=True)
+        provider.networkctl(reload=True)
 
 
 def main():

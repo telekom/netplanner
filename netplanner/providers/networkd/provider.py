@@ -14,7 +14,7 @@ from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
 
 
-class NetworkdTemplater:
+class NetworkdProvider:
     env: Environment = Environment(
         loader=PackageLoader("netplanner.providers.networkd")
     )
@@ -46,7 +46,7 @@ class NetworkdTemplater:
         else:
             command.append("show")
         command.append("systemd-networkd")
-        NetworkdTemplater.run_command(command)
+        NetworkdProvider.run_command(command)
 
     @staticmethod
     def networkctl(reload: bool = True, status: bool = False, all: bool = True):
@@ -61,7 +61,7 @@ class NetworkdTemplater:
             )
         if all:
             command.append("--all")
-        NetworkdTemplater.run_command(command)
+        NetworkdProvider.run_command(command)
 
     @staticmethod
     def to_systemd_bool(value: bool) -> str:
@@ -106,10 +106,10 @@ class NetworkdTemplater:
     def __init__(self, config: NetplannerConfig, local=True, path: str = DEFAULT_PATH):
         self.config: NetplannerConfig = config
         # Ensures that user provided strings are normalized.
-        self.env.filters["to_systemd_bool"] = NetworkdTemplater.to_systemd_bool
+        self.env.filters["to_systemd_bool"] = NetworkdProvider.to_systemd_bool
         self.env.filters[
             "to_systemd_link_local"
-        ] = NetworkdTemplater.to_systemd_link_local
+        ] = NetworkdProvider.to_systemd_link_local
         path = path.removeprefix("/")
         path = path.removeprefix("./")
         prefix = "/"
@@ -159,7 +159,7 @@ class NetworkdTemplater:
                     for name, config in self.config.network.bridges.items()
                     if interface_name in config.interfaces
                 }
-            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.network"
+            file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
@@ -174,7 +174,7 @@ class NetworkdTemplater:
     def render_links(self):
         template = self.env.get_template("systemd.link.j2")
         for interface_name, interface_config in self.config.network.ethernets.items():
-            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.link"
+            file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.link"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
@@ -193,7 +193,7 @@ class NetworkdTemplater:
             | self.config.network.bonds
             | self.config.network.dummies
         ).items():
-            file_name = f"{NetworkdTemplater.get_priority(interface_config)}-{interface_name}.netdev"
+            file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
@@ -222,4 +222,4 @@ if __name__ == "__main__":
     with open("examples/worker-config.yaml") as file:
         worker_config = yaml.safe_load(file)
     config = NetplannerConfig.from_dict(worker_config)
-    NetworkdTemplater(config=config).render()
+    NetworkdProvider(config=config).render()
