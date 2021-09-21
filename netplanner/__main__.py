@@ -46,7 +46,7 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument("--version", action="version", version="0.3.2")
+    parser.add_argument("--version", action="version", version="0.4.0")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file",
@@ -64,9 +64,9 @@ def main():
         dest="only_sriov",
     )
     parser.add_argument(
-        "--no-reload",
+        "--reload",
         help="This blocks the reload of networkd and networkctl",
-        action="store_false",
+        action="store_true",
         dest="reload",
     )
     parser.add_argument(
