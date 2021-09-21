@@ -65,7 +65,7 @@ def main():
     )
     parser.add_argument(
         "--reload",
-        help="This blocks the reload of networkd and networkctl",
+        help="This reloads networkd and networkctl",
         action="store_true",
         dest="reload",
     )
