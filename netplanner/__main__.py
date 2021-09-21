@@ -1,5 +1,6 @@
 import argparse
 import logging
+from netplanner.interfaces.typing import BondLACPRate
 from pathlib import Path
 
 import yaml
@@ -16,6 +17,7 @@ def configure(
     configuration: NetplannerConfig,
     output: str,
     local: bool,
+    reload: bool,
     only_sriov: bool,
     only_networkd: bool,
 ):
@@ -23,14 +25,16 @@ def configure(
     if not only_sriov and not only_networkd:
         sriov(configuration)
         provider.render()
-        provider.networkd(restart=True)
-        provider.networkctl(reload=True)
+        if reload:
+            provider.networkd(restart=True)
+            provider.networkctl(reload=True)
     elif only_sriov:
         sriov(configuration)
     elif only_networkd:
         provider.render()
-        provider.networkd(restart=True)
-        provider.networkctl(reload=True)
+        if reload:
+            provider.networkd(restart=True)
+            provider.networkctl(reload=True)
 
 
 def main():
@@ -58,6 +62,12 @@ def main():
         help="This only runs sriov configuration",
         action="store_true",
         dest="only_sriov",
+    )
+    parser.add_argument(
+        "--no-reload",
+        help="This blocks the reload of networkd and networkctl",
+        action="store_false",
+        dest="reload",
     )
     parser.add_argument(
         "--only-networkd",
@@ -93,6 +103,7 @@ def main():
             configuration,
             args.output,
             bool(args.local),
+            reload=bool(args.reload),
             only_sriov=bool(args.only_sriov),
             only_networkd=bool(args.only_networkd),
         )
