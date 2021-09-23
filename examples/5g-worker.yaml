@@ -1,0 +1,123 @@
+# Greetings to netplanner
+network:
+  version: 3
+  dummies:
+    dum.underlay:
+      link-local: []
+      mtu: 9100
+      vrf: Vrf_underlay
+      addresses:
+        - '192.168.2.1/32' # wrong: {{ ds.meta_data.lan_prefix_0 }}
+    dum.cluster:
+      mtu: 9000
+      link-local: []
+  vxlans:
+    vx.400:
+      mtu: 9000
+      link-local: []
+      link: dum.underlay
+      description: "Storage Networking EVPN Type 2"
+      parameters:
+        vni: 400
+        local: "192.168.2.1"
+        mac-learning: true
+    vx.5100:
+      mtu: 9000
+      link-local: []
+      link: dum.underlay
+      description: "Cluster Networking EVPN Type 5"
+      parameters:
+        vni: 5100
+        local: "192.168.2.1"
+        mac-learning: false
+  vlans:
+    vlan.2300:
+      link-local: []
+      mtu: 1500
+      id: 2300
+      link: sriovbond
+    vlan.2301:
+      link-local: []
+      mtu: 1500
+      id: 2301
+      link: sriovbond
+    vlan.2304:
+      link-local: []
+      mtu: 1500
+      id: 2304
+      link: sriovbond
+    vlan.2305:
+      link-local: []
+      mtu: 1500
+      id: 2305
+      link: sriovbond
+  bridges:
+    ##
+    ## Default Bridges for Kubernetes
+    br.storage:
+      mtu: 9000
+      description: "DummyBridge: Vrf_Storage"
+      link-local: []
+      addresses:
+      # ipv6 address
+      - "192.168.66.1/24"
+      # route-map blocks export of storage network.
+      parameters:
+        stp: false
+      interfaces:
+        - vx.400
+    br.cluster:
+      mtu: 9000
+      description: "DummyBridge: Vrf_Cluster internal"
+      link-local: []
+      nameservers:
+        addresses:
+        - 10.102.102.132
+        - 10.102.102.133
+        - 10.90.24.1
+        search:
+        - refaz.bn.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+      addresses:
+        - '172.22.140.1/32' # wrong: {{ ds.meta_data.cluster_prefix_0 }}
+      parameters:
+        stp: false
+      interfaces:
+        - vx.5100
+  vrfs:
+    Vrf_underlay:
+      link-local: []
+      table: 2
+  bonds:
+    sriovbond:
+      interfaces:
+      - ens2f0
+      - ens2f1
+      mtu: 9000
+      parameters:
+        mode: active-backup
+        primary: ens2f0
+        mii-monitor-interval: 100
+  ethernets:
+    ens1f0:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+    ens1f1:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      vrf: Vrf_underlay
+    ens2f0:
+      mtu: 9000
+      link-local: []
+      emit-lldp: true
+      virtual-function-count: 16
+    ens2f1:
+      mtu: 9000
+      link-local: []
+      emit-lldp: true
+      virtual-function-count: 16
+  renderer: networkd
