@@ -48,18 +48,18 @@ def sriov(configuration: NetplannerConfig):
                     "high for interface {}. Falling back to "
                     "interface totalvfs "
                     "value: {}".format(
-                        interface_config.num_vfs,
+                        interface_config.virtual_function_count,
                         device.interface_name,
                         device.sriov_totalvfs,
                     )
                 )
-                interface_config.num_vfs = device.sriov_totalvfs
+                interface_config.virtual_function_count = device.sriov_totalvfs
 
             logging.info(
                 "Configuring SR-IOV device {} with {} "
                 "VF's".format(
                     device.interface_name,
-                    interface_config.num_vfs,
+                    interface_config.virtual_function_count,
                 )
             )
-            device.set_sriov_numvfs(interface_config.num_vfs)
+            device.set_sriov_numvfs(interface_config.virtual_function_count)
