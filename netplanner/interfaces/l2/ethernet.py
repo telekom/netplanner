@@ -27,6 +27,7 @@ class Ethernet(Base):
     mtu: Optional[MTU]
     virtual_function_count: Optional[VirtualFunctionCount]
     link_local: Optional[Set[LinkLocalAdressing]]
+    hairpin: Optional[bool]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)

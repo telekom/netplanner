@@ -25,6 +25,7 @@ network:
       mtu: 9000
       link-local: []
       link: dum.underlay
+      hairpin: true
       description: "Cluster Networking EVPN Type 5"
       parameters:
         vni: 5100

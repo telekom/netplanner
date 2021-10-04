@@ -67,6 +67,7 @@ class VXLAN(Base):
     link_local: Optional[Set[LinkLocalAdressing]]
     macaddress: Optional[MacAddress]
     vrf: Optional[InterfaceName]
+    hairpin: Optional[bool]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
 

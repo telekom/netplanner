@@ -33,6 +33,7 @@ class Bond(Base):
     vrf: Optional[InterfaceName]
     nameservers: Optional[NameServers]
     mtu: Optional[MTU]
+    hairpin: Optional[bool]
     link_local: Optional[Set[LinkLocalAdressing]]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: List[str] = field(default_factory=list)

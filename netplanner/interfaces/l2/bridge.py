@@ -51,6 +51,7 @@ class Bridge(Base):
     mtu: Optional[MTU]
     macaddress: Optional[MacAddress]
     link_local: Optional[Set[LinkLocalAdressing]]
+    hairpin: Optional[bool]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
