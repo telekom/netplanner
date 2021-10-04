@@ -19,10 +19,10 @@ from netplanner.interfaces.typing import (
 @dataclass
 class VLANParameters(Base):
     protocol: Optional[VLANType]
-    gvrp: Optional[bool] = None
-    mvrp: Optional[bool] = None
-    loose_binding: Optional[bool] = None
-    reorder_header: Optional[bool] = None
+    gvrp: Optional[bool]
+    mvrp: Optional[bool]
+    loose_binding: Optional[bool]
+    reorder_header: Optional[bool]
 
 
 @dataclass
