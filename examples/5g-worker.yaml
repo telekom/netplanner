@@ -25,12 +25,12 @@ network:
       mtu: 9000
       link-local: []
       link: dum.underlay
-      hairpin: true
       description: "Cluster Networking EVPN Type 5"
       parameters:
         vni: 5100
         local: "192.168.2.1"
         mac-learning: false
+        hairpin: true
   vlans:
     vlan.2300:
       link-local: []

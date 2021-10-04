@@ -159,6 +159,10 @@ class NetworkdProvider:
                     for name, config in self.config.network.bridges.items()
                     if interface_name in config.interfaces
                 }
+
+            if parent_interface is not None and len(parent_interface) > 1:
+                raise ValueError("Cannot have more than one parent interface for {interface_name}")
+
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")

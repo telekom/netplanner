@@ -1,4 +1,4 @@
 [Bridge]
-{%- if interface.hairpin is defined and interface.hairpin != None %}
-HairPin={{ interface.hairpin | to_systemd_bool }}
+{%- if interface.parameters.hairpin is defined and interface.parameters.hairpin != None %}
+HairPin={{ interface.parameters.hairpin | to_systemd_bool }}
 {%- endif %}

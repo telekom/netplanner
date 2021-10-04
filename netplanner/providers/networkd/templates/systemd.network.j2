@@ -21,8 +21,12 @@ Name={{ interface_name }}
 {% include 'network_includes/network.j2' %}
 {%- include 'network_includes/nameserver.j2' %}
 
-{%- if parent_interface != None and parent_interface %}
-{%- include 'network_includes/bridge_port.j2' %}
+{%- if interface.object_name not in ['Bond', 'Dummy'] and parent_interface is defined and parent_interface != None %}
+{%- for parent_interface_name, parent_interface in parent_interface.items() %}
+{%- if parent_interface.object_name == 'Bridge' %}
+{% include 'network_includes/bridge_port.j2' %}
+{%- endif %}
+{%- endfor %}
 {%- endif %}
 
 {%- if interface.object_name == 'Ethernet' %}

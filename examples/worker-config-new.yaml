@@ -47,11 +47,11 @@ network:
       description: "The connectivity to the Customer Overlay"
       link: dum.underlay
       link_local: []
-      hairpin: true
       parameters:
         vni: 5000
         local: 192.168.0.45
         mac-learning: false
+        hairpin: true
   bridges:
     br.cluster:
       description: "This handles All Networks of the Cluster"

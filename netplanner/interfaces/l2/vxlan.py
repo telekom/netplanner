@@ -36,6 +36,7 @@ class VXLANParameters(Base):
     remote_checksum_rx: Optional[bool]
     flow_label: Optional[PositiveInt]
     ip_do_not_fragment: Optional[bool]
+    hairpin: Optional[bool]
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
@@ -67,7 +68,6 @@ class VXLAN(Base):
     link_local: Optional[Set[LinkLocalAdressing]]
     macaddress: Optional[MacAddress]
     vrf: Optional[InterfaceName]
-    hairpin: Optional[bool]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
 
