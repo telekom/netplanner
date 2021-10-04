@@ -83,7 +83,7 @@ class NetworkdProvider:
             for key in item.keys():
                 if key.lower() in ["netdev", "network", "link"]:
                     return key.lower()
-        raise ValueError("Cannot determine file_ending for {item}")
+        raise ValueError(f"Cannot determine file_ending for {data}")
 
     @staticmethod
     def get_priority(interface_type: Base) -> int:
@@ -161,7 +161,7 @@ class NetworkdProvider:
                 }
 
             if parent_interface is not None and len(parent_interface) > 1:
-                raise ValueError("Cannot have more than one parent interface for {interface_name}")
+                raise ValueError(f"Cannot have more than one parent interface for {interface_name}")
 
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
