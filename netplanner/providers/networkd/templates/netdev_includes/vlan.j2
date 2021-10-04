@@ -1,16 +1,16 @@
 Id={{ interface.id }}
-{%- if interface.parameters.protocol %}
+{%- if interface.parameters.protocol is defined and interface.parameters.protocol != None %}
 Protocol={{ interface.parameters.protocol }}
 {%- endif %}
-{%- if interface.parameters.gvrp and interface.parameters.gvrp != None %}
+{%- if interface.parameters.gvrp is defined and interface.parameters.gvrp != None %}
 GVRP={{ interface.parameters.gvrp | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.mvrp and interface.parameters.mvrp != None %}
+{%- if interface.parameters.mvrp is defined and interface.parameters.mvrp != None %}
 MVRP={{ interface.parameters.mvrp | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.loose_binding and interface.parameters.loose_binding != None %}
+{%- if interface.parameters.loose_binding is defined and interface.parameters.loose_binding != None %}
 LooseBinding={{ interface.parameters.loose_binding | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.reorder_header and interface.parameters.reorder_header != None %}
+{%- if interface.parameters.reorder_header is defined and interface.parameters.reorder_header != None %}
 ReorderHeader={{ interface.parameters.reorder_header | to_systemd_bool }}
 {%- endif -%}
