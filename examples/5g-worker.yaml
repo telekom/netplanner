@@ -30,6 +30,7 @@ network:
         vni: 5100
         local: "192.168.2.1"
         mac-learning: false
+        hairpin: true
   vlans:
     vlan.2300:
       link-local: []

@@ -36,6 +36,7 @@ class VXLANParameters(Base):
     remote_checksum_rx: Optional[bool]
     flow_label: Optional[PositiveInt]
     ip_do_not_fragment: Optional[bool]
+    hairpin: Optional[bool]
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
