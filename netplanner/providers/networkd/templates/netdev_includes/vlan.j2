@@ -2,15 +2,15 @@ Id={{ interface.id }}
 {%- if interface.parameters.protocol %}
 Protocol={{ interface.parameters.protocol }}
 {%- endif %}
-{%- if interface.parameters.gvrp %}
+{%- if interface.parameters.gvrp and interface.parameters.gvrp != None %}
 GVRP={{ interface.parameters.gvrp | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.mvrp %}
+{%- if interface.parameters.mvrp and interface.parameters.mvrp != None %}
 MVRP={{ interface.parameters.mvrp | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.loose_binding %}
+{%- if interface.parameters.loose_binding and interface.parameters.loose_binding != None %}
 LooseBinding={{ interface.parameters.loose_binding | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.reorder_header %}
+{%- if interface.parameters.reorder_header and interface.parameters.reorder_header != None %}
 ReorderHeader={{ interface.parameters.reorder_header | to_systemd_bool }}
 {%- endif -%}
