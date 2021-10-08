@@ -14,8 +14,8 @@ IPv6LinkLocalAddressGenerationMode=eui64
 {%- if interface.emit_lldp != None %}
 EmitLLDP={{ interface.emit_lldp | to_systemd_bool }}
 {%- endif %}
-{%- if interface.ipv6_accept_ra != None %}
-IPv6AcceptRA={{ interface.ipv6_accept_ra | to_systemd_bool }}
+{%- if interface.accept_ra != None %}
+IPv6AcceptRA={{ interface.accept_ra | to_systemd_bool }}
 {%- endif %}
 {%- if interface.addresses %}
 {%- for address in interface.addresses %}

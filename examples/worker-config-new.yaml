@@ -22,12 +22,12 @@ network:
   ethernets:  
     ens1f0:
       emit-lldp: true
-      ipv6-accept-ra: false
+      accept-ra: false
       vrf: Vrf_underlay
       virtual-function-count: 16
     ens1f1:
       emit-lldp: true
-      ipv6-accept-ra: false
+      accept-ra: false
       vrf: Vrf_underlay
       virtual-function-count: 16
     ens2f0:
