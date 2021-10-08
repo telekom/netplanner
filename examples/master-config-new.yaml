@@ -42,10 +42,12 @@ network:
     eno1:
       link-local: [ipv6]
       emit-lldp: true
+      accept-ra: false
       vrf: Vrf_underlay
     eno2:
       link-local: [ipv6]
       emit-lldp: true
+      accept-ra: false
       vrf: Vrf_underlay
   renderer: networkd
   version: 3
