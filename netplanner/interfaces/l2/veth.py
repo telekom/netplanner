@@ -8,6 +8,7 @@ from netplanner.interfaces.typing import (
     MTU,
     InterfaceName,
     IPInterfaceAddresses,
+    MacAddress,
     LinkLocalAdressing
 )
 
@@ -15,6 +16,7 @@ from netplanner.interfaces.typing import (
 class Veth(Base):
     link: InterfaceName
     optional: Optional[bool]
+    macaddress: Optional[MacAddress]
     mtu: Optional[MTU]
     link_local: Optional[Set[LinkLocalAdressing]]
     vrf: Optional[InterfaceName]

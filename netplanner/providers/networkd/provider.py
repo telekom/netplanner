@@ -135,6 +135,7 @@ class NetworkdProvider:
         ).items():
             child_interfaces = {}
             parent_interface = None
+            peer_interface = None
             if isinstance(interface_config, Bond):
                 child_interfaces = {
                     vlan_name: vlan_config
@@ -175,7 +176,7 @@ class NetworkdProvider:
                         interface_name=interface_name,
                         interface=interface_config,
                         child_interfaces=child_interfaces,
-                        parent_interface=parent_interface,
+                        parent_interface=parent_interface
                     )
                 )
 
@@ -203,19 +204,23 @@ class NetworkdProvider:
             | self.config.network.dummies
             | self.config.network.veths
         ).items():
+            peer_interface = None
             # Check if interface is veth and handle only one side of it
             if isinstance(interface_config, Veth):
                 if interface_name not in handled_veth_pairs:
                     handled_veth_pairs.append(interface_config.link)
                 else:
                     continue
+                peer_interface = self.config.network.veths[interface_config.link]
 
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
-                        interface_name=interface_name, interface=interface_config
+                        interface_name=interface_name,
+                        interface=interface_config,
+                        peer_interface=peer_interface
                     )
                 )
 

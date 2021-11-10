@@ -28,6 +28,6 @@ MACAddress={{ interface.macaddress }}
 {%- endif %}
 
 {%- if interface.object_name == "Veth" %}
-[Veth]
+[Peer]
 {% include "netdev_includes/veth.j2" %}
 {%- endif %}
