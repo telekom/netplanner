@@ -12,7 +12,7 @@ MTUBytes={{ interface.mtu }}
 MACAddress={{ interface.macaddress }}
 {%- endif %}
 
-{%- if interface.object_name != "Dummy" %}
+{%- if interface.object_name != "Dummy" and interface.object_name != "Veth" %}
 [{{ interface.object_name }}]
 {%- if interface.object_name == "Bridge" %}
 {% include "netdev_includes/bridge.j2" %}
@@ -25,4 +25,9 @@ MACAddress={{ interface.macaddress }}
 {%- elif interface.object_name == "VRF" %}
 {% include "netdev_includes/vrf.j2" %}
 {%- endif %}
+{%- endif %}
+
+{%- if interface.object_name == "Veth" %}
+[Veth]
+{% include "netdev_includes/veth.j2" %}
 {%- endif %}

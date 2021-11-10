@@ -9,6 +9,7 @@ from netplanner.interfaces.l2.bond import Bond
 from netplanner.interfaces.l2.bridge import Bridge
 from netplanner.interfaces.l2.dummy import Dummy
 from netplanner.interfaces.l2.ethernet import Ethernet
+from netplanner.interfaces.l2.veth import Veth
 from netplanner.interfaces.l2.vlan import VLAN
 from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
@@ -101,7 +102,9 @@ class NetworkdProvider:
             return 14
         elif isinstance(interface_type, VLAN):
             return 15
-        return 16
+        elif isinstance(interface_type, Veth):
+            return 16
+        return 17
 
     def __init__(self, config: NetplannerConfig, local=True, path: str = DEFAULT_PATH):
         self.config: NetplannerConfig = config
@@ -128,6 +131,7 @@ class NetworkdProvider:
             | self.config.network.bonds
             | self.config.network.dummies
             | self.config.network.ethernets
+            | self.config.network.veths
         ).items():
             child_interfaces = {}
             parent_interface = None
@@ -188,6 +192,7 @@ class NetworkdProvider:
                 )
 
     def render_netdevs(self):
+        handled_veth_pairs = []
         template = self.env.get_template("systemd.netdev.j2")
         for interface_name, interface_config in (
             self.config.network.vxlans
@@ -196,7 +201,15 @@ class NetworkdProvider:
             | self.config.network.vlans
             | self.config.network.bonds
             | self.config.network.dummies
+            | self.config.network.veths
         ).items():
+            # Check if interface is veth and handle only one side of it
+            if isinstance(interface_config, Veth):
+                if interface_name not in handled_veth_pairs:
+                    handled_veth_pairs.append(interface_config.link)
+                else:
+                    continue
+
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 logging.info(f"Write: {self.path / file_name}")

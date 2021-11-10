@@ -1,0 +1,12 @@
+network:
+  veths:
+    veth2:
+      link-local: [ipv6]
+      vrf: Vrf_b
+      link: veth1
+    veth1:
+      link-local: [ipv6]
+      vrf: Vrf_a
+      link: veth2
+  renderer: networkd
+  version: 3

@@ -14,7 +14,7 @@ from netplanner.interfaces.typing import (
     TableShortInt,
     UnsignedShortInt,
 )
-from typing import Optional
+from typing import Optional, OrderedDict
 
 import dacite
 from fqdn import FQDN
@@ -147,6 +147,7 @@ class BaseSerializer:
                     RouteType,
                     RouteScope,
                     LinkLocalAdressing,
+                    OrderedDict,
                     FQDN,
                     MTU,
                     set,

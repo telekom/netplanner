@@ -1,11 +1,12 @@
 from dataclasses import dataclass, field, fields
-from typing import Dict, List, Union
+from typing import Dict, List, OrderedDict, Union
 
 from netplanner.interfaces.base import Base
 from netplanner.interfaces.l2.bond import Bond
 from netplanner.interfaces.l2.bridge import Bridge
 from netplanner.interfaces.l2.dummy import Dummy
 from netplanner.interfaces.l2.ethernet import Ethernet
+from netplanner.interfaces.l2.veth import Veth
 from netplanner.interfaces.l2.vlan import VLAN
 from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
@@ -23,11 +24,12 @@ class NetworkConfig(Base):
     bonds: Dict[InterfaceName, Bond] = field(default_factory=dict)
     vlans: Dict[InterfaceName, VLAN] = field(default_factory=dict)
     vrfs: Dict[InterfaceName, VRF] = field(default_factory=dict)
+    veths: OrderedDict[InterfaceName, Veth] = field(default_factory=OrderedDict)
     additionals: Dict[str, List] = field(default_factory=dict)
 
     def lookup(
         self, name: InterfaceName
-    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, List]]:
+    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, Veth, List]]:
         return {
             key: value
             for field in fields(self)
@@ -36,6 +38,15 @@ class NetworkConfig(Base):
             if key == name
         }
 
+    def __post_init__(self):
+        for interface_name, interface_config in self.veths.items():
+            if interface_config.link not in self.veths:
+                raise ValueError(f"Link of Veth {interface_name} does not exist")
+            if interface_config.link == interface_name:
+                raise ValueError(f"Link of Veth {interface_name} can not reference to itself")
+            if self.veths[interface_config.link].link != interface_name:
+                raise ValueError(f"Link of Veth {interface_name} does not have the same link")
+        self.veths = OrderedDict(sorted(self.veths.items()))
 
 @dataclass
 class NetplannerConfig(Base):
