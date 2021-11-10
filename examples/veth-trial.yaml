@@ -1,0 +1,14 @@
+network:
+  veths:
+    veth2:
+      link-local: [ipv6]
+      vrf: Vrf_b
+      link: veth1
+      macaddress: 11:22:33:44:55:66
+    veth1:
+      link-local: [ipv6]
+      vrf: Vrf_a
+      link: veth2
+      macaddress: 11:22:33:44:55:77
+  renderer: networkd
+  version: 3
