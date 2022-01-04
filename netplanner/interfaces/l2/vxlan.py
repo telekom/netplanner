@@ -23,7 +23,6 @@ class VXLANParameters(Base):
     group: Optional[IPAddress]
     tos: Optional[PositiveInt]
     ttl: Optional[PositiveInt]
-    mac_learning: Optional[bool]
     fdb_ageing_sec: Optional[PositiveInt]
     maximum_fdb_entries: Optional[PositiveInt]
     l2_miss_notification: Optional[bool]
@@ -37,6 +36,7 @@ class VXLANParameters(Base):
     flow_label: Optional[PositiveInt]
     ip_do_not_fragment: Optional[bool]
     hairpin: Optional[bool]
+    mac_learning: bool = field(default=False)
     learning: bool = field(default=False)
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
