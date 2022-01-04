@@ -10,7 +10,8 @@ from netplanner.interfaces.l2.veth import Veth
 from netplanner.interfaces.l2.vlan import VLAN
 from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
-from netplanner.interfaces.typing import InterfaceName, NetworkRenderer, Version
+from netplanner.interfaces.typing import (InterfaceName, NetworkRenderer,
+                                          Version)
 
 
 @dataclass

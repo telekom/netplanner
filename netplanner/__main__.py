@@ -1,6 +1,5 @@
 import argparse
 import logging
-from netplanner.interfaces.typing import BondLACPRate
 from pathlib import Path
 
 import yaml
