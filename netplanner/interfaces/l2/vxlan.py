@@ -37,7 +37,7 @@ class VXLANParameters(Base):
     flow_label: Optional[PositiveInt]
     ip_do_not_fragment: Optional[bool]
     hairpin: Optional[bool]
-    learning: Optional[bool]
+    learning: bool = field(default=False)
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
