@@ -21,7 +21,6 @@ network:
         vni: 400
         local: "192.168.2.1"
         mac-learning: false
-        learning: false
     vx.5100:
       mtu: 9000
       link-local: []
