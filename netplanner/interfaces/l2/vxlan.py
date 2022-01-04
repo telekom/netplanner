@@ -37,6 +37,7 @@ class VXLANParameters(Base):
     ip_do_not_fragment: Optional[bool]
     hairpin: Optional[bool]
     mac_learning: bool = field(default=False)
+    learning: bool = field(default=False)
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)

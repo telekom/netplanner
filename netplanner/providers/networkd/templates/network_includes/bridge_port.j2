@@ -2,6 +2,6 @@
 {%- if interface.parameters.hairpin is defined and interface.parameters.hairpin != None %}
 HairPin={{ interface.parameters.hairpin | to_systemd_bool }}
 {%- endif %}
-{%- if interface.parameters.mac_learning is defined and interface.parameters.mac_learning != None %}
-Learning={{ interface.parameters.mac_learning | to_systemd_bool }}
+{%- if interface.parameters.learning is defined and interface.parameters.learning != None %}
+Learning={{ interface.parameters.learning | to_systemd_bool }}
 {%- endif %}
