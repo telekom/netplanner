@@ -29,8 +29,6 @@ Name={{ interface_name }}
 {%- endfor %}
 {%- endif %}
 
-{%- if interface.object_name == 'Ethernet' %}
 {%- include 'network_includes/link.j2' %}
-{%- endif %}
 {%- include 'network_includes/route.j2' %}
 {%- include 'network_includes/route_policy.j2' %}
