@@ -136,7 +136,7 @@ class MacAddress(str):
         return str.__new__(cls, content)
 
     def set_ip_bytes(cls, address: IPAddress) -> str:
-        if type(address) is not IPv4Address:
+        if not isinstance(address, IPv4Address):
             raise ValueError("IPv6 not supported for MAC generation")
         mac_bytes = bytearray.fromhex(cls.replace(':', ''))
         return MacAddress(bytes(mac_bytes[:2] + address.packed).hex(':'))
