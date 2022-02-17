@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from ipaddress import IPv4Address
 from typing import List, Optional, Set
 
 from netplanner.interfaces.typing import IPAddress, IPInterfaceAddresses
