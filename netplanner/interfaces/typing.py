@@ -139,7 +139,7 @@ class MacAddress(str):
         if type(address) is not IPv4Address:
             raise ValueError("IPv6 not supported for MAC generation")
         mac_bytes = bytearray.fromhex(cls.replace(':', ''))
-        return bytes(mac_bytes[:2] + address.packed).hex(':')
+        return MacAddress(bytes(mac_bytes[:2] + address.packed).hex(':'))
 
 
 class RouteType(Enum):
