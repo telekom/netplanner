@@ -37,9 +37,9 @@ class VXLANParameters(Base):
     flow_label: Optional[PositiveInt]
     ip_do_not_fragment: Optional[bool]
     hairpin: Optional[bool]
+    generate_mac: Optional[MacAddress]
     mac_learning: bool = field(default=False)
     learning: bool = field(default=False)
-    generate_mac: bool = field(default=False)
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
@@ -79,4 +79,4 @@ class VXLAN(Base):
             self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
         if self.parameters.generate_mac:
-            self.macaddress = MacAddress.from_ip(self.parameters.local)
+            self.macaddress = self.parameters.generate_mac.set_ip_bytes(self.parameters.local)

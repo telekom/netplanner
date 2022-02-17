@@ -1,6 +1,5 @@
 import re
 from enum import Enum
-from secrets import token_bytes
 from ipaddress import (
     IPv4Address,
     IPv4Interface,
@@ -135,15 +134,12 @@ class MacAddress(str):
             raise ValueError(f"MacAddress {content} malformed.")
 
         return str.__new__(cls, content)
-    
-    @staticmethod
-    def from_ip(address: IPAddress):
+
+    def set_ip_bytes(cls, address: IPAddress) -> str:
         if type(address) is not IPv4Address:
             raise ValueError("IPv6 not supported for MAC generation")
-        mac_address = bytearray(token_bytes(2) + address.packed)
-        mac_address[0] &= 0xfe # Clear multicast
-        mac_address[0] |= 0x02 # local assignment
-        return mac_address.hex(':')
+        mac_bytes = bytearray.fromhex(cls.replace(':', ''))
+        return bytes(mac_bytes[:2] + address.packed).hex(':')
 
 
 class RouteType(Enum):
