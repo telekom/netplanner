@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from ipaddress import IPv4Address
 from typing import List, Optional, Set
 
 from netplanner.interfaces.typing import IPAddress, IPInterfaceAddresses
@@ -38,6 +39,7 @@ class VXLANParameters(Base):
     hairpin: Optional[bool]
     mac_learning: bool = field(default=False)
     learning: bool = field(default=False)
+    generate_mac: bool = field(default=False)
     destination_port: int = field(default=4789)
     generic_protocol_extension: bool = field(default=False)
     group_policy_extension: bool = field(default=False)
@@ -76,3 +78,5 @@ class VXLAN(Base):
         if self.link_local is None:
             self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.parameters.generate_mac:
+            self.macaddress = MacAddress.from_ip(self.parameters.local)
