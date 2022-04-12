@@ -30,9 +30,11 @@ from netplanner.interfaces.typing import (
     VLANType,
 )
 
+
 class FQDN(UpstreamFQDN):
     def __str__(self):
         return self.relative
+
 
 RESERVED = ["from"]
 

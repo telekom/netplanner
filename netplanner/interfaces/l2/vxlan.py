@@ -78,4 +78,6 @@ class VXLAN(Base):
             self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
         if self.parameters.generate_mac:
-            self.macaddress = self.parameters.generate_mac.set_ip_bytes(self.parameters.local)
+            self.macaddress = self.parameters.generate_mac.set_ip_bytes(
+                self.parameters.local
+            )

@@ -166,7 +166,9 @@ class NetworkdProvider:
                 }
 
             if parent_interface is not None and len(parent_interface) > 1:
-                raise ValueError(f"Cannot have more than one parent interface for {interface_name}")
+                raise ValueError(
+                    f"Cannot have more than one parent interface for {interface_name}"
+                )
 
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
@@ -176,7 +178,7 @@ class NetworkdProvider:
                         interface_name=interface_name,
                         interface=interface_config,
                         child_interfaces=child_interfaces,
-                        parent_interface=parent_interface
+                        parent_interface=parent_interface,
                     )
                 )
 
@@ -220,7 +222,7 @@ class NetworkdProvider:
                     template.render(
                         interface_name=interface_name,
                         interface=interface_config,
-                        peer_interface=peer_interface
+                        peer_interface=peer_interface,
                     )
                 )
 
