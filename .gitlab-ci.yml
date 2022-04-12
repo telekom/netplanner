@@ -72,6 +72,7 @@ test:
     - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
     - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
     - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/veth-trial.yaml --output /run/systemd/networkd/veth-trial configure
+    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config configure
   artifacts:
     expire_in: 30 days
     paths:

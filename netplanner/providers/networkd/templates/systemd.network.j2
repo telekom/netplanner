@@ -7,7 +7,7 @@ Name={{ interface.set_name }}
 Name={{ interface.match.name }}
 {%- endif %}
 {%- if interface.match.macaddress != None %}
-MACAddress{{ interface.match.macaddress }}
+MACAddress={{ interface.match.macaddress }}
 {%- endif %}
 {%- if interface.match.driver != None %}
 Driver={{ interface.match.driver }}
