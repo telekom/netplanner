@@ -14,10 +14,10 @@ from netplanner.interfaces.typing import (
     TableShortInt,
     UnsignedShortInt,
 )
-from typing import Optional, OrderedDict
+from typing import Optional, OrderedDict, Union
 
 import dacite
-from fqdn import FQDN
+from fqdn import FQDN as UpstreamFQDN
 
 from netplanner.interfaces.typing import (
     MTU,
@@ -29,6 +29,10 @@ from netplanner.interfaces.typing import (
     VLANId,
     VLANType,
 )
+
+class FQDN(UpstreamFQDN):
+    def __str__(self):
+        return self.relative
 
 RESERVED = ["from"]
 
@@ -78,30 +82,18 @@ class BaseSerializer:
         return dictionary
 
     @staticmethod
-    def to_serializable(value):
-        return (
-            value.value
-            if isinstance(value, Enum)
-            else str(value)
-            if isinstance(
-                value,
-                (
-                    IPv4Network,
-                    IPv6Network,
-                    IPv4Interface,
-                    IPv6Interface,
-                    IPv4Address,
-                    IPv6Address,
-                ),
-            )
-            else value.relative
-            if isinstance(value, FQDN)
-            else str(value)
-            if isinstance(value, str)
-            else int(value)
-            if isinstance(value, int)
-            else value
-        )
+    def to_serializable(value) -> Union[int, str]:
+        match value:
+            case Enum():
+                return Base.to_serializable(value.value)
+            case IPv4Network() | IPv6Network() | IPv4Interface() | IPv6Interface() | IPv4Address() | IPv6Address():
+                return str(value)
+            case str():
+                return str(value)
+            case int():
+                return int(value)
+            case _:
+                return value
 
     @staticmethod
     def to_complex_serializable(data):
@@ -138,6 +130,7 @@ class BaseSerializer:
             config=dacite.Config(
                 cast=[
                     Enum,
+                    FQDN,
                     InterfaceName,
                     MacAddress,
                     VirtualFunctionCount,
@@ -148,7 +141,6 @@ class BaseSerializer:
                     RouteScope,
                     LinkLocalAdressing,
                     OrderedDict,
-                    FQDN,
                     MTU,
                     set,
                     IPv4Network,
