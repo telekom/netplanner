@@ -17,7 +17,7 @@ from netplanner.interfaces.typing import (InterfaceName, NetworkRenderer,
 @dataclass
 class NetworkConfig(Base):
     version: Version
-    renderer: NetworkRenderer
+    renderer: NetworkRenderer = NetworkRenderer("networkd")
     dummies: Dict[InterfaceName, Dummy] = field(default_factory=dict)
     ethernets: Dict[InterfaceName, Ethernet] = field(default_factory=dict)
     bridges: Dict[InterfaceName, Bridge] = field(default_factory=dict)
