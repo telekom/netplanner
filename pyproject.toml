@@ -7,17 +7,17 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.10,<3.11"
 dacite = "^1.6.0"
-PyYAML = "^5.4.1"
+PyYAML = "^6.0"
 fqdn = "^1.5.1"
-Jinja2 = "^3.0.1"
+Jinja2 = "^3.1.1"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^21.7b0", allow-prereleases = true}
 mypy = "^0.910"
-types-PyYAML = "^5.4.8"
-pyinstaller = "^4.5.1"
+types-PyYAML = "^6.0"
+pyinstaller = "^4.10"
 
 
 [build-system]
