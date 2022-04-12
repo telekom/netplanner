@@ -10,8 +10,8 @@ from netplanner.interfaces.typing import RouteScope, RouteType
 @dataclass
 class Route(Base):
     _from: Optional[IPNetwork]
-    to: IPNetwork
-    via: IPAddress
+    to: Optional[IPNetwork]
+    via: Optional[IPAddress]
     on_link: Optional[bool]
     table: Optional[TableShortInt]
     metric: Optional[int]
@@ -20,3 +20,9 @@ class Route(Base):
     mtu: Optional[MTU]
     congestion_window: Optional[PositiveInt]
     advertised_receive_window: Optional[PositiveInt]
+
+    def __post_init__(self):
+        if not self.on_link and self.via is None:
+            raise ValueError(
+                f"Route OnLink={self.on_link} and Gateway={self.via}"
+            )

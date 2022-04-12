@@ -1,7 +1,9 @@
 # netplanner managed
 [Match]
-{%- if interface.match is defined and interface.match != None %}
-{%- if interface.match.name != None %}
+{%- if interface.match is defined and interface.match != None or interface.object_name == 'Ethernet' %}
+{%- if interface.object_name == 'Ethernet' and interface.set_name is defined and interface.object_name != None %}
+Name={{ interface.set_name }}
+{%- elif interface.match.name != None %}
 Name={{ interface.match.name }}
 {%- endif %}
 {%- if interface.match.macaddress != None %}

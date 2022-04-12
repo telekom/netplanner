@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from ipaddress import IPv4Address, IPv6Address
 from typing import List, Optional, Set
 
 from netplanner.interfaces.base import Base
@@ -34,6 +35,8 @@ class Bond(Base):
     nameservers: Optional[NameServers]
     mtu: Optional[MTU]
     link_local: Optional[Set[LinkLocalAdressing]]
+    gateway4: Optional[IPv4Address]
+    gateway6: Optional[IPv6Address]
     interfaces: List[InterfaceName] = field(default_factory=list)
     addresses: List[str] = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
@@ -43,3 +46,37 @@ class Bond(Base):
         if self.link_local is None:
             self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.gateway4 is not None:
+            self.routes.append(
+                Route(
+                    description="Default gateway set by gateway4",
+                    _from=None,
+                    to=None,
+                    type=None,
+                    via=self.gateway4,
+                    on_link=True,
+                    table=None,
+                    metric=None,
+                    scope=None,
+                    mtu=None,
+                    congestion_window=None,
+                    advertised_receive_window=None,
+                )
+            )
+        if self.gateway6 is not None:
+            self.routes.append(
+                Route(
+                    description="Default gateway set by gateway6",
+                    _from=None,
+                    to=None,
+                    type=None,
+                    via=self.gateway6,
+                    on_link=True,
+                    table=None,
+                    metric=None,
+                    scope=None,
+                    mtu=None,
+                    congestion_window=None,
+                    advertised_receive_window=None,
+                )
+            )

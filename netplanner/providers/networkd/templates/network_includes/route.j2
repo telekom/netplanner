@@ -7,8 +7,12 @@ GatewayOnLink={{ route.on_link }}
 {%- if route._from %}
 Source={{ route._from }}
 {%- endif %}
+{%- if route.to != None %}
 Destination={{ route.to }}
-NextHop={{ route.via }}
+{%- endif %}
+{%- if route.via != None %}
+Gateway={{ route.via }}
+{%- endif %}
 {%- if route.metric != None %}
 Metric={{ route.metric }}
 {%- endif %}
