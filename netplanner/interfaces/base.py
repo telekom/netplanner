@@ -36,11 +36,27 @@ class FQDN(UpstreamFQDN):
         return self.relative
 
 
-RESERVED = ["from"]
-
-
 @dataclass
 class BaseSerializer:
+    RESERVED = ["from"]
+
+    @staticmethod
+    def get_streamlined_key(
+        key: str, level: int, old_char: str, new_char: str, ignore_levels: list
+    ) -> str:
+        """
+        This handles awkward netplan compatibility issues
+        it excluded interface-names at the first level
+        """
+        if key in BaseSerializer.RESERVED:
+            return f"_{key}"
+        elif key.startswith("_"):
+            return key.replace("_", "", 1)
+        elif level not in ignore_levels:
+            return key.replace(old_char, new_char)
+        else:
+            return key
+
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -51,36 +67,24 @@ class BaseSerializer:
     ) -> dict:
         keys = list(dictionary.keys())
         for key in keys:
-            if isinstance(dictionary[key], dict):
-                dictionary[
-                    # This handles awkward netplan compatibility issues
-                    # it excluded interface-names at the first level
-                    f"_{key}"
-                    if key in RESERVED
-                    else key.replace("_", "", 1)
-                    if key.startswith("_")
-                    else key.replace(old_char, new_char)
-                    if level not in ignore_levels
-                    else key
-                ] = BaseSerializer.streamline_keys(
-                    dictionary[key],
-                    level=level + 1,
-                    old_char=old_char,
-                    new_char=new_char,
-                    ignore_levels=ignore_levels,
-                )
-            else:
-                dictionary[
-                    # This handles awkward netplan compatibility issues
-                    # it excluded interface-names at the first level
-                    f"_{key}"
-                    if key in RESERVED
-                    else key.replace("_", "", 1)
-                    if key.startswith("_")
-                    else key.replace(old_char, new_char)
-                    if level not in ignore_levels
-                    else key
-                ] = dictionary.pop(key)
+            sanitized_key = BaseSerializer.get_streamlined_key(
+                key,
+                level=level,
+                old_char=old_char,
+                new_char=new_char,
+                ignore_levels=ignore_levels,
+            )
+            match dictionary[key]:
+                case dict():
+                    dictionary[sanitized_key] = BaseSerializer.streamline_keys(
+                        dictionary[key],
+                        level=level + 1,
+                        old_char=old_char,
+                        new_char=new_char,
+                        ignore_levels=ignore_levels,
+                    )
+                case _:
+                    dictionary[sanitized_key] = dictionary.pop(key)
         return dictionary
 
     @staticmethod
@@ -98,24 +102,26 @@ class BaseSerializer:
                 return value
 
     @staticmethod
-    def to_complex_serializable(data):
-        return (
-            [BaseSerializer.to_complex_serializable(item) for item in data]
-            if isinstance(data, (list, set))
-            else {
-                BaseSerializer.to_serializable(
-                    key
-                ): BaseSerializer.to_complex_serializable(val)
-                for key, val in data.items()
-            }
-            if isinstance(data, dict)
-            else BaseSerializer.to_serializable(data)
-        )
+    def to_complex_serializable(data) -> Union[list, dict, int, str]:
+        match data:
+            case list() | set():
+                return [BaseSerializer.to_complex_serializable(item) for item in data]
+            case dict():
+                return {
+                    BaseSerializer.to_serializable(
+                        key
+                    ): BaseSerializer.to_complex_serializable(val)
+                    for key, val in data.items()
+                }
+            case _:
+                return BaseSerializer.to_serializable(data)
 
     @staticmethod
-    def dict_factory(data):
+    def dict_factory(data) -> dict[Union[str, int], Union[list, dict, int, str]]:
         return {
-            field: BaseSerializer.to_complex_serializable(value)
+            BaseSerializer.to_serializable(
+                field
+            ): BaseSerializer.to_complex_serializable(value)
             for field, value in data
         }
 

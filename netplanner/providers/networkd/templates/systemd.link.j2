@@ -1,13 +1,13 @@
 # netplanner managed
 [Match]
-{%- if interface.match is defined and interface.match != None or interface.object_name == 'Ethernet' and interface.set_name == None %}
-{%- if interface.match.name %}
+{%- if interface.match is defined and interface.match != None %}
+{%- if interface.match.name is defined and interface.match.name != None %}
 Name={{ interface.match.name }}
 {%- endif %}
-{%- if interface.match.macaddress %}
+{%- if interface.match.macaddress is defined and interface.match.macaddress != None %}
 MACAddress={{ interface.match.macaddress }}
 {%- endif %}
-{%- if interface.match.driver %}
+{%- if interface.match.driver is defined and interface.match.driver != None %}
 Driver={{ interface.match.driver }}
 {%- endif %}
 {%- else %}

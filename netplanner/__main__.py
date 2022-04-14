@@ -1,6 +1,7 @@
 import argparse
 import logging
 from pathlib import Path
+from time import gmtime
 
 import yaml
 
@@ -10,6 +11,14 @@ from netplanner.sriov.command import sriov
 
 DEFAULT_CONF_FILE = "/etc/netplanner/netplanner.yaml"
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
+
+# https://stackoverflow.com/a/7517430/49489
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03dZ level=%(levelname)s module=%(name)s message="%(message)s"',
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
+logging.Formatter.converter = gmtime
 
 
 def configure(
@@ -52,6 +61,12 @@ def main():
         default=DEFAULT_CONF_FILE,
     )
     parser.add_argument(
+        "--debug",
+        help="Defines the path to the configuration file",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
         "--local",
         help="This templates the configuration into a local directory",
         action="store_true",
@@ -87,9 +102,12 @@ def main():
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.DEBUG)
-
     try:
+        if args.debug:
+            logging.getLogger().level = logging.DEBUG
+            logging.debug(
+                f"logger is now in LogLevel {logging.getLevelName(logging.getLogger().level)}"
+            )
         configuration = None
         path = Path(args.config)
         if path.exists():

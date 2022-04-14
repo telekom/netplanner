@@ -1,24 +1,5 @@
 # netplanner managed
-[Match]
-{%- if interface.match is defined and interface.match != None or interface.object_name == 'Ethernet' %}
-{%- if interface.object_name == 'Ethernet' and interface.set_name is defined and interface.object_name != None %}
-Name={{ interface.set_name }}
-{%- elif interface.match.name != None %}
-Name={{ interface.match.name }}
-{%- endif %}
-{%- if interface.match.macaddress != None %}
-MACAddress={{ interface.match.macaddress }}
-{%- endif %}
-{%- if interface.match.driver != None %}
-Driver={{ interface.match.driver }}
-{%- endif %}
-{%- else %}
-{%- if interface.macaddress != None and interface.object_name in ['Ethernet'] %}
-PermanentMACAddress={{ interface.macaddress }}
-{%- else %}
-Name={{ interface_name }}
-{%- endif %}
-{%- endif %}
+{% include 'network_includes/match.j2' %}
 
 {% include 'network_includes/network.j2' %}
 {%- include 'network_includes/nameserver.j2' %}
