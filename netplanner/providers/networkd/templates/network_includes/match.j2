@@ -1,0 +1,23 @@
+[Match]
+{%- if interface.match is defined and interface.match != None %}
+{%- if interface.match.name is defined and interface.match.name != None %}
+Name={{ interface.match.name }}
+{%- endif %}
+{%- if interface.match.macaddress is defined and interface.match.macaddress != None %}
+MACAddress={{ interface.match.macaddress }}
+{%- endif %}
+{%- if interface.match.driver is defined and interface.match.driver != None %}
+Driver={{ interface.match.driver }}
+{%- endif %}
+{%- if interface.object_name in ['Ethernet'] and (interface.macaddress != None or interface.set_name is defined and interface.set_name != None) %}
+{%- if interface.macaddress != None %}
+PermanentMACAddress={{ interface.macaddress }}
+{%- endif %}
+{%- if interface.set_name is defined and interface.set_name != None %}
+Name={{ interface.set_name }}
+{%- endif %}
+{%- endif %}
+{%- endif %}
+{%- if interface.match is not defined or interface.match.name is not defined and interface.set_name is not defined or interface.set_name == None %}
+Name={{ interface_name }}
+{%- endif %}
