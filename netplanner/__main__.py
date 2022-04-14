@@ -47,7 +47,9 @@ def configure(
             provider.networkd(restart=True)
             provider.networkctl(reload=True)
 
+
 apply = configure
+
 
 def main():
     """Main entry point for netplanner"""

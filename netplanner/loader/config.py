@@ -26,7 +26,9 @@ class ConfigLoader:
             if path.exists():
                 self.path = path
         if self.path is None:
-            raise Exception(f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR},{self.NETPLAN_DEFAULT_CONF_DIR},{config}]")
+            raise Exception(
+                f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR},{self.NETPLAN_DEFAULT_CONF_DIR},{config}]"
+            )
 
     def _load_file(self, path: Path):
         with open(path, "r") as file:
@@ -37,7 +39,14 @@ class ConfigLoader:
             self._internal_config = self._load_file(self.path)
         else:
             config_file_list = sorted(
-                [path for path in self.path.iterdir() if path.is_file() and path.suffix == '.yaml' or path.suffix == '.yml'], reverse=True
+                [
+                    path
+                    for path in self.path.iterdir()
+                    if path.is_file()
+                    and path.suffix == ".yaml"
+                    or path.suffix == ".yml"
+                ],
+                reverse=True,
             )
             if not config_file_list:
                 raise Exception(f"Config Directory [{self.path}] is empty")
