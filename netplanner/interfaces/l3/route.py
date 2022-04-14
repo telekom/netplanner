@@ -23,4 +23,4 @@ class Route(Base):
 
     def __post_init__(self):
         if not self.on_link and self.via is None:
-            raise ValueError(f"Route OnLink={self.on_link} and Gateway={self.via}")
+            raise ValueError(f"Route OnLink={self.on_link} or Gateway={self.via} need to be specified.")
