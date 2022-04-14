@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "netplanner"
-version = "0.7.0"
+version = "0.8.0"
 description = "Mimir the Netplanner is the ground of all network wisdöm"
 authors = ["Marcel Fest <marcel.fest@telekom.de>"]
 license = "Apache-2.0"
