@@ -1,0 +1,27 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  ethernets:
+    ens1f0:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      accept-ra: false
+      vrf: Vrf_underlay
+    ens1f1:
+      mtu: 9100
+      link-local: [ipv6]
+      emit-lldp: true
+      accept-ra: false
+      vrf: Vrf_underlay
+    ens2f0:
+      mtu: 9000
+      link-local: []
+      emit-lldp: true
+      virtual-function-count: 16
+    ens2f1:
+      mtu: 9000
+      link-local: []
+      emit-lldp: true
+      virtual-function-count: 16

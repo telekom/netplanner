@@ -1,0 +1,10 @@
+# Greetings to netplanner
+network:
+  version: 3
+  dummies:
+    dum.underlay:
+      link-local: []
+      mtu: 9100
+      vrf: Vrf_underlay
+      addresses:
+        - '192.168.2.1/32' # wrong: {{ ds.meta_data.lan_prefix_0 }}

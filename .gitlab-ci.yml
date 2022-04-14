@@ -67,12 +67,16 @@ test:
     - otc_run_docker_k8s
   script:
     - chmod +x bin/${LINUX_AMD64_BINARY}
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/worker-config-new.yaml --output /run/systemd/networkd/worker-new configure
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/veth-trial.yaml --output /run/systemd/networkd/veth-trial configure
-    - bin/${LINUX_AMD64_BINARY} --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/worker-config-new.yaml --output /run/systemd/networkd/worker-new configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/veth-trial.yaml --output /run/systemd/networkd/veth-trial configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/5g-worker --output /run/systemd/networkd/folder/5g-worker configure
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/5g-worker.yaml --output /run/systemd/networkd/5g-worker configure
+    # enable the netplan apply command
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config --output /run/systemd/networkd/folder/vm-config apply
+    - bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
   artifacts:
     expire_in: 30 days
     paths:

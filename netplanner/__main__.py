@@ -1,16 +1,14 @@
 import argparse
 import logging
-from pathlib import Path
 from time import gmtime
-
-import yaml
 
 from netplanner.config import NetplannerConfig
 from netplanner.providers.networkd.provider import NetworkdProvider
 from netplanner.sriov.command import sriov
+from netplanner.loader.config import ConfigLoader
 
-DEFAULT_CONF_FILE = "/etc/netplanner/netplanner.yaml"
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
+NETPLAN_DEFAULT_OUTPUT_PATH = "/run/systemd/network"
 
 # https://stackoverflow.com/a/7517430/49489
 logging.basicConfig(
@@ -18,6 +16,11 @@ logging.basicConfig(
     format='%(asctime)s.%(msecs)03dZ level=%(levelname)s module=%(name)s message="%(message)s"',
     datefmt="%Y-%m-%dT%H:%M:%S",
 )
+logging.addLevelName(logging.DEBUG, "debug")
+logging.addLevelName(logging.INFO, "info")
+logging.addLevelName(logging.WARNING, "warning")
+logging.addLevelName(logging.ERROR, "error")
+logging.addLevelName(logging.CRITICAL, "critical")
 logging.Formatter.converter = gmtime
 
 
@@ -44,6 +47,7 @@ def configure(
             provider.networkd(restart=True)
             provider.networkctl(reload=True)
 
+apply = configure
 
 def main():
     """Main entry point for netplanner"""
@@ -58,7 +62,7 @@ def main():
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file",
-        default=DEFAULT_CONF_FILE,
+        default=None,
     )
     parser.add_argument(
         "--debug",
@@ -92,13 +96,18 @@ def main():
     parser.add_argument(
         "--output",
         help="The output directory to which the files will be written.",
-        default=DEFAULT_OUTPUT_PATH,
+        default=None,
     )
     show_subparser = subparsers.add_parser(
         "configure",
         help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
     )
+    show_subparser = subparsers.add_parser(
+        "apply",
+        help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
+    )
     show_subparser.set_defaults(func=configure)
+    show_subparser.set_defaults(func=apply)
 
     args = parser.parse_args()
 
@@ -108,17 +117,24 @@ def main():
             logging.debug(
                 f"logger is now in LogLevel {logging.getLevelName(logging.getLogger().level)}"
             )
-        configuration = None
-        path = Path(args.config)
-        if path.exists():
-            with open(path, "r") as conf:
-                configuration = NetplannerConfig.from_dict(yaml.safe_load(conf))
+
+        loader = ConfigLoader(args.config)
+        if loader.load_config():
+            logging.debug(loader.config)
+            configuration = NetplannerConfig.from_dict(loader.config)
         else:
-            logging.warning("No configuration file found, skipping configuration")
-            return
+            raise Exception("Configuration cannot be loaded.")
+
+        output_path = args.output
+        if output_path is None:
+            if loader.is_netplan:
+                output_path = NETPLAN_DEFAULT_OUTPUT_PATH
+            else:
+                output_path = DEFAULT_OUTPUT_PATH
+
         args.func(
             configuration,
-            args.output,
+            output_path,
             bool(args.local),
             reload=bool(args.reload),
             only_sriov=bool(args.only_sriov),

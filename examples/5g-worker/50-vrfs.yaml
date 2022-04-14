@@ -1,0 +1,8 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  vrfs:
+    Vrf_underlay:
+      link-local: []
+      table: 2
