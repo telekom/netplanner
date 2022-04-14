@@ -26,10 +26,7 @@ class ConfigLoader:
             if path.exists():
                 self.path = path
         if self.path is None:
-            logging.warning(
-                f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR},{self.NETPLAN_DEFAULT_CONF_DIR},{config}]"
-            )
-            exit(1)
+            raise SystemExit(f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR},{self.NETPLAN_DEFAULT_CONF_DIR},{config}]")
 
     def _load_file(self, path: Path):
         with open(path, "r") as file:
@@ -43,8 +40,7 @@ class ConfigLoader:
                 [path for path in self.path.iterdir() if path.is_file() and path.suffix == '.yaml' or path.suffix == '.yml'], reverse=True
             )
             if not config_file_list:
-                logging.warning(f"Config Directory [{self.path}] is empty")
-                exit(1)
+                raise SystemExit(f"Config Directory [{self.path}] is empty")
             merged_config = ChainMap(
                 *[self._load_file(path) for path in config_file_list]
             )
