@@ -98,16 +98,16 @@ def main():
         help="The output directory to which the files will be written.",
         default=None,
     )
-    show_subparser = subparsers.add_parser(
+    configure_subparser = subparsers.add_parser(
         "configure",
         help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
     )
-    show_subparser = subparsers.add_parser(
+    apply_subparser = subparsers.add_parser(
         "apply",
         help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
     )
-    show_subparser.set_defaults(func=configure)
-    show_subparser.set_defaults(func=apply)
+    configure_subparser.set_defaults(func=configure)
+    apply_subparser.set_defaults(func=apply)
 
     args = parser.parse_args()
 
