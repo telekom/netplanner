@@ -31,13 +31,13 @@ class ConfigLoader:
             )
             exit(1)
 
-    def load_file(self, path: Path):
+    def _load_file(self, path: Path):
         with open(path, "r") as file:
             return yaml.safe_load(file)
 
     def load_config(self) -> bool:
         if self.path.is_file():
-            self._internal_config = self.load_file(self.path)
+            self._internal_config = self._load_file(self.path)
         else:
             config_file_list = sorted(
                 [path for path in self.path.iterdir() if path.is_file() and path.suffix == '.yaml' or path.suffix == '.yml'], reverse=True
@@ -46,7 +46,7 @@ class ConfigLoader:
                 logging.warning(f"Config Directory [{self.path}] is empty")
                 exit(1)
             merged_config = ChainMap(
-                *[self.load_file(path) for path in config_file_list]
+                *[self._load_file(path) for path in config_file_list]
             )
             self._internal_config = dict(merged_config)
         return self._internal_config is not None
