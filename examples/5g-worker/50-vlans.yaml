@@ -1,0 +1,24 @@
+# Greetings to netplanner
+network:
+  version: 3
+  vlans:
+    vlan.2300:
+      link-local: []
+      mtu: 1500
+      id: 2300
+      link: sriovbond
+    vlan.2301:
+      link-local: []
+      mtu: 1500
+      id: 2301
+      link: sriovbond
+    vlan.2304:
+      link-local: []
+      mtu: 1500
+      id: 2304
+      link: sriovbond
+    vlan.2305:
+      link-local: []
+      mtu: 1500
+      id: 2305
+      link: sriovbond

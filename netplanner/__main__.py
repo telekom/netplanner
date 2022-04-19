@@ -1,15 +1,27 @@
 import argparse
 import logging
-from pathlib import Path
-
-import yaml
+from time import gmtime
 
 from netplanner.config import NetplannerConfig
 from netplanner.providers.networkd.provider import NetworkdProvider
 from netplanner.sriov.command import sriov
+from netplanner.loader.config import ConfigLoader
 
-DEFAULT_CONF_FILE = "/etc/netplanner/netplanner.yaml"
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
+NETPLAN_DEFAULT_OUTPUT_PATH = "/run/systemd/network"
+
+# https://stackoverflow.com/a/7517430/49489
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03dZ level=%(levelname)s module=%(name)s message="%(message)s"',
+    datefmt="%Y-%m-%dT%H:%M:%S",
+)
+logging.addLevelName(logging.DEBUG, "debug")
+logging.addLevelName(logging.INFO, "info")
+logging.addLevelName(logging.WARNING, "warning")
+logging.addLevelName(logging.ERROR, "error")
+logging.addLevelName(logging.CRITICAL, "critical")
+logging.Formatter.converter = gmtime
 
 
 def configure(
@@ -36,6 +48,9 @@ def configure(
             provider.networkctl(reload=True)
 
 
+apply = configure
+
+
 def main():
     """Main entry point for netplanner"""
     parser = argparse.ArgumentParser("netplanner")
@@ -45,11 +60,17 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument("--version", action="version", version="0.5.2")
+    parser.add_argument("--version", action="version", version="0.8.0")
     parser.add_argument(
         "--config",
-        help="Defines the path to the configuration file",
-        default=DEFAULT_CONF_FILE,
+        help="Defines the path to the configuration file or directory.",
+        default=None,
+    )
+    parser.add_argument(
+        "--debug",
+        help="Enables debug logging.",
+        action="store_true",
+        default=False,
     )
     parser.add_argument(
         "--local",
@@ -58,49 +79,64 @@ def main():
     )
     parser.add_argument(
         "--only-sriov",
-        help="This only runs sriov configuration",
+        help="This only runs sriov configuration on supported interfaces.",
         action="store_true",
         dest="only_sriov",
     )
     parser.add_argument(
         "--reload",
-        help="This reloads networkd and networkctl",
+        help="This reloads networkd and networkctl via systemd.",
         action="store_true",
         dest="reload",
     )
     parser.add_argument(
         "--only-networkd",
-        help="This templates only networkd",
+        help="This templates only networkd configuration files.",
         action="store_true",
         dest="only_networkd",
     )
     parser.add_argument(
         "--output",
         help="The output directory to which the files will be written.",
-        default=DEFAULT_OUTPUT_PATH,
+        default=None,
     )
-    show_subparser = subparsers.add_parser(
+    configure_subparser = subparsers.add_parser(
         "configure",
-        help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
+        help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
-    show_subparser.set_defaults(func=configure)
+    apply_subparser = subparsers.add_parser(
+        "apply",
+        help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
+    )
+    configure_subparser.set_defaults(func=configure)
+    apply_subparser.set_defaults(func=apply)
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.DEBUG)
-
     try:
-        configuration = None
-        path = Path(args.config)
-        if path.exists():
-            with open(path, "r") as conf:
-                configuration = NetplannerConfig.from_dict(yaml.safe_load(conf))
+        if args.debug:
+            logging.getLogger().level = logging.DEBUG
+            logging.debug(
+                f"logger is now in LogLevel {logging.getLevelName(logging.getLogger().level)}"
+            )
+
+        loader = ConfigLoader(args.config)
+        if loader.load_config():
+            logging.debug(loader.config)
+            configuration = NetplannerConfig.from_dict(loader.config)
         else:
-            logging.warning("No configuration file found, skipping configuration")
-            return
+            raise Exception("Configuration cannot be loaded.")
+
+        output_path = args.output
+        if output_path is None:
+            if loader.is_netplan:
+                output_path = NETPLAN_DEFAULT_OUTPUT_PATH
+            else:
+                output_path = DEFAULT_OUTPUT_PATH
+
         args.func(
             configuration,
-            args.output,
+            output_path,
             bool(args.local),
             reload=bool(args.reload),
             only_sriov=bool(args.only_sriov),
@@ -108,7 +144,10 @@ def main():
         )
     except Exception as e:
         parser.print_help()
-        raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))
+        if args.debug:
+            raise e
+        else:
+            raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))
 
 
 if __name__ == "__main__":

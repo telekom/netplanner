@@ -1,0 +1,26 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  vxlans:
+    vx.400:
+      mtu: 9000
+      link-local: []
+      link: dum.underlay
+      description: "Storage Networking EVPN Type 2"
+      parameters:
+        vni: 400
+        local: "192.168.2.1"
+        # mac-learning: false ## this is default
+        # learning: false ## this is default
+    vx.5100:
+      mtu: 9000
+      link-local: []
+      link: dum.underlay
+      description: "Cluster Networking EVPN Type 5"
+      parameters:
+        vni: 5100
+        local: "192.168.2.1"
+        # mac-learning: false ## this is default
+        # learning: false ## this is default
+        hairpin: true

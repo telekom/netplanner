@@ -1,0 +1,38 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  bridges:
+    ##
+    ## Default Bridges for Kubernetes
+    br.storage:
+      mtu: 9000
+      description: "DummyBridge: Vrf_Storage"
+      link-local: []
+      addresses:
+      # ipv6 address
+      - "192.168.66.1/24"
+      # route-map blocks export of storage network.
+      parameters:
+        stp: false
+      interfaces:
+        - vx.400
+    br.cluster:
+      mtu: 9000
+      description: "DummyBridge: Vrf_Cluster internal"
+      link-local: []
+      nameservers:
+        addresses:
+        - 10.102.102.132
+        - 10.102.102.133
+        - 10.90.24.1
+        search:
+        - refaz.bn.schiff.telekom.de
+        - schiff.telekom.de
+        - das-schiff.telekom.de
+      addresses:
+        - '172.22.140.1/32' # wrong: {{ ds.meta_data.cluster_prefix_0 }}
+      parameters:
+        stp: false
+      interfaces:
+        - vx.5100

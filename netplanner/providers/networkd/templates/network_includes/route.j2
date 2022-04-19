@@ -2,13 +2,17 @@
 {%- for route in interface.routes %}
 [Route]
 {%- if route.on_link != None %}
-GatewayOnLink={{ route.on_link }}
+GatewayOnLink={{ route.on_link | to_systemd_bool }}
 {%- endif %}
 {%- if route._from %}
 Source={{ route._from }}
 {%- endif %}
+{%- if route.to != None %}
 Destination={{ route.to }}
-NextHop={{ route.via }}
+{%- endif %}
+{%- if route.via != None %}
+Gateway={{ route.via }}
+{%- endif %}
 {%- if route.metric != None %}
 Metric={{ route.metric }}
 {%- endif %}

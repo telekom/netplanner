@@ -14,10 +14,10 @@ from netplanner.interfaces.typing import (
     TableShortInt,
     UnsignedShortInt,
 )
-from typing import Optional, OrderedDict
+from typing import Optional, OrderedDict, Union
 
 import dacite
-from fqdn import FQDN
+from fqdn import FQDN as UpstreamFQDN
 
 from netplanner.interfaces.typing import (
     MTU,
@@ -30,11 +30,33 @@ from netplanner.interfaces.typing import (
     VLANType,
 )
 
-RESERVED = ["from"]
+
+class FQDN(UpstreamFQDN):
+    def __str__(self):
+        return self.relative
 
 
 @dataclass
 class BaseSerializer:
+    RESERVED = ["from"]
+
+    @staticmethod
+    def get_streamlined_key(
+        key: str, level: int, old_char: str, new_char: str, ignore_levels: list
+    ) -> str:
+        """
+        This handles awkward netplan compatibility issues.
+        it excludes interface-names at the first level of the yaml configuration file
+        """
+        if key in BaseSerializer.RESERVED:
+            return f"_{key}"
+        elif key.startswith("_"):
+            return key[1:]
+        elif level not in ignore_levels:
+            return key.replace(old_char, new_char)
+        else:
+            return key
+
     @staticmethod
     def streamline_keys(
         dictionary: dict,
@@ -45,83 +67,61 @@ class BaseSerializer:
     ) -> dict:
         keys = list(dictionary.keys())
         for key in keys:
-            if isinstance(dictionary[key], dict):
-                dictionary[
-                    # This handles awkward netplan compatibility issues
-                    # it excluded interface-names at the first level
-                    f"_{key}"
-                    if key in RESERVED
-                    else key.replace("_", "", 1)
-                    if key.startswith("_")
-                    else key.replace(old_char, new_char)
-                    if level not in ignore_levels
-                    else key
-                ] = BaseSerializer.streamline_keys(
-                    dictionary[key],
-                    level=level + 1,
-                    old_char=old_char,
-                    new_char=new_char,
-                    ignore_levels=ignore_levels,
-                )
-            else:
-                dictionary[
-                    # This handles awkward netplan compatibility issues
-                    # it excluded interface-names at the first level
-                    f"_{key}"
-                    if key in RESERVED
-                    else key.replace("_", "", 1)
-                    if key.startswith("_")
-                    else key.replace(old_char, new_char)
-                    if level not in ignore_levels
-                    else key
-                ] = dictionary.pop(key)
+            sanitized_key = BaseSerializer.get_streamlined_key(
+                key,
+                level=level,
+                old_char=old_char,
+                new_char=new_char,
+                ignore_levels=ignore_levels,
+            )
+            match dictionary[key]:
+                case dict():
+                    dictionary[sanitized_key] = BaseSerializer.streamline_keys(
+                        dictionary[key],
+                        level=level + 1,
+                        old_char=old_char,
+                        new_char=new_char,
+                        ignore_levels=ignore_levels,
+                    )
+                case _:
+                    dictionary[sanitized_key] = dictionary.pop(key)
         return dictionary
 
     @staticmethod
-    def to_serializable(value):
-        return (
-            value.value
-            if isinstance(value, Enum)
-            else str(value)
-            if isinstance(
-                value,
-                (
-                    IPv4Network,
-                    IPv6Network,
-                    IPv4Interface,
-                    IPv6Interface,
-                    IPv4Address,
-                    IPv6Address,
-                ),
-            )
-            else value.relative
-            if isinstance(value, FQDN)
-            else str(value)
-            if isinstance(value, str)
-            else int(value)
-            if isinstance(value, int)
-            else value
-        )
+    def to_serializable(value) -> Union[int, str]:
+        match value:
+            case Enum():
+                return Base.to_serializable(value.value)
+            case IPv4Network() | IPv6Network() | IPv4Interface() | IPv6Interface() | IPv4Address() | IPv6Address():
+                return str(value)
+            case str():
+                return str(value)
+            case int():
+                return int(value)
+            case _:
+                return value
 
     @staticmethod
-    def to_complex_serializable(data):
-        return (
-            [BaseSerializer.to_complex_serializable(item) for item in data]
-            if isinstance(data, (list, set))
-            else {
-                BaseSerializer.to_serializable(
-                    key
-                ): BaseSerializer.to_complex_serializable(val)
-                for key, val in data.items()
-            }
-            if isinstance(data, dict)
-            else BaseSerializer.to_serializable(data)
-        )
+    def to_complex_serializable(data) -> Union[list, dict, int, str]:
+        match data:
+            case list() | set():
+                return [BaseSerializer.to_complex_serializable(item) for item in data]
+            case dict():
+                return {
+                    BaseSerializer.to_serializable(
+                        key
+                    ): BaseSerializer.to_complex_serializable(val)
+                    for key, val in data.items()
+                }
+            case _:
+                return BaseSerializer.to_serializable(data)
 
     @staticmethod
-    def dict_factory(data):
+    def dict_factory(data) -> dict[Union[str, int], Union[list, dict, int, str]]:
         return {
-            field: BaseSerializer.to_complex_serializable(value)
+            BaseSerializer.to_serializable(
+                field
+            ): BaseSerializer.to_complex_serializable(value)
             for field, value in data
         }
 
@@ -138,6 +138,7 @@ class BaseSerializer:
             config=dacite.Config(
                 cast=[
                     Enum,
+                    FQDN,
                     InterfaceName,
                     MacAddress,
                     VirtualFunctionCount,
@@ -148,7 +149,6 @@ class BaseSerializer:
                     RouteScope,
                     LinkLocalAdressing,
                     OrderedDict,
-                    FQDN,
                     MTU,
                     set,
                     IPv4Network,

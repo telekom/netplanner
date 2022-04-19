@@ -10,14 +10,13 @@ from netplanner.interfaces.l2.veth import Veth
 from netplanner.interfaces.l2.vlan import VLAN
 from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
-from netplanner.interfaces.typing import (InterfaceName, NetworkRenderer,
-                                          Version)
+from netplanner.interfaces.typing import InterfaceName, NetworkRenderer, Version
 
 
 @dataclass
 class NetworkConfig(Base):
     version: Version
-    renderer: NetworkRenderer
+    renderer: NetworkRenderer = NetworkRenderer("networkd")
     dummies: Dict[InterfaceName, Dummy] = field(default_factory=dict)
     ethernets: Dict[InterfaceName, Ethernet] = field(default_factory=dict)
     bridges: Dict[InterfaceName, Bridge] = field(default_factory=dict)
@@ -30,7 +29,9 @@ class NetworkConfig(Base):
 
     def lookup(
         self, name: InterfaceName
-    ) -> Dict[InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, Veth, List]]:
+    ) -> Dict[
+        InterfaceName, Union[Dummy, Ethernet, VXLAN, Bond, VLAN, VRF, Veth, List]
+    ]:
         return {
             key: value
             for field in fields(self)
@@ -44,10 +45,15 @@ class NetworkConfig(Base):
             if interface_config.link not in self.veths:
                 raise ValueError(f"Link of Veth {interface_name} does not exist")
             if interface_config.link == interface_name:
-                raise ValueError(f"Link of Veth {interface_name} can not reference to itself")
+                raise ValueError(
+                    f"Link of Veth {interface_name} can not reference to itself"
+                )
             if self.veths[interface_config.link].link != interface_name:
-                raise ValueError(f"Link of Veth {interface_name} does not have the same link")
+                raise ValueError(
+                    f"Link of Veth {interface_name} does not have the same link"
+                )
         self.veths = OrderedDict(sorted(self.veths.items()))
+
 
 @dataclass
 class NetplannerConfig(Base):

@@ -1,4 +1,3 @@
-# netplanner managed
 [Match]
 {%- if interface.match is defined and interface.match != None %}
 {%- if interface.match.name is defined and interface.match.name != None %}
@@ -10,20 +9,15 @@ MACAddress={{ interface.match.macaddress }}
 {%- if interface.match.driver is defined and interface.match.driver != None %}
 Driver={{ interface.match.driver }}
 {%- endif %}
-{%- else %}
-{%- if interface.macaddress != None and interface.macaddress %}
+{%- if interface.object_name in ['Ethernet'] and (interface.macaddress != None or interface.set_name is defined and interface.set_name != None) %}
+{%- if interface.macaddress != None %}
 PermanentMACAddress={{ interface.macaddress }}
-{%- else %}
-OriginalName={{ interface_name }}
 {%- endif %}
-{%- endif %}
-[Link]
-{%- if interface.object_name == 'Ethernet' %}
-WakeOnLan=off
-{%- if interface.set_name != None %}
+{%- if interface.set_name is defined and interface.set_name != None %}
 Name={{ interface.set_name }}
 {%- endif %}
 {%- endif %}
-{%- if interface.mtu != None %}
-MTUBytes={{ interface.mtu }}
+{%- endif %}
+{%- if interface.match is not defined or interface.match.name is not defined and interface.set_name is not defined or interface.set_name == None %}
+Name={{ interface_name }}
 {%- endif %}

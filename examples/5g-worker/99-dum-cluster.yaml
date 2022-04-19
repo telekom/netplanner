@@ -1,0 +1,9 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  dummies:
+    dum.cluster:
+      mtu: 9000
+      link-local: ["ipv6"]
+ 

@@ -9,8 +9,9 @@ from netplanner.interfaces.typing import (
     InterfaceName,
     IPInterfaceAddresses,
     MacAddress,
-    LinkLocalAdressing
+    LinkLocalAdressing,
 )
+
 
 @dataclass
 class Veth(Base):

@@ -1,0 +1,14 @@
+# Greetings to netplanner
+network:
+  version: 3
+  renderer: networkd
+  bonds:
+    sriovbond:
+      interfaces:
+      - ens2f0
+      - ens2f1
+      mtu: 9000
+      parameters:
+        mode: active-backup
+        primary: ens2f0
+        mii-monitor-interval: 100

@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from ipaddress import IPv4Address, IPv6Address
 from typing import List, Optional, Set
 
 from netplanner.interfaces.base import Base
@@ -28,6 +29,9 @@ class Ethernet(Base):
     virtual_function_count: Optional[VirtualFunctionCount]
     link_local: Optional[Set[LinkLocalAdressing]]
     accept_ra: Optional[bool]
+    gateway4: Optional[IPv4Address]
+    gateway6: Optional[IPv6Address]
+    set_name: Optional[InterfaceName]
     addresses: IPInterfaceAddresses = field(default_factory=list)
     routes: List[Route] = field(default_factory=list)
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
@@ -38,3 +42,37 @@ class Ethernet(Base):
         if self.link_local is None:
             self.link_local = set()
             self.link_local.add(LinkLocalAdressing("ipv6"))
+        if self.gateway4 is not None:
+            self.routes.append(
+                Route(
+                    description="Default gateway set by gateway4",
+                    _from=None,
+                    to=None,
+                    type=None,
+                    via=self.gateway4,
+                    on_link=None,
+                    table=None,
+                    metric=None,
+                    scope=None,
+                    mtu=None,
+                    congestion_window=None,
+                    advertised_receive_window=None,
+                )
+            )
+        if self.gateway6 is not None:
+            self.routes.append(
+                Route(
+                    description="Default gateway set by gateway6",
+                    _from=None,
+                    to=None,
+                    type=None,
+                    via=self.gateway6,
+                    on_link=None,
+                    table=None,
+                    metric=None,
+                    scope=None,
+                    mtu=None,
+                    congestion_window=None,
+                    advertised_receive_window=None,
+                )
+            )
