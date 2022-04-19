@@ -38,19 +38,21 @@ class NetworkdProvider:
             logging.error(process.stderr)
 
     @staticmethod
-    def networkd(restart: bool = True, status: bool = True):
+    def networkd(restart: bool = False, status: bool = False, start: bool = False):
         command = ["/usr/bin/env", "systemctl"]
         if restart:
             command.append("restart")
         elif status:
             command.append("status")
+        elif start:
+            command.append("start")
         else:
             command.append("show")
         command.append("systemd-networkd")
         NetworkdProvider.run_command(command)
 
     @staticmethod
-    def networkctl(reload: bool = True, status: bool = False, all: bool = True):
+    def networkctl(reload: bool = False, status: bool = False, all: bool = False):
         command = ["/usr/bin/env", "networkctl"]
         if reload:
             command.append("reload")

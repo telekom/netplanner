@@ -37,15 +37,13 @@ def configure(
         sriov(configuration)
         provider.render()
         if reload:
-            provider.networkd(restart=True)
-            # provider.networkctl(reload=True)
+            provider.networkd(start=True)
     elif only_sriov:
         sriov(configuration)
     elif only_networkd:
         provider.render()
         if reload:
-            provider.networkd(restart=True)
-            # provider.networkctl(reload=True)
+            provider.networkd(start=True)
 
 
 generate = apply = configure
@@ -60,7 +58,7 @@ def main():
         description="valid subcommands",
         help="sub-command help",
     )
-    parser.add_argument("--version", action="version", version="0.8.3")
+    parser.add_argument("--version", action="version", version="0.8.4")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file or directory.",
@@ -131,8 +129,8 @@ def main():
             configuration = NetplannerConfig.from_dict(loader.config)
         else:
             raise Exception("Configuration cannot be loaded.")
-        reload = False
-        if not args.reload and loader.is_netplan:
+        reload = args.reload
+        if not reload and loader.is_netplan:
             reload = True
         output_path = args.output
         if output_path is None:
