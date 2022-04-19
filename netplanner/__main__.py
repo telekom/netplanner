@@ -48,7 +48,7 @@ def configure(
             provider.networkctl(reload=True)
 
 
-apply = configure
+generate = apply = configure
 
 
 def main():
@@ -108,8 +108,13 @@ def main():
         "apply",
         help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
+    generate_subparser = subparsers.add_parser(
+        "generate",
+        help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
+    )
     configure_subparser.set_defaults(func=configure)
     apply_subparser.set_defaults(func=apply)
+    generate_subparser.set_defaults(func=generate)
 
     args = parser.parse_args()
 

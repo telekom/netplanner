@@ -1,6 +1,6 @@
 import logging
 import yaml
-from typing import Optional
+from typing import Optional, Union
 from pathlib import Path
 from .util import merge_dicts
 
@@ -11,7 +11,7 @@ class ConfigLoader:
     DEFAULT_CONF_DIR = Path("/etc/netplanner/")
     NETPLAN_DEFAULT_CONF_DIR = Path("/etc/netplan/")
 
-    def __init__(self, config: Optional[str] = None):
+    def __init__(self, config: Optional[Union[str, Path]] = None):
         self._internal_config: dict = {}
         self._is_netplan: bool = False
         self.path = config
