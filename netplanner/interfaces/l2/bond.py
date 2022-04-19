@@ -14,6 +14,7 @@ from netplanner.interfaces.typing import (
     BondTransmitHashPolicy,
     InterfaceName,
     LinkLocalAdressing,
+    MacAddress,
     PositiveInt,
 )
 
@@ -30,6 +31,7 @@ class BondParameters(Base):
 
 @dataclass
 class Bond(Base):
+    macaddress: Optional[MacAddress]
     parameters: BondParameters
     vrf: Optional[InterfaceName]
     nameservers: Optional[NameServers]
