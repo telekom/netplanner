@@ -63,12 +63,12 @@ def main():
     parser.add_argument("--version", action="version", version="0.8.0")
     parser.add_argument(
         "--config",
-        help="Defines the path to the configuration file",
+        help="Defines the path to the configuration file or directory.",
         default=None,
     )
     parser.add_argument(
         "--debug",
-        help="Enables debug logging",
+        help="Enables debug logging.",
         action="store_true",
         default=False,
     )
@@ -79,19 +79,19 @@ def main():
     )
     parser.add_argument(
         "--only-sriov",
-        help="This only runs sriov configuration",
+        help="This only runs sriov configuration on supported interfaces.",
         action="store_true",
         dest="only_sriov",
     )
     parser.add_argument(
         "--reload",
-        help="This reloads networkd and networkctl",
+        help="This reloads networkd and networkctl via systemd.",
         action="store_true",
         dest="reload",
     )
     parser.add_argument(
         "--only-networkd",
-        help="This templates only networkd",
+        help="This templates only networkd configuration files.",
         action="store_true",
         dest="only_networkd",
     )
@@ -102,11 +102,11 @@ def main():
     )
     configure_subparser = subparsers.add_parser(
         "configure",
-        help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
+        help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
     apply_subparser = subparsers.add_parser(
         "apply",
-        help="Configure Network Adapters flawlessly with the knowledge of mimir the netplanner.",
+        help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
     configure_subparser.set_defaults(func=configure)
     apply_subparser.set_defaults(func=apply)
