@@ -144,7 +144,10 @@ def main():
         )
     except Exception as e:
         parser.print_help()
-        raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))
+        if args.debug:
+            raise e
+        else:
+            raise SystemExit("{prog}: {msg}".format(prog=args.prog, msg=e))
 
 
 if __name__ == "__main__":

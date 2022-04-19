@@ -45,13 +45,13 @@ class BaseSerializer:
         key: str, level: int, old_char: str, new_char: str, ignore_levels: list
     ) -> str:
         """
-        This handles awkward netplan compatibility issues
-        it excluded interface-names at the first level
+        This handles awkward netplan compatibility issues.
+        it excludes interface-names at the first level of the yaml configuration file
         """
         if key in BaseSerializer.RESERVED:
             return f"_{key}"
         elif key.startswith("_"):
-            return key.replace("_", "", 1)
+            return key[1:]
         elif level not in ignore_levels:
             return key.replace(old_char, new_char)
         else:

@@ -2,8 +2,7 @@ import logging
 import yaml
 from typing import Optional
 from pathlib import Path
-from collections import ChainMap
-
+from .util import merge_dicts
 
 class ConfigLoader:
 
@@ -42,18 +41,14 @@ class ConfigLoader:
                 [
                     path
                     for path in self.path.iterdir()
-                    if path.is_file()
-                    and path.suffix == ".yaml"
-                    or path.suffix == ".yml"
+                    if path.is_file() and path.suffix in [".yaml", ".yml"]
                 ],
-                reverse=True,
+                reverse=True
             )
             if not config_file_list:
                 raise Exception(f"Config Directory [{self.path}] is empty")
-            merged_config = ChainMap(
-                *[self._load_file(path) for path in config_file_list]
-            )
-            self._internal_config = dict(merged_config)
+            loaded_configs = [self._load_file(path) for path in config_file_list]
+            self._internal_config = merge_dicts(loaded_configs)
         return self._internal_config is not None
 
     @property
