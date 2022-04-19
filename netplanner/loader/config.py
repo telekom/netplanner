@@ -27,7 +27,7 @@ class ConfigLoader:
                 self.path = path
         if self.path is None:
             raise Exception(
-                f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR},{self.NETPLAN_DEFAULT_CONF_DIR},{config}]"
+                f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR}, {self.NETPLAN_DEFAULT_CONF_DIR}, {config}]"
             )
 
     def _load_file(self, path: Path):
