@@ -14,7 +14,7 @@ fqdn = "^1.5.1"
 Jinja2 = "^3.1.1"
 
 [tool.poetry.dev-dependencies]
-black = {version = "^21.7b0", allow-prereleases = true}
+black = {version = "^21.12b0", allow-prereleases = true}
 mypy = "^0.910"
 types-PyYAML = "^6.0"
 pyinstaller = "^4.10"
