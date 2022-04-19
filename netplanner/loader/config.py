@@ -23,6 +23,7 @@ class ConfigLoader:
                 f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR}, {self.NETPLAN_DEFAULT_CONF_DIR}, {self._path}]"
             )
         return self._path
+
     @path.setter
     def path(self, value: Optional[str]):
         self._path = None
@@ -36,7 +37,6 @@ class ConfigLoader:
             path = Path(value)
             if path.exists():
                 self._path = path
-
 
     @property
     def config_file_list(self) -> list[Path]:
