@@ -4,6 +4,7 @@ from typing import Optional
 from pathlib import Path
 from .util import merge_dicts
 
+
 class ConfigLoader:
 
     logger = logging.getLogger("config_loader")
@@ -43,7 +44,7 @@ class ConfigLoader:
                     for path in self.path.iterdir()
                     if path.is_file() and path.suffix in [".yaml", ".yml"]
                 ],
-                reverse=True
+                reverse=True,
             )
             if not config_file_list:
                 raise Exception(f"Config Directory [{self.path}] is empty")
