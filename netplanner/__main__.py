@@ -68,7 +68,7 @@ def main():
     )
     parser.add_argument(
         "--debug",
-        help="Defines the path to the configuration file",
+        help="Enables debug logging",
         action="store_true",
         default=False,
     )
