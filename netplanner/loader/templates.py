@@ -9,12 +9,9 @@ class ImportLibLoader(BaseLoader):
 
     IGNORED = ["py", "pyo", "pyc", "__pycache__"]
 
-    def __init__(self, module, encoding="utf-8"):
-        self.module = module
-        self.encoding: str = encoding
-
-    def _get_path_template(self, template) -> tuple[str, str]:
-        path_template = template.rsplit("/", maxsplit=1)
+    @staticmethod
+    def _get_path_template(path_template: str) -> tuple[str, str]:
+        path_template = path_template.rsplit("/", maxsplit=1)
         if len(path_template) == 2:
             path = f"/{path_template[0]}"
             template = path_template[1]
@@ -24,8 +21,22 @@ class ImportLibLoader(BaseLoader):
         path = path.replace("/", ".")
         return path, template
 
-    def _get_module(self, template, module=None) -> tuple[Any, str]:
-        path, template = self._get_path_template(template)
+    @staticmethod
+    def _has_resource(module, template) -> bool:
+        return any(
+            [
+                content == template
+                for content in contents(module)
+                if is_resource(module, template)
+            ]
+        )
+
+    def __init__(self, module, encoding="utf-8"):
+        self.module = module
+        self.encoding: str = encoding
+
+    def _get_module(self, path_template, module=None) -> tuple[Any, str]:
+        path, template = ImportLibLoader._get_path_template(path_template)
         try:
             module = module
             if module is None:
@@ -40,7 +51,7 @@ class ImportLibLoader(BaseLoader):
 
     def get_source(self, _, path_template):
         module, template = self._get_module(path_template)
-        if not self._has_resource(module, template):
+        if not ImportLibLoader._has_resource(module, template):
             raise TemplateNotFound(template)
         source = read_binary(module, template)
 
@@ -65,12 +76,3 @@ class ImportLibLoader(BaseLoader):
         _walk(self.module)
         results.sort()
         return results
-
-    def _has_resource(self, module, template) -> bool:
-        return any(
-            [
-                content == template
-                for content in contents(module)
-                if is_resource(module, template)
-            ]
-        )
