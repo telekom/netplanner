@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from subprocess import PIPE, run
 
-from jinja2 import Environment, PackageLoader
+from jinja2 import Environment
 from netplanner.config import NetplannerConfig
 from netplanner.interfaces.base import Base
 from netplanner.interfaces.l2.bond import Bond
@@ -13,13 +13,14 @@ from netplanner.interfaces.l2.veth import Veth
 from netplanner.interfaces.l2.vlan import VLAN
 from netplanner.interfaces.l2.vrf import VRF
 from netplanner.interfaces.l2.vxlan import VXLAN
+from netplanner.loader.templates import ImportLibLoader
+from netplanner.providers.networkd import templates
 
 
 class NetworkdProvider:
-    env: Environment = Environment(
-        loader=PackageLoader("netplanner.providers.networkd")
-    )
+    env: Environment = Environment(loader=ImportLibLoader(templates))
     priority: int = 10
+    logger = logging.getLogger("networkd")
     DEFAULT_PATH = "etc/systemd/network"
 
     @staticmethod
@@ -33,9 +34,9 @@ class NetworkdProvider:
             encoding="utf-8",
         )
         if process.stdout:
-            logging.info(process.stdout)
+            NetworkdProvider.logger.info(process.stdout)
         if process.stderr:
-            logging.error(process.stderr)
+            NetworkdProvider.logger.error(process.stderr)
 
     @staticmethod
     def networkd(restart: bool = False, status: bool = False, start: bool = False):
@@ -119,6 +120,7 @@ class NetworkdProvider:
         ] = NetworkdProvider.to_systemd_link_local
         path = path.removeprefix("/")
         path = path.removeprefix("./")
+        self.logger.debug(self.env.list_templates())
         prefix = "/"
         if local:
             prefix = "./"
@@ -174,7 +176,7 @@ class NetworkdProvider:
 
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.network"
             with open(self.path / file_name, "w") as file:
-                logging.info(f"Write: {self.path / file_name}")
+                self.logger.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name,
@@ -189,7 +191,7 @@ class NetworkdProvider:
         for interface_name, interface_config in self.config.network.ethernets.items():
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.link"
             with open(self.path / file_name, "w") as file:
-                logging.info(f"Write: {self.path / file_name}")
+                self.logger.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name, interface=interface_config
@@ -219,7 +221,7 @@ class NetworkdProvider:
 
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
-                logging.info(f"Write: {self.path / file_name}")
+                self.logger.info(f"Write: {self.path / file_name}")
                 file.write(
                     template.render(
                         interface_name=interface_name,
@@ -238,7 +240,7 @@ class NetworkdProvider:
                 ("link", "network", "netdev")
             ), "only networkd endings are allowed."
             with open(self.path / file_name, "w") as file:
-                logging.info(f"Write: {self.path / file_name}")
+                self.logger.info(f"Write: {self.path / file_name}")
                 file.write(template.render(data=data))
 
 
