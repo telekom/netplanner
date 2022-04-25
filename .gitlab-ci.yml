@@ -42,17 +42,17 @@ build:
     - python -V  # Print out python version for debugging
     - pip install poetry
     - poetry config virtualenvs.in-project true
-    - poetry install
     - poetry --version
+    - poetry install
   script:
     - poetry build
-    - poetry run python -OO -m PyInstaller netplanner.spec
+    - poetry run pyoxidizer build --release
     # an alternative approach is to install and run:
     - pip install dist/*.whl
     # run the command here
     - netplanner --help
     - mkdir -p bin/
-    - cp dist/netplanner "bin/${LINUX_AMD64_BINARY}"
+    - cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
   artifacts:
     expire_in: 30 days
     paths:
