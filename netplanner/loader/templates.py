@@ -11,13 +11,13 @@ class ImportLibLoader(BaseLoader):
 
     @staticmethod
     def _get_path_template(path_template: str) -> tuple[str, str]:
-        path_template = path_template.rsplit("/", maxsplit=1)
-        if len(path_template) == 2:
-            path = f"/{path_template[0]}"
-            template = path_template[1]
+        path_template_splitted = path_template.rsplit("/", maxsplit=1)
+        if len(path_template_splitted) == 2:
+            path = f"/{path_template_splitted[0]}"
+            template = path_template_splitted[1]
         else:
             path = "/"
-            template = path_template[0]
+            template = path_template_splitted[0]
         path = path.replace("/", ".")
         return path, template
 
