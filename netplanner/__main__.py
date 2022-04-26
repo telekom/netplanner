@@ -47,10 +47,6 @@ def configure(
             provider.networkd(restart=True)
             provider.networkctl(reload=True)
 
-
-generate = apply = configure
-
-
 def main():
     """Main entry point for netplanner"""
     parser = argparse.ArgumentParser("netplanner")
@@ -59,6 +55,7 @@ def main():
         title="subcommands",
         description="valid subcommands",
         help="sub-command help",
+        dest='command'
     )
     parser.add_argument("--version", action="version", version="0.9.0")
     parser.add_argument(
@@ -100,21 +97,18 @@ def main():
         help="The output directory to which the files will be written.",
         default=None,
     )
-    configure_subparser = subparsers.add_parser(
+    subparsers.add_parser(
         "configure",
         help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
-    apply_subparser = subparsers.add_parser(
+    subparsers.add_parser(
         "apply",
         help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
-    generate_subparser = subparsers.add_parser(
+    subparsers.add_parser(
         "generate",
         help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
-    configure_subparser.set_defaults(func=configure)
-    apply_subparser.set_defaults(func=apply)
-    generate_subparser.set_defaults(func=generate)
 
     args = parser.parse_args()
 
@@ -138,14 +132,18 @@ def main():
             else:
                 output_path = DEFAULT_OUTPUT_PATH
 
-        args.func(
-            configuration,
-            output_path,
-            local=bool(args.local),
-            reload=bool(args.reload),
-            only_sriov=bool(args.only_sriov),
-            only_networkd=bool(args.only_networkd),
-        )
+        match args.command:
+            case ("configure" | "apply" | "generate"):
+                configure(
+                    configuration,
+                    output_path,
+                    local=bool(args.local),
+                    reload=bool(args.reload),
+                    only_sriov=bool(args.only_sriov),
+                    only_networkd=bool(args.only_networkd),
+                )
+            case _:
+                raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
     except Exception as e:
         parser.print_help()
         if args.debug:
