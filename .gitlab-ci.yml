@@ -82,7 +82,6 @@ test:
   artifacts:
     expire_in: 30 days
     paths:
-      - bin/*
       - run/systemd/networkd/*
 
 upload:
@@ -91,8 +90,10 @@ upload:
   stage: upload
   image: curlimages/curl:latest
   script:
+    - ls -lah bin
+    - echo "${LINUX_AMD64_BINARY}"
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "bin/${LINUX_AMD64_BINARY}" "${PACKAGE_REGISTRY_URL}"
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file bin/${LINUX_AMD64_BINARY} ${PACKAGE_REGISTRY_URL}
   only:
     - tags
 
