@@ -53,6 +53,7 @@ build:
     - netplanner --help
     - mkdir -p bin/
     - cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
+    - chmod 0644 "bin/${LINUX_AMD64_BINARY}"
   artifacts:
     expire_in: 30 days
     paths:
@@ -90,11 +91,6 @@ upload:
   stage: upload
   image: curlimages/curl:latest
   script:
-    - ls -lah bin/
-    - chmod -x bin/${LINUX_AMD64_BINARY}
-    - ls -lah bin/
-    - echo "${LINUX_AMD64_BINARY}"
-    - echo "${PACKAGE_REGISTRY_URL}"
     - |
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file bin/${LINUX_AMD64_BINARY} ${PACKAGE_REGISTRY_URL}
   only:
