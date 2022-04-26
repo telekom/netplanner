@@ -131,19 +131,30 @@ def main():
                 output_path = NETPLAN_DEFAULT_OUTPUT_PATH
             else:
                 output_path = DEFAULT_OUTPUT_PATH
-
-        match args.command:
-            case ("configure" | "apply" | "generate"):
-                configure(
-                    configuration,
-                    output_path,
-                    local=bool(args.local),
-                    reload=bool(args.reload),
-                    only_sriov=bool(args.only_sriov),
-                    only_networkd=bool(args.only_networkd),
-                )
-            case _:
-                raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
+        ## Python 3.10
+        # match args.command:
+        #     case ("configure" | "apply" | "generate"):
+        #         configure(
+        #             configuration,
+        #             output_path,
+        #             local=bool(args.local),
+        #             reload=bool(args.reload),
+        #             only_sriov=bool(args.only_sriov),
+        #             only_networkd=bool(args.only_networkd),
+        #         )
+        #     case _:
+        #         raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
+        if args.command in ("configure", "apply", "generate"):
+            configure(
+                configuration,
+                output_path,
+                local=bool(args.local),
+                reload=bool(args.reload),
+                only_sriov=bool(args.only_sriov),
+                only_networkd=bool(args.only_networkd),
+            )
+        else:
+            raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
     except Exception as e:
         parser.print_help()
         if args.debug:
