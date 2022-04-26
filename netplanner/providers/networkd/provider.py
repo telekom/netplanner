@@ -1,7 +1,6 @@
 import logging
 from pathlib import Path
 from subprocess import PIPE, run
-
 from jinja2 import Environment
 from netplanner.config import NetplannerConfig
 from netplanner.interfaces.base import Base
@@ -91,25 +90,44 @@ class NetworkdProvider:
 
     @staticmethod
     def get_priority(interface_type: Base) -> int:
-        match interface_type:
-            case Ethernet():
-                return 10
-            case Bond():
-                return 11
-            case Dummy():
-                return 11
-            case VRF():
-                return 12
-            case Bridge():
-                return 13
-            case VXLAN():
-                return 14
-            case VLAN():
-                return 15
-            case Veth():
-                return 16
-            case _:
-                return 17
+        ## Python 3.10 code
+        # match interface_type:
+        #     case Ethernet():
+        #         return 10
+        #     case Bond():
+        #         return 11
+        #     case Dummy():
+        #         return 11
+        #     case VRF():
+        #         return 12
+        #     case Bridge():
+        #         return 13
+        #     case VXLAN():
+        #         return 14
+        #     case VLAN():
+        #         return 15
+        #     case Veth():
+        #         return 16
+        #     case _:
+        #         return 17
+        if isinstance(interface_type, Ethernet):
+            return 10
+        elif isinstance(interface_type, Bond):
+            return 11
+        elif isinstance(interface_type, Dummy):
+            return 11
+        elif isinstance(interface_type, VRF):
+            return 12
+        elif isinstance(interface_type, Bridge):
+            return 13
+        elif isinstance(interface_type, VXLAN):
+            return 14
+        elif isinstance(interface_type, VLAN):
+            return 15
+        elif isinstance(interface_type, Veth):
+            return 16
+        else:
+            return 17
 
     def __init__(self, config: NetplannerConfig, local=True, path: str = DEFAULT_PATH):
         self.config: NetplannerConfig = config
@@ -141,33 +159,65 @@ class NetworkdProvider:
         ).items():
             child_interfaces = {}
             parent_interface = None
-            match interface_config:
-                case Bond():
-                    child_interfaces = {
-                        vlan_name: vlan_config
-                        for vlan_name, vlan_config in self.config.network.vlans.items()
-                        if interface_name == vlan_config.link
-                    }
-                case Dummy():
-                    child_interfaces = {
-                        vxlan_name: vxlan_config
-                        for vxlan_name, vxlan_config in self.config.network.vxlans.items()
-                        if interface_name == vxlan_config.link
-                    }
-                case VLAN() if interface_config.link is not None:
-                    parent_interface = self.config.network.lookup(interface_config.link)
-                case Ethernet():
-                    parent_interface = {
-                        name: config
-                        for name, config in self.config.network.bonds.items()
-                        if interface_name in config.interfaces
-                    }
-                case VXLAN():
-                    parent_interface = {
-                        name: config
-                        for name, config in self.config.network.bridges.items()
-                        if interface_name in config.interfaces
-                    }
+            ## Python 3.10 code
+            # match interface_config:
+            #     case Bond():
+            #         child_interfaces = {
+            #             vlan_name: vlan_config
+            #             for vlan_name, vlan_config in self.config.network.vlans.items()
+            #             if interface_name == vlan_config.link
+            #         }
+            #     case Dummy():
+            #         child_interfaces = {
+            #             vxlan_name: vxlan_config
+            #             for vxlan_name, vxlan_config in self.config.network.vxlans.items()
+            #             if interface_name == vxlan_config.link
+            #         }
+            #     case VLAN() if interface_config.link is not None:
+            #         parent_interface = self.config.network.lookup(
+            #             interface_config.link
+            #         )
+            #     case Ethernet():
+            #         parent_interface = {
+            #             name: config
+            #             for name, config in self.config.network.bonds.items()
+            #             if interface_name in config.interfaces
+            #         }
+            #     case VXLAN():
+            #         parent_interface = {
+            #             name: config
+            #             for name, config in self.config.network.bridges.items()
+            #             if interface_name in config.interfaces
+            #         }
+            if isinstance(interface_config, Bond):
+                child_interfaces = {
+                    vlan_name: vlan_config
+                    for vlan_name, vlan_config in self.config.network.vlans.items()
+                    if interface_name == vlan_config.link
+                }
+            elif isinstance(interface_config, Dummy):
+                child_interfaces = {
+                    vxlan_name: vxlan_config
+                    for vxlan_name, vxlan_config in self.config.network.vxlans.items()
+                    if interface_name == vxlan_config.link
+                }
+            elif (
+                isinstance(interface_config, VLAN)
+                and interface_config.link is not None
+            ):
+                parent_interface = self.config.network.lookup(interface_config.link)
+            elif isinstance(interface_config, Ethernet):
+                parent_interface = {
+                    name: config
+                    for name, config in self.config.network.bonds.items()
+                    if interface_name in config.interfaces
+                }
+            elif isinstance(interface_config, VXLAN):
+                parent_interface = {
+                    name: config
+                    for name, config in self.config.network.bridges.items()
+                    if interface_name in config.interfaces
+                }
 
             if parent_interface is not None and len(parent_interface) > 1:
                 raise ValueError(
