@@ -10,7 +10,7 @@ def make_exe():
     # Obtain the default PythonDistribution for our build target. We link
     # this distribution into our produced executable and extract the Python
     # standard library from it.
-    dist = default_python_distribution()
+    dist = default_python_distribution(python_version = "3.9")
 
     # This function creates a `PythonPackagingPolicy` instance, which
     # influences how executables are built and how resources are added to
@@ -31,7 +31,9 @@ def make_exe():
     # levels. The default optimization level used by Python is 0.
     # policy.bytecode_optimize_level_zero = True
     # policy.bytecode_optimize_level_one = True
-    # policy.bytecode_optimize_level_two = True
+    policy.bytecode_optimize_level_zero = False
+    policy.bytecode_optimize_level_one = False
+    policy.bytecode_optimize_level_two = True
 
     # Package all available Python extensions in the distribution.
     # policy.extension_module_filter = "all"
@@ -40,7 +42,7 @@ def make_exe():
     # to run a Python interpreter. Various functionality from the Python
     # standard library won't work with this setting! But it can be used to
     # reduce the size of generated executables by omitting unused extensions.
-    policy.extension_module_filter = "minimal"
+    # policy.extension_module_filter = "minimal"
 
     # Package Python extensions in the distribution not having additional
     # library dependencies. This will exclude working support for SSL,
@@ -49,7 +51,7 @@ def make_exe():
 
     # Package Python extensions in the distribution not having a dependency on
     # copyleft licensed software like GPL.
-    policy.extension_module_filter = "no-copyleft"
+    # policy.extension_module_filter = "no-copyleft"
 
     # Controls whether the file scanner attempts to classify files and emit
     # resource-specific values.
@@ -68,7 +70,7 @@ def make_exe():
 
     # Toggle whether Python package resource files for the Python standard
     # library are included.
-    # policy.include_distribution_resources = False
+    policy.include_distribution_resources = False
 
     # Controls the `add_include` attribute of `File` resources.
     # policy.include_file_resources = False
@@ -156,7 +158,7 @@ def make_exe():
     # python_config.allocator_pymalloc_arena = True
 
     # Enable Python memory allocator debug hooks.
-    # python_config.allocator_debug = True
+    python_config.allocator_debug = False
 
     # Automatically calls `multiprocessing.set_start_method()` with an
     # appropriate value when OxidizedFinder imports the `multiprocessing`
@@ -174,7 +176,7 @@ def make_exe():
 
     # Control whether `oxidized_importer` is the first importer on
     # `sys.meta_path`.
-    # python_config.oxidized_importer = False
+    # python_config.oxidized_importer = True
 
     # Enable the standard path-based importer which attempts to load
     # modules from the filesystem.
@@ -195,6 +197,8 @@ def make_exe():
 
     # Run a Python module as __main__ when the interpreter starts.
     python_config.run_module = "netplanner"
+
+    python_config.optimization_level = 2
 
     # Run a Python file when the interpreter starts.
     # python_config.run_filename = "/path/to/file"
