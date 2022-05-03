@@ -25,6 +25,10 @@ Running Code Licenses
 * fqdn   | [MPL-2 License](https://github.com/ypcrts/fqdn/blob/develop/LICENSE)
 * Jinja2 | [BSD-3 License](https://github.com/pallets/jinja/blob/main/LICENSE.rst)
 
+Building Tool for Dynamic Linked CLI Binary
+
+* PyOxidizer | [MPL-2 License](https://github.com/indygreg/PyOxidizer/blob/main/LICENSE)
+
 ## How to use it
 
 ```console
