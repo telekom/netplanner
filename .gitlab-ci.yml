@@ -54,6 +54,7 @@ build:
     - mkdir -p bin/
     - cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
     - chmod 0644 "bin/${LINUX_AMD64_BINARY}"
+    - strip "bin/${LINUX_AMD64_BINARY}"
   artifacts:
     expire_in: 30 days
     paths:
