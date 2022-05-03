@@ -33,25 +33,27 @@ $ netplanner --local --config examples/worker-config-old.yaml --output /run/syst
 
 $ netplanner --help
 usage: netplanner [-h] [--version] [--config CONFIG] [--debug] [--local] [--only-sriov] [--reload] [--only-networkd] [--output OUTPUT]
-                  {configure,apply} ...
+                  {configure,apply,generate} ...
 
 options:
-  -h, --help         show this help message and exit
-  --version          show program's version number and exit
-  --config CONFIG    Defines the path to the configuration file or directory.
-  --debug            Enables debug logging.
-  --local            This templates the configuration into a local directory
-  --only-sriov       This only runs sriov configuration on supported interfaces.
-  --reload           This reloads networkd and networkctl via systemd.
-  --only-networkd    This templates only networkd configuration files.
-  --output OUTPUT    The output directory to which the files will be written.
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --config CONFIG       Defines the path to the configuration file or directory.
+  --debug               Enables debug logging.
+  --local               This templates the configuration into a local directory
+  --only-sriov          This only runs sriov configuration on supported interfaces.
+  --reload              This reloads networkd and networkctl via systemd.
+  --only-networkd       This templates only networkd configuration files.
+  --output OUTPUT       The output directory to which the files will be written.
 
 subcommands:
   valid subcommands
 
-  {configure,apply}  sub-command help
-    configure        Configure Network Adapters flawlessly with the knowledge of the netplanner.
-    apply            Configure Network Adapters flawlessly with the knowledge of the netplanner.
+  {configure,apply,generate}
+                        sub-command help
+    configure           Configure Network Adapters flawlessly with the knowledge of the netplanner.
+    apply               Configure Network Adapters flawlessly with the knowledge of the netplanner.
+    generate            Configure Network Adapters flawlessly with the knowledge of the netplanner.
 ```
 
 ## Examples Directory
