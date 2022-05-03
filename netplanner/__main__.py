@@ -57,7 +57,7 @@ def main():
         help="sub-command help",
         dest='command'
     )
-    parser.add_argument("--version", action="version", version="0.10.0")
+    parser.add_argument("--version", action="version", version="0.11.0")
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file or directory.",
