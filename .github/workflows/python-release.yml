@@ -93,7 +93,6 @@ jobs:
         files: |
           ./bin/${{ env.LINUX_AMD64_BINARY }}
           ./dist/*
-          ./CHANGELOG.md
 
     - name: Release on PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
