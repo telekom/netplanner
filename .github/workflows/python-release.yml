@@ -36,6 +36,7 @@ jobs:
       run: |
         poetry build
     - name: Install Package
+      run:
         poetry run python -m pip install dist/*.whl
         echo "PROJECT_VERSION=$(poetry run python -m netplanner --version)" >> $GITHUB_ENV
         echo "::set-output name=version::$(poetry run python -m netplanner --version)"
