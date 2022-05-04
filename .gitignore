@@ -1,5 +1,6 @@
 .venv/
 .vscode
+.mypy_cache/
 *.config
 __pycache__/
 dist/
