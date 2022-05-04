@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v3
       if: ${{ github.event_name == 'push' }}
       with:
-        name: "${LINUX_AMD64_BINARY}"
+        name: "netplanner"
         path: build/x86_64-unknown-linux-gnu/release/install/netplanner
         retention-days: 30
     - name: Try library installation
