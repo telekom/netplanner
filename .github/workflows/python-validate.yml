@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  LINUX_AMD64_BINARY: "netplanner-linux-amd64-${{ env.BRANCH_NAME }}"
+  LINUX_AMD64_BINARY: "netplanner-linux-amd64-$BRANCH_NAME"
 
 jobs:
   validate:
