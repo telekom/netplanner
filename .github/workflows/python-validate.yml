@@ -50,6 +50,7 @@ jobs:
         strip "bin/${LINUX_AMD64_BINARY}"
     - name: 'Upload dynamic binary Artifact'
       uses: actions/upload-artifact@v3
+      if: ${{ github.event_name == 'push' }}
       with:
         name: "${LINUX_AMD64_BINARY}"
         path: build/x86_64-unknown-linux-gnu/release/install/netplanner
