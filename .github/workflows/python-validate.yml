@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  LINUX_AMD64_BINARY: "netplanner-linux-amd64-$BRANCH_NAME"
+  REF_NAME: ${{ github.head_ref || github.ref_name }}
+  LINUX_AMD64_BINARY: "netplanner-linux-amd64-${{ github.head_ref || github.ref_name }}"
 
 jobs:
   validate:
@@ -27,25 +27,27 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        which strip
         python -m pip install --upgrade pip poetry
         poetry config virtualenvs.in-project true
         poetry --version
         poetry install
-    - name: Build package
-      run: |
-        poetry build
     - name: Lint with black
       run: |
         poetry run black -t py310 --check .
     - name:  Type Lint with mypy
       run: |
         poetry run mypy .
+    - name: Build package
+      run: |
+        poetry build
     - name: Build dynamically linked binary
       run: |
-        poetry run pyoxidizer build
+        poetry run pyoxidizer build --release
         mkdir -p bin/
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
+        strip "bin/${LINUX_AMD64_BINARY}"
     - name: Try library installation
       run: |
         pip install dist/*.whl
