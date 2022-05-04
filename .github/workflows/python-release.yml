@@ -62,13 +62,6 @@ jobs:
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
         strip "bin/${LINUX_AMD64_BINARY}"
-    - name: 'Upload dynamic binary Artifact'
-      uses: actions/upload-artifact@v3
-      if: ${{ github.event_name == 'push' }}
-      with:
-        name: "netplanner"
-        path: bin/*
-        retention-days: 30
     - name: E2E Tests
       run: |
         chmod 0755 "bin/${LINUX_AMD64_BINARY}"
@@ -84,12 +77,6 @@ jobs:
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
         # this should fail
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
-    - name: 'Upload E2E Test Artifacts'
-      uses: actions/upload-artifact@v3
-      with:
-        name: templated-test-config
-        path: ./run/**
-        retention-days: 5
     - name: Pytest
       run: |
         echo "This should later run the unit tests."
