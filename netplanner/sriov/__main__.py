@@ -18,8 +18,7 @@
 
 import logging
 
-from netplanner.config import NetplannerConfig
-
+from ..config import NetplannerConfig
 from . import pci
 
 

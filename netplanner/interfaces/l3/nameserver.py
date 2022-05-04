@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from netplanner.interfaces.base import Base, FQDN
-from netplanner.interfaces.typing import IPAddress
+from ..base import FQDN, Base
+from ..typing import IPAddress
 
 
 @dataclass

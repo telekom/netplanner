@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from netplanner.interfaces.base import MTU, Base, PositiveInt
-from netplanner.interfaces.typing import IPAddress, IPNetwork, TableShortInt
-from netplanner.interfaces.typing import RouteScope, RouteType
+from ..base import MTU, Base, PositiveInt
+from ..typing import IPAddress, IPNetwork, TableShortInt
+from ..typing import RouteScope, RouteType
 
 
 @dataclass

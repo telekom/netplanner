@@ -1,15 +1,15 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Set
 
-from netplanner.interfaces.base import Base
-from netplanner.interfaces.l3.route import Route
-from netplanner.interfaces.l3.routing_policy import RoutingPolicy
-from netplanner.interfaces.typing import (
+from ..base import Base
+from ..l3.route import Route
+from ..l3.routing_policy import RoutingPolicy
+from ..typing import (
     MTU,
     InterfaceName,
     IPInterfaceAddresses,
-    MacAddress,
     LinkLocalAdressing,
+    MacAddress,
 )
 
 

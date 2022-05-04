@@ -1,19 +1,21 @@
 import logging
 from pathlib import Path
 from subprocess import PIPE, run
+
 from jinja2 import Environment
-from netplanner.config import NetplannerConfig
-from netplanner.interfaces.base import Base
-from netplanner.interfaces.l2.bond import Bond
-from netplanner.interfaces.l2.bridge import Bridge
-from netplanner.interfaces.l2.dummy import Dummy
-from netplanner.interfaces.l2.ethernet import Ethernet
-from netplanner.interfaces.l2.veth import Veth
-from netplanner.interfaces.l2.vlan import VLAN
-from netplanner.interfaces.l2.vrf import VRF
-from netplanner.interfaces.l2.vxlan import VXLAN
-from netplanner.loader.templates import ImportLibLoader
-from netplanner.providers.networkd import templates
+
+from ...config import NetplannerConfig
+from ...interfaces.base import Base
+from ...interfaces.l2.bond import Bond
+from ...interfaces.l2.bridge import Bridge
+from ...interfaces.l2.dummy import Dummy
+from ...interfaces.l2.ethernet import Ethernet
+from ...interfaces.l2.veth import Veth
+from ...interfaces.l2.vlan import VLAN
+from ...interfaces.l2.vrf import VRF
+from ...interfaces.l2.vxlan import VXLAN
+from ...loader.templates import ImportLibLoader
+from ...providers.networkd import templates
 
 
 class NetworkdProvider:

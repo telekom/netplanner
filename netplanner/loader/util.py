@@ -1,5 +1,5 @@
-from typing import Optional
 from functools import reduce
+from typing import Optional
 
 
 def merge(dict_a: dict, dict_b: dict, path: Optional[list[str]] = None) -> dict:

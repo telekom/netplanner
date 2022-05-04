@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from netplanner.interfaces.base import Base, PositiveInt
-from netplanner.interfaces.typing import IPNetwork, TableShortInt, UnsignedShortInt
+from ..base import Base, PositiveInt
+from ..typing import IPNetwork, TableShortInt, UnsignedShortInt
 
 
 @dataclass

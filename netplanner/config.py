@@ -1,16 +1,16 @@
 from dataclasses import dataclass, field, fields
 from typing import Dict, List, OrderedDict, Union
 
-from netplanner.interfaces.base import Base
-from netplanner.interfaces.l2.bond import Bond
-from netplanner.interfaces.l2.bridge import Bridge
-from netplanner.interfaces.l2.dummy import Dummy
-from netplanner.interfaces.l2.ethernet import Ethernet
-from netplanner.interfaces.l2.veth import Veth
-from netplanner.interfaces.l2.vlan import VLAN
-from netplanner.interfaces.l2.vrf import VRF
-from netplanner.interfaces.l2.vxlan import VXLAN
-from netplanner.interfaces.typing import InterfaceName, NetworkRenderer, Version
+from .interfaces.base import Base
+from .interfaces.l2.bond import Bond
+from .interfaces.l2.bridge import Bridge
+from .interfaces.l2.dummy import Dummy
+from .interfaces.l2.ethernet import Ethernet
+from .interfaces.l2.veth import Veth
+from .interfaces.l2.vlan import VLAN
+from .interfaces.l2.vrf import VRF
+from .interfaces.l2.vxlan import VXLAN
+from .interfaces.typing import InterfaceName, NetworkRenderer, Version
 
 
 @dataclass

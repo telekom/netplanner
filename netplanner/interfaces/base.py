@@ -8,23 +8,21 @@ from ipaddress import (
     IPv6Interface,
     IPv6Network,
 )
-from netplanner.interfaces.typing import (
-    RouteScope,
-    RouteType,
-    TableShortInt,
-    UnsignedShortInt,
-)
 from typing import Optional, OrderedDict, Union
 
 import dacite
 from fqdn import FQDN as UpstreamFQDN  # type: ignore
 
-from netplanner.interfaces.typing import (
+from .typing import (
     MTU,
     InterfaceName,
     LinkLocalAdressing,
     MacAddress,
     PositiveInt,
+    RouteScope,
+    RouteType,
+    TableShortInt,
+    UnsignedShortInt,
     VirtualFunctionCount,
     VLANId,
     VLANType,

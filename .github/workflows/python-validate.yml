@@ -31,17 +31,25 @@ jobs:
         python -m pip install --upgrade pip poetry
         poetry config virtualenvs.in-project true
         poetry --version
-        poetry install
+        poetry install --no-root
     - name: Lint with black
       run: |
         poetry run black -t py310 --check .
     - name:  Type Lint with mypy
       run: |
-        poetry run mypy .
+        poetry run mypy -v .
     - name: Build package
       run: |
         poetry build
+    - name: 'Upload PythonPackage Artifact'
+      uses: actions/upload-artifact@v3
+      if: ${{ github.event_name == 'push' }} # only: main and on merge.
+      with:
+        name: "netplanner-sdist"
+        path: dist/*
+        retention-days: 30
     - name: Build dynamically linked binary
+      if: ${{ github.event_name == 'push' }} # only: main and on merge.
       run: |
         poetry run pyoxidizer build --release
         mkdir -p bin/
@@ -50,15 +58,27 @@ jobs:
         strip "bin/${LINUX_AMD64_BINARY}"
     - name: 'Upload dynamic binary Artifact'
       uses: actions/upload-artifact@v3
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' }} # only: main and on merge.
       with:
-        name: "netplanner"
-        path: build/x86_64-unknown-linux-gnu/release/install/netplanner
+        name: "netplanner-binary"
+        path: bin/*
         retention-days: 30
-    - name: Try library installation
+    - name: E2E Tests library
       run: |
-        pip install dist/*.whl
-    - name: E2E Tests
+        poetry run netplanner --debug --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
+        poetry run netplanner --debug --local --only-networkd --config examples/worker-config-new.yaml --output /run/systemd/networkd/worker-new configure
+        poetry run netplanner --debug --local --only-networkd --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
+        poetry run netplanner --debug --local --only-networkd --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
+        poetry run netplanner --debug --local --only-networkd --config examples/veth-trial.yaml --output /run/systemd/networkd/veth-trial configure
+        poetry run netplanner --debug --local --only-networkd --config examples/5g-worker --output /run/systemd/networkd/folder/5g-worker configure
+        poetry run netplanner --debug --local --only-networkd --config examples/5g-worker.yaml --output /run/systemd/networkd/5g-worker configure
+        # enable the netplan apply command
+        poetry run netplanner --debug --local --only-networkd --config examples/vm-config --output /run/systemd/networkd/folder/vm-config apply
+        poetry run netplanner --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
+        # this should fail
+        poetry run netplanner --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
+    - name: E2E Tests dynamic linked library
+      if: ${{ github.event_name == 'push' }} # only: main and on merge.
       run: |
         chmod 0755 "bin/${LINUX_AMD64_BINARY}"
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure

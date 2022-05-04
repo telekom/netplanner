@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
-from netplanner.interfaces.base import BaseSerializer
 from typing import Dict, Optional
-from netplanner.interfaces.typing import InterfaceName, MacAddress, PositiveInt
+
+from ..interfaces.base import BaseSerializer
+from ..interfaces.typing import InterfaceName, MacAddress, PositiveInt
 
 
 @dataclass

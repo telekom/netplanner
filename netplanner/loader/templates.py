@@ -1,7 +1,8 @@
-from typing import Any
-from jinja2 import BaseLoader, TemplateNotFound
-from importlib.resources import read_binary, contents, is_resource
 from importlib import import_module
+from importlib.resources import contents, is_resource, read_binary
+from typing import Any
+
+from jinja2 import BaseLoader, TemplateNotFound
 
 
 class ImportLibLoader(BaseLoader):

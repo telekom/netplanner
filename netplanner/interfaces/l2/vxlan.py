@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Set
 
-from netplanner.interfaces.typing import IPAddress, IPInterfaceAddresses
-
-from netplanner.interfaces.base import Base
-from netplanner.interfaces.l3.nameserver import NameServers
-from netplanner.interfaces.l3.route import Route
-from netplanner.interfaces.typing import (
+from ..base import Base
+from ..l3.nameserver import NameServers
+from ..l3.route import Route
+from ..typing import (
     MTU,
     InterfaceName,
+    IPAddress,
+    IPInterfaceAddresses,
     LinkLocalAdressing,
     MacAddress,
     PositiveInt,

@@ -2,10 +2,11 @@ import argparse
 import logging
 from time import gmtime
 
-from netplanner.config import NetplannerConfig
-from netplanner.providers.networkd.provider import NetworkdProvider
-from netplanner.sriov.__main__ import main as sriov
-from netplanner.loader.config import ConfigLoader
+from . import __version__
+from .config import NetplannerConfig
+from .loader.config import ConfigLoader
+from .providers.networkd.provider import NetworkdProvider
+from .sriov.__main__ import main as sriov
 
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
 NETPLAN_DEFAULT_OUTPUT_PATH = "/run/systemd/network"
@@ -58,7 +59,7 @@ def main():
         help="sub-command help",
         dest="command",
     )
-    parser.add_argument("--version", action="version", version="0.11.0")
+    parser.add_argument("--version", action="version", version=__version__)
     parser.add_argument(
         "--config",
         help="Defines the path to the configuration file or directory.",

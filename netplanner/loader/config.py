@@ -1,7 +1,9 @@
 import logging
-import yaml
-from typing import Optional
 from pathlib import Path
+from typing import Optional
+
+import yaml
+
 from .util import merge_dicts
 
 
