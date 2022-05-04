@@ -17,7 +17,7 @@ from netplanner.interfaces.typing import (
 from typing import Optional, OrderedDict, Union
 
 import dacite
-from fqdn import FQDN as UpstreamFQDN
+from fqdn import FQDN as UpstreamFQDN  # type: ignore
 
 from netplanner.interfaces.typing import (
     MTU,
@@ -38,7 +38,9 @@ class FQDN(UpstreamFQDN):
 
 @dataclass
 class BaseSerializer:
-    RESERVED = ["from"]
+    @staticmethod
+    def RESERVED() -> list[str]:
+        return ["from"]
 
     @staticmethod
     def get_streamlined_key(
@@ -48,7 +50,7 @@ class BaseSerializer:
         This handles awkward netplan compatibility issues.
         it excludes interface-names at the first level of the yaml configuration file
         """
-        if key in BaseSerializer.RESERVED:
+        if key in BaseSerializer.RESERVED():
             return f"_{key}"
         elif key.startswith("_"):
             return key[1:]

@@ -202,8 +202,7 @@ class NetworkdProvider:
                     if interface_name == vxlan_config.link
                 }
             elif (
-                isinstance(interface_config, VLAN)
-                and interface_config.link is not None
+                isinstance(interface_config, VLAN) and interface_config.link is not None
             ):
                 parent_interface = self.config.network.lookup(interface_config.link)
             elif isinstance(interface_config, Ethernet):

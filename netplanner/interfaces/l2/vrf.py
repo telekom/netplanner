@@ -8,7 +8,6 @@ from netplanner.interfaces.l3.routing_policy import RoutingPolicy
 from netplanner.interfaces.typing import (
     MTU,
     IPInterfaceAddresses,
-    InterfaceName,
     LinkLocalAdressing,
     MacAddress,
     TableShortInt,

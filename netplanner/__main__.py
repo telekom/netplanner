@@ -4,7 +4,7 @@ from time import gmtime
 
 from netplanner.config import NetplannerConfig
 from netplanner.providers.networkd.provider import NetworkdProvider
-from netplanner.sriov.command import sriov
+from netplanner.sriov.__main__ import main as sriov
 from netplanner.loader.config import ConfigLoader
 
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
@@ -47,6 +47,7 @@ def configure(
             provider.networkd(restart=True)
             provider.networkctl(reload=True)
 
+
 def main():
     """Main entry point for netplanner"""
     parser = argparse.ArgumentParser("netplanner")
@@ -55,7 +56,7 @@ def main():
         title="subcommands",
         description="valid subcommands",
         help="sub-command help",
-        dest='command'
+        dest="command",
     )
     parser.add_argument("--version", action="version", version="0.11.0")
     parser.add_argument(
@@ -154,7 +155,9 @@ def main():
                 only_networkd=bool(args.only_networkd),
             )
         else:
-            raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
+            raise Exception(
+                f"Unknown subcommand: {'<empty>' if args.command is None else args.command}"
+            )
     except Exception as e:
         parser.print_help()
         if args.debug:

@@ -2,7 +2,7 @@ from typing import Optional
 from functools import reduce
 
 
-def merge(dict_a: dict, dict_b: dict, path: Optional[str] = None) -> dict:
+def merge(dict_a: dict, dict_b: dict, path: Optional[list[str]] = None) -> dict:
     if path is None:
         path = []
     for key in dict_b:

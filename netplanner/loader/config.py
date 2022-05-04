@@ -1,6 +1,6 @@
 import logging
 import yaml
-from typing import Optional, Union
+from typing import Optional
 from pathlib import Path
 from .util import merge_dicts
 
@@ -11,32 +11,32 @@ class ConfigLoader:
     DEFAULT_CONF_DIR = Path("/etc/netplanner/")
     NETPLAN_DEFAULT_CONF_DIR = Path("/etc/netplan/")
 
-    def __init__(self, config: Optional[Union[str, Path]] = None):
+    def __init__(self, config: Optional[str] = None):
         self._internal_config: dict = {}
         self._is_netplan: bool = False
-        self.path = config
+        self._path: Optional[Path] = None
+        if config is None:
+            if self.DEFAULT_CONF_DIR.exists():
+                self.path = self.DEFAULT_CONF_DIR
+            elif self.NETPLAN_DEFAULT_CONF_DIR.exists():
+                self._is_netplan = True
+                self.path = self.NETPLAN_DEFAULT_CONF_DIR
+        else:
+            self.path = Path(config)
 
     @property
     def path(self) -> Path:
         if self._path is None:
-            raise Exception(
+            raise ValueError(
                 f"No configuration file/directory found tried [{self.DEFAULT_CONF_DIR}, {self.NETPLAN_DEFAULT_CONF_DIR}, {self._path}]"
             )
         return self._path
 
     @path.setter
-    def path(self, value: Optional[str]):
-        self._path = None
-        if value is None:
-            if self.DEFAULT_CONF_DIR.exists():
-                self._path = self.DEFAULT_CONF_DIR
-            elif self.NETPLAN_DEFAULT_CONF_DIR.exists():
-                self._is_netplan = True
-                self._path = self.NETPLAN_DEFAULT_CONF_DIR
-        else:
-            path = Path(value)
-            if path.exists():
-                self._path = path
+    def path(self, value: Path):
+        assert isinstance(value, Path)
+        if value.exists():
+            self._path = value
 
     @property
     def config_file_list(self) -> list[Path]:
