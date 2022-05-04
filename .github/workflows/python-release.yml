@@ -83,20 +83,12 @@ jobs:
       run: |
         echo "This should later run the unit tests."
 
-    - name: Create Changelog
-      run: |
-        echo "# ${{ env.PROJECT_VERSION }}" > CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        git log --oneline  $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD | sed -e 's/^/  * /' >> CHANGELOG.md
-
     - name: Release on GitHub
       uses: softprops/action-gh-release@v1
       with:
         draft: false
         prerelease: false
         generate_release_notes: true
-        append_body: true
-        body_path: ./CHANGELOG.md
         fail_on_unmatched_files: true
         files: |
           ./bin/${{ env.LINUX_AMD64_BINARY }}
