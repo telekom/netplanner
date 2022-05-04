@@ -63,6 +63,7 @@ jobs:
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
         strip "bin/${LINUX_AMD64_BINARY}"
+
     - name: E2E Tests
       run: |
         chmod 0755 "bin/${LINUX_AMD64_BINARY}"
@@ -78,16 +79,17 @@ jobs:
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
         # this should fail
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
-    - name: Pytest
+    - name: Unit Tests
       run: |
         echo "This should later run the unit tests."
+
     - name: Create Changelog
       run: |
         echo "# ${{ env.PROJECT_VERSION }}" > CHANGELOG.md
         echo "" >> CHANGELOG.md
         git log --oneline  $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD | sed -e 's/^/  * /' >> CHANGELOG.md
 
-    - name: Release
+    - name: Release on GitHub
       uses: softprops/action-gh-release@v1
       with:
         draft: false
@@ -100,3 +102,9 @@ jobs:
           ./bin/${{ env.LINUX_AMD64_BINARY }}
           ./dist/*
           ./CHANGELOG.md
+
+    - name: Release on PyPi
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
