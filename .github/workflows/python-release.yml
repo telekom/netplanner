@@ -93,6 +93,7 @@ jobs:
         files: |
           ./bin/${{ env.LINUX_AMD64_BINARY }}
           ./dist/*
+          ./build/x86_64-unknown-linux-gnu/release/install/COPYING.txt
 
     - name: Release on PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
