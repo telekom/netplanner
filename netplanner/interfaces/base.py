@@ -74,90 +74,45 @@ class BaseSerializer:
                 new_char=new_char,
                 ignore_levels=ignore_levels,
             )
-            ## Python 3.10 code
-            # match dictionary[key]:
-            #     case dict():
-            #         dictionary[sanitized_key] = BaseSerializer.streamline_keys(
-            #             dictionary[key],
-            #             level=level + 1,
-            #             old_char=old_char,
-            #             new_char=new_char,
-            #             ignore_levels=ignore_levels,
-            #         )
-            #     case _:
-            #         dictionary[sanitized_key] = dictionary.pop(key)
-            if isinstance(dictionary[key], dict):
-                dictionary[sanitized_key] = BaseSerializer.streamline_keys(
-                    dictionary[key],
-                    level=level + 1,
-                    old_char=old_char,
-                    new_char=new_char,
-                    ignore_levels=ignore_levels,
-                )
-            else:
-                dictionary[sanitized_key] = dictionary.pop(key)
+            match dictionary[key]:
+                case dict():
+                    dictionary[sanitized_key] = BaseSerializer.streamline_keys(
+                        dictionary[key],
+                        level=level + 1,
+                        old_char=old_char,
+                        new_char=new_char,
+                        ignore_levels=ignore_levels,
+                    )
+                case _:
+                    dictionary[sanitized_key] = dictionary.pop(key)
         return dictionary
 
     @staticmethod
     def to_serializable(value) -> Union[int, str]:
-        ## Python 3.10 code
-        # match value:
-        #     case Enum():
-        #         return Base.to_serializable(value.value)
-        #     case IPv4Network() | IPv6Network() | IPv4Interface() | IPv6Interface() | IPv4Address() | IPv6Address() | str():
-        #         return str(value)
-        #     case int():
-        #         return int(value)
-        #     case _:
-        #         return value
-        if isinstance(value, Enum):
-            return Base.to_serializable(value.value)
-        elif isinstance(
-            value,
-            (
-                IPv4Network,
-                IPv6Network,
-                IPv4Interface,
-                IPv6Interface,
-                IPv4Address,
-                IPv6Address,
-                str,
-            ),
-        ):
-            return str(value)
-        elif isinstance(value, int):
-            return int(value)
-        else:
-            return value
+        match value:
+            case Enum():
+                return Base.to_serializable(value.value)
+            case IPv4Network() | IPv6Network() | IPv4Interface() | IPv6Interface() | IPv4Address() | IPv6Address() | str():
+                return str(value)
+            case int():
+                return int(value)
+            case _:
+                return value
 
     @staticmethod
     def to_complex_serializable(data) -> Union[list, dict, int, str]:
-        ## Python 3.10 code
-        # match data:
-        #     case list() | set():
-        #         return [
-        #             BaseSerializer.to_complex_serializable(item) for item in data
-        #         ]
-        #     case dict():
-        #         return {
-        #             BaseSerializer.to_serializable(
-        #                 key
-        #             ): BaseSerializer.to_complex_serializable(val)
-        #             for key, val in data.items()
-        #         }
-        #     case _:
-        #         return BaseSerializer.to_serializable(data)
-        if isinstance(data, (list, set)):
-            return [BaseSerializer.to_complex_serializable(item) for item in data]
-        elif isinstance(data, dict):
-            return {
-                BaseSerializer.to_serializable(
-                    key
-                ): BaseSerializer.to_complex_serializable(val)
-                for key, val in data.items()
-            }
-        else:
-            return BaseSerializer.to_serializable(data)
+        match data:
+            case list() | set():
+                return [BaseSerializer.to_complex_serializable(item) for item in data]
+            case dict():
+                return {
+                    BaseSerializer.to_serializable(
+                        key
+                    ): BaseSerializer.to_complex_serializable(val)
+                    for key, val in data.items()
+                }
+            case _:
+                return BaseSerializer.to_serializable(data)
 
     @staticmethod
     def dict_factory(data) -> dict[Union[str, int], Union[list, dict, int, str]]:
