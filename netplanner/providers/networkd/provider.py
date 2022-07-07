@@ -156,9 +156,7 @@ class NetworkdProvider:
                         if interface_name == vxlan_config.link
                     }
                 case VLAN() if interface_config.link is not None:
-                    parent_interface = self.config.network.lookup(
-                        interface_config.link
-                    )
+                    parent_interface = self.config.network.lookup(interface_config.link)
                 case Ethernet():
                     parent_interface = {
                         name: config

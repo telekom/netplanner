@@ -103,9 +103,7 @@ class BaseSerializer:
     def to_complex_serializable(data) -> Union[list, dict, int, str]:
         match data:
             case list() | set():
-                return [
-                    BaseSerializer.to_complex_serializable(item) for item in data
-                ]
+                return [BaseSerializer.to_complex_serializable(item) for item in data]
             case dict():
                 return {
                     BaseSerializer.to_serializable(
