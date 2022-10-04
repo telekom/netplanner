@@ -51,7 +51,7 @@ def make_exe():
 
     # Package Python extensions in the distribution not having a dependency on
     # copyleft licensed software like GPL.
-    # policy.extension_module_filter = "no-copyleft"
+    policy.extension_module_filter = "no-copyleft"
 
     # Controls whether the file scanner attempts to classify files and emit
     # resource-specific values.
