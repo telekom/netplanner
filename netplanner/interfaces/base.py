@@ -171,7 +171,7 @@ class BaseSerializer:
                     IPv6Network: ip_network,
                     IPv4Address: ip_address,
                     IPv6Address: ip_address,
-                }
+                },
             ),
         )
 
