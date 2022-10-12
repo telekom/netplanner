@@ -75,6 +75,7 @@ jobs:
         # enable the netplan apply command
         poetry run netplanner --debug --local --only-networkd --config examples/vm-config --output /run/systemd/networkd/folder/vm-config apply
         poetry run netplanner --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
+        poetry run netplanner --debug --local --only-networkd --config examples/vm-config-v6.yaml --output /run/systemd/networkd/vm-config-v6 apply
         # this should fail
         poetry run netplanner --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
     - name: E2E Tests dynamic linked library
@@ -91,6 +92,7 @@ jobs:
         # enable the netplan apply command
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config --output /run/systemd/networkd/folder/vm-config apply
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
+        bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config-v6.yaml --output /run/systemd/networkd/vm-config-v6 apply
         # this should fail
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
     - name: 'Upload E2E Test Artifacts'

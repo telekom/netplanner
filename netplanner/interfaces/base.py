@@ -7,6 +7,9 @@ from ipaddress import (
     IPv6Address,
     IPv6Interface,
     IPv6Network,
+    ip_address,
+    ip_interface,
+    ip_network,
 )
 from typing import Optional, OrderedDict, Union
 
@@ -14,6 +17,7 @@ import dacite
 from fqdn import FQDN as UpstreamFQDN  # type: ignore
 
 from .typing import (
+    IPInterfaceAddresses,
     MTU,
     InterfaceName,
     LinkLocalAdressing,
@@ -161,6 +165,13 @@ class BaseSerializer:
                 check_types=True,
                 strict=True,
                 strict_unions_match=True,
+                type_hooks={
+                    IPInterfaceAddresses: lambda x: [ip_interface(y) for y in x],
+                    IPv4Network: ip_network,
+                    IPv6Network: ip_network,
+                    IPv4Address: ip_address,
+                    IPv6Address: ip_address,
+                },
             ),
         )
 
