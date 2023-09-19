@@ -17,6 +17,7 @@ import dacite
 from fqdn import FQDN as UpstreamFQDN  # type: ignore
 
 from .typing import (
+    ESwitchMode,
     IPInterfaceAddresses,
     MTU,
     InterfaceName,
@@ -144,6 +145,7 @@ class BaseSerializer:
                     InterfaceName,
                     MacAddress,
                     VirtualFunctionCount,
+                    ESwitchMode,
                     PositiveInt,
                     UnsignedShortInt,
                     TableShortInt,
