@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright 2016 Canonical Ltd
-# Copyright 2022 Deutsche Telekom AG
+# Copyright 2016-2019 Canonical Ltd
+# Copyright 2022-2023 Deutsche Telekom AG
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,12 +15,189 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # source: https://raw.githubusercontent.com/openstack-charmers/sriov-netplan-shim/master/sriov_netplan_shim/pci.py
+# source: https://raw.githubusercontent.com/openstack-charmers/mlnx-switchdev-mode/master/mlnx_switchdev_mode/sriovify.py
 
+import json
 import glob
+import os
 import shlex
 import subprocess
 from pathlib import Path
 from typing import Optional
+import typing
+
+
+class PCIDevice(object):
+    """Helper class for interaction with a PCI device"""
+
+    def __init__(self, pci_addr: str):
+        """Initialise a new PCI device handler
+
+        :param pci_addr: PCI address of device
+        :type: str
+        """
+        self.pci_addr = pci_addr
+
+    @property
+    def path(self) -> str:
+        """/sys path for PCI device
+
+        :return: full path to PCI device in /sys filesystem
+        :rtype: str
+        """
+        return "/sys/bus/pci/devices/{}".format(self.pci_addr)
+
+    def subpath(self, subpath: str) -> str:
+        """/sys subpath helper for PCI device
+
+        :param subpath: subpath to construct path for
+        :type: str
+        :return: self.path + subpath
+        :rtype: str
+        """
+        return os.path.join(self.path, subpath)
+
+    @property
+    def driver(self) -> str:
+        """Kernel driver for PCI device
+
+        :return: kernel driver in use for device
+        :rtype: str
+        """
+        driver = ""
+        if os.path.exists(self.subpath("driver")):
+            driver = os.path.basename(os.readlink(self.subpath("driver")))
+        return driver
+
+    @property
+    def bound(self) -> bool:
+        """Determine if device is bound to a kernel driver
+
+        :return: whether device is bound to a kernel driver
+        :rtype: bool
+        """
+        return os.path.exists(self.subpath("driver"))
+
+    @property
+    def is_pf(self) -> bool:
+        """Determine if device is a SR-IOV Physical Function
+
+        :return: whether device is a PF
+        :rtype: bool
+        """
+        return os.path.exists(self.subpath("sriov_numvfs"))
+
+    @property
+    def is_vf(self) -> bool:
+        """Determine if device is a SR-IOV Virtual Function
+
+        :return: whether device is a VF
+        :rtype: bool
+        """
+        return os.path.exists(self.subpath("physfn"))
+
+    @property
+    def vf_addrs(self) -> list:
+        """List Virtual Function addresses associated with a Physical Function
+
+        :return: List of PCI addresses of Virtual Functions
+        :rtype: list[str]
+        """
+        vf_addrs = []
+        i = 0
+        while True:
+            try:
+                vf_addrs.append(
+                    os.path.basename(os.readlink(self.subpath("virtfn{}".format(i))))
+                )
+            except FileNotFoundError:
+                break
+            i += 1
+        return vf_addrs
+
+    @property
+    def vfs(self) -> list:
+        """List Virtual Function associated with a Physical Function
+
+        :return: List of PCI devices of Virtual Functions
+        :rtype: list[PCIDevice]
+        """
+        return [PCIDevice(addr) for addr in self.vf_addrs]
+
+    def devlink_get(self, obj_name: str):
+        """Query devlink for information about the PCI device
+
+        :param obj_name: devlink object to query
+        :type: str
+        :return: Dictionary of information about the device
+        :rtype: dict
+        """
+        out = subprocess.check_output(
+            [
+                "/sbin/devlink",
+                "dev",
+                obj_name,
+                "show",
+                "pci/{}".format(self.pci_addr),
+                "--json",
+            ]
+        )
+        return json.loads(out)["dev"]["pci/{}".format(self.pci_addr)]
+
+    def devlink_set(self, obj_name: str, prop: str, value: str):
+        """Set devlink options for the PCI device
+
+        :param obj_name: devlink object to set options on
+        :type: str
+        :param prop: property to set
+        :type: str
+        :param value: value to set for property
+        :type: str
+        """
+        subprocess.check_call(
+            [
+                "/sbin/devlink",
+                "dev",
+                obj_name,
+                "set",
+                "pci/{}".format(self.pci_addr),
+                prop,
+                value,
+            ]
+        )
+
+    def __str__(self) -> str:
+        """String represenation of object
+
+        :return: PCI address of string
+        :rtype: str
+        """
+        return self.pci_addr
+
+
+def bind_vfs(vfs: typing.Iterable[PCIDevice]):
+    """Bind unbound VFs to mlx5_core driver."""
+    bound_vfs = []
+    for vf in vfs:
+        if not vf.bound:
+            with open("/sys/bus/pci/drivers/mlx5_core/bind", "wt") as f:
+                f.write(vf.pci_addr)
+                bound_vfs.append(vf)
+    return bound_vfs
+
+
+def unbind_vfs(vfs: typing.Iterable[PCIDevice]) -> typing.Iterable[PCIDevice]:
+    """Unbind bound VFs from mlx5_core driver."""
+    unbound_vfs = []
+    for vf in vfs:
+        if vf.bound:
+            with open(
+                "/sys/bus/pci/drivers/mlx5_core/unbind",
+                "wt",
+            ) as f:
+                f.write(vf.pci_addr)
+                unbound_vfs.append(vf)
+    return unbound_vfs
 
 
 def format_pci_addr(pci_addr: str) -> str:
@@ -175,6 +352,7 @@ class PCINetDevice(object):
         self.sriov = False
         self.sriov_totalvfs = None
         self.sriov_numvfs = None
+        self.pci_device = PCIDevice(self.pci_address)
         self.update_attributes()
 
     def update_attributes(self):
@@ -215,6 +393,16 @@ class PCINetDevice(object):
             self._set_sriov_numvfs(0)
             self._set_sriov_numvfs(numvfs)
             return True
+        return False
+
+    def set_eswitch_mode(self, switch_mode: str) -> bool:
+        if self.pci_device.is_pf:
+            if self.pci_device.devlink_get("eswitch")["mode"] != switch_mode:
+                unbind_vfs(self.pci_device.vfs)
+                self.pci_device.devlink_set("eswitch", "mode", switch_mode)
+                bind_vfs(self.pci_device.vfs)
+                self.update_attributes()
+            return self.pci_device.devlink_get("eswitch")["mode"] == switch_mode
         return False
 
 

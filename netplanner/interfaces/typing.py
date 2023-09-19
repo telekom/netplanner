@@ -153,3 +153,8 @@ class RouteScope(Enum):
     GLOBAL = "global"
     LINK = "link"
     HOST = "host"
+
+
+class ESwitchMode(Enum):
+    LEGACY = "legacy"
+    SWITCHDEV = "switchdev"

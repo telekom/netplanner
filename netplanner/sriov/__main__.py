@@ -63,3 +63,5 @@ def main(configuration: NetplannerConfig):
                 )
             )
             device.set_sriov_numvfs(interface_config.virtual_function_count)
+            if interface_config.embedded_switch_mode is not None:
+                device.set_eswitch_mode(str(interface_config.embedded_switch_mode))

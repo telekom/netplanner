@@ -9,6 +9,7 @@ from ..l3.routing_policy import RoutingPolicy
 from ..match_object import MatchObject
 from ..typing import (
     MTU,
+    ESwitchMode,
     InterfaceName,
     IPInterfaceAddresses,
     LinkLocalAdressing,
@@ -27,6 +28,7 @@ class Ethernet(Base):
     vrf: Optional[InterfaceName]
     mtu: Optional[MTU]
     virtual_function_count: Optional[VirtualFunctionCount]
+    embedded_switch_mode: Optional[ESwitchMode]
     link_local: Optional[Set[LinkLocalAdressing]]
     accept_ra: Optional[bool]
     gateway4: Optional[IPv4Address]
