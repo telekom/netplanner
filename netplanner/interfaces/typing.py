@@ -86,6 +86,8 @@ class TableShortInt(UnsignedShortInt):
 
 
 class InterfaceName(str):
+    __supertype__ = str
+
     def __new__(cls, content: str):
         if len(content) > 15 or not content.isascii():
             raise ValueError(
@@ -95,6 +97,8 @@ class InterfaceName(str):
 
 
 class LinkLocalAdressing(str):
+    __supertype__ = str
+
     def __new__(cls, content: str):
         if content not in ["ipv4", "ipv6"]:
             raise ValueError(f"LinkLocal={content} not in ['ipv4', 'ipv6']")
@@ -121,6 +125,7 @@ class VirtualFunctionCount(int):
 
 
 class MacAddress(str):
+    __supertype__ = str
     hex_re = re.compile(r"^[\da-f]+$")
 
     def __new__(cls, content: str):

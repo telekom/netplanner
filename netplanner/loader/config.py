@@ -8,7 +8,6 @@ from .util import merge_dicts
 
 
 class ConfigLoader:
-
     logger = logging.getLogger("config_loader")
     DEFAULT_CONF_DIR = Path("/etc/netplanner/")
     NETPLAN_DEFAULT_CONF_DIR = Path("/etc/netplan/")

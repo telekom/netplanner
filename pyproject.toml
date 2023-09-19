@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4"
-dacite = "^1.6.0"
+dacite = "^1.8.1"
 PyYAML = "^6.0"
 fqdn = "^1.5.1"
 Jinja2 = "^3.1.1"
@@ -18,7 +18,7 @@ black = "^22.3.0"
 mypy = "^0.961"
 types-PyYAML = "^6.0"
 pytest = "^7.1.1"
-pyoxidizer = "^0.22.0"
+pyoxidizer = "^0.24.0"
 
 
 [build-system]
