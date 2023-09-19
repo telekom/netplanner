@@ -14,7 +14,7 @@ env:
 
 jobs:
   release:
-    runs-on: ubuntu-18.04 # use an ancient release for glibc compatibility.
+    runs-on: ubuntu-20.04 # use an ancient release for glibc compatibility.
     strategy:
       fail-fast: true
       matrix:
