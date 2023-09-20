@@ -39,6 +39,7 @@ class Ethernet(Base):
     routing_policy: List[RoutingPolicy] = field(default_factory=list)
     emit_lldp: bool = False
     wakeonlan: bool = False
+    delay_virtual_functions_rebind: bool = False
 
     def __post_init__(self):
         if self.link_local is None:
