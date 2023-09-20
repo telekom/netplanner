@@ -149,6 +149,11 @@ class NetworkdProvider:
                         for vlan_name, vlan_config in self.config.network.vlans.items()
                         if interface_name == vlan_config.link
                     }
+                    parent_interface = {
+                        name: config
+                        for name, config in self.config.network.bridges.items()
+                        if interface_name in config.interfaces
+                    }
                 case Dummy():
                     child_interfaces = {
                         vxlan_name: vxlan_config

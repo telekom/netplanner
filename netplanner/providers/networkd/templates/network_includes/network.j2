@@ -29,7 +29,7 @@ PrimarySlave={{ (True if parent_interface_config.parameters.primary == interface
 {%- endif %}
 {%- endfor %}
 {%- endif %}
-{%- if interface.object_name not in ['Bond', 'Dummy'] and parent_interface is defined and parent_interface != None %}
+{%- if parent_interface is defined and parent_interface != None %}
 {%- for parent_interface_name, parent_interface in parent_interface.items() %}
 {%- if parent_interface.object_name == 'Bond' and interface.object_name == 'VLAN' %}
 ConfigureWithoutCarrier=yes
