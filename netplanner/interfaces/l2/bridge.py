@@ -28,8 +28,8 @@ class BridgeParameters(Base):
     hello_time: Optional[int]
     max_age: Optional[int]
     path_cost: Optional[int]
-    stp: bool = field(default=True)
     multicast_snooping: Optional[bool]
+    stp: bool = field(default=True)
 
     def __post_init__(self):
         if self.priority is not None and (self.priority < 0 or self.priority > 65535):
