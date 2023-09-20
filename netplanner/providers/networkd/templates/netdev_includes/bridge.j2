@@ -23,3 +23,6 @@ VLANFiltering={{ interface.parameters.vlan_filtering | to_systemd_bool }}
 {%- if interface.parameters.vlan_protocol != None %}
 VLANProtocol={{ interface.parameters.vlan_protocol }}
 {%- endif -%}
+{%- if interface.parameters.multicast_snooping != None %}
+MulticastSnooping={{ interface.parameters.multicast_snooping }}
+{%- endif -%}
