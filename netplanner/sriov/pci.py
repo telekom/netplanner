@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
+# netplanner
+# Copyright (C) 2020-2022 Canonical, Ltd.
+# Copyright (C) 2021-2023 Deutsche Telekom AG
 #
-# Copyright 2016-2019 Canonical Ltd
-# Copyright 2022-2023 Deutsche Telekom AG
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#  http://www.apache.org/licenses/LICENSE-2.0
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# source: https://raw.githubusercontent.com/openstack-charmers/sriov-netplan-shim/master/sriov_netplan_shim/pci.py
-# source: https://raw.githubusercontent.com/openstack-charmers/mlnx-switchdev-mode/master/mlnx_switchdev_mode/sriovify.py
+# inspired by https://github.com/canonical/netplan/blob/main/netplan_cli/cli/sriov.py
 
 import json
 import glob
@@ -27,6 +28,9 @@ from typing import Optional
 import typing
 
 
+# PCIDevice class originates from mlnx_switchdev_mode/sriovify.py
+# Copyright 2019 Canonical Ltd, Apache License, Version 2.0
+# https://github.com/openstack-charmers/mlnx-switchdev-mode
 class PCIDevice(object):
     """Helper class for interaction with a PCI device"""
 
@@ -343,6 +347,9 @@ def get_pci_ethernet_addresses() -> list:
     return pci_addresses
 
 
+# PCINetDevice class originates from sriov_netplan_shim/pci.py
+# Copyright 2019 Canonical Ltd, Apache License, Version 2.0
+# https://github.com/openstack-charmers/sriov-netplan-shim
 class PCINetDevice(object):
     def __init__(self, pci_address):
         self.pci_address = pci_address

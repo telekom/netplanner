@@ -29,6 +29,8 @@ Building Tool for Dynamic Linked CLI Binary
 
 * PyOxidizer | [MPL-2 License](https://github.com/indygreg/PyOxidizer/blob/main/LICENSE)
 
+We relicensed this project to GPLv3 recently to cater for derivative work from [netplan](https://github.com/canonical/netplan) and to ease integration.
+
 ## How to use it
 
 ```console
