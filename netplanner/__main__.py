@@ -22,7 +22,8 @@ from . import __version__
 from .config import NetplannerConfig
 from .loader.config import ConfigLoader
 from .providers.networkd.provider import NetworkdProvider
-from .sriov.__main__ import main as sriov
+from .sriov.__main__ import config as sriov
+from .sriov.__main__ import rebind
 
 DEFAULT_OUTPUT_PATH = "/etc/systemd/network"
 NETPLAN_DEFAULT_OUTPUT_PATH = "/run/systemd/network"
@@ -127,6 +128,13 @@ def main():
         "generate",
         help="Configure Network Adapters flawlessly with the knowledge of the netplanner.",
     )
+    rebind_parser = subparsers.add_parser("rebind", help="Rebind SR-IOV interfaces")
+    rebind_parser.add_argument(
+        "pci_addresses",
+        metavar="address",
+        nargs="+",
+        help="PCI addresses of PFs to rebind VFs of",
+    )
 
     args = parser.parse_args()
 
@@ -171,6 +179,8 @@ def main():
                 only_sriov=bool(args.only_sriov),
                 only_networkd=bool(args.only_networkd),
             )
+        elif args.command == "rebind":
+            rebind(args.pci_addresses)
         else:
             raise Exception(
                 f"Unknown subcommand: {'<empty>' if args.command is None else args.command}"

@@ -1,0 +1,11 @@
+[Unit]
+Description=Bind SR-IOV Virtual Functions to their driver
+After=network.target
+
+{% for device in devices %}
+After=sys-subsystem-net-devices-{{ device.interface_name }}.device
+{% endfor %}
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/netplanner rebind {{ devices | map(attribute='pci_address') | join(' ') }}

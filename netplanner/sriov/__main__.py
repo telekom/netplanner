@@ -14,15 +14,35 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# delayed-rebind inspired by netplan (https://github.com/canonical/netplan/blob/main/src/sriov.c)
+# Copyright (C) 2020-2022 Canonical, Ltd., GNU General Public License, Version 3
 
 import logging
+from pathlib import Path
+
+from jinja2 import Environment
+
+from netplanner.loader.templates import ImportLibLoader
+from netplanner.sriov import templates
 
 from ..config import NetplannerConfig
 from . import pci
 
 
-def main(configuration: NetplannerConfig):
+SERVICE_PATH = Path("/run/systemd/system/netplanner-delayed-rebind.service")
+LINK_PATH = Path(
+    "/run/systemd/system/multi-user.target.wants/netplanner-delayed-rebind.service"
+)
+
+
+template_env = Environment(loader=ImportLibLoader(templates))
+
+
+def config(configuration: NetplannerConfig):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
+
+    delayed_bindings = []
 
     for interface_name in configuration.network.ethernets:
         interface_config = configuration.network.ethernets[interface_name]
@@ -41,6 +61,9 @@ def main(configuration: NetplannerConfig):
         else:
             device = devices.get_device_from_interface_name(interface_name)
         if device and device.sriov:
+            if interface_config.delay_virtual_functions_rebind:
+                delayed_bindings.append(device)
+
             if interface_config.virtual_function_count > device.sriov_totalvfs:
                 logging.warning(
                     "Requested value for sriov_numfs ({}) too "
@@ -67,3 +90,20 @@ def main(configuration: NetplannerConfig):
                     interface_config.embedded_switch_mode.value,
                     interface_config.delay_virtual_functions_rebind,
                 )
+
+    if len(delayed_bindings) > 0:
+        with SERVICE_PATH.open("w") as file:
+            file.write(
+                template_env.get_template("netplanner-delayed-rebind.j2").render(
+                    devices=delayed_bindings
+                )
+            )
+        LINK_PATH.parent.mkdir(parents=True, exist_ok=True)
+        if not LINK_PATH.exists():
+            LINK_PATH.symlink_to(SERVICE_PATH)
+
+
+def rebind(pci_addresses: list[str]):
+    for pci_address in pci_addresses:
+        device = pci.PCIDevice(pci_address)
+        pci.bind_vfs(device.vfs)

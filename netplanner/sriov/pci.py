@@ -23,6 +23,7 @@ import glob
 import os
 import shlex
 import subprocess
+import re
 from pathlib import Path
 from typing import Optional
 import typing
@@ -237,6 +238,15 @@ def get_sysnet_interfaces_and_macs() -> list:
     net_devs = []
     for sdir in glob.glob("/sys/class/net/*"):
         sym_link = Path(sdir) / "device"
+        # Ignore representor interfaces
+        phys_port_name = Path(sdir) / "phys_port_name"
+        try:
+            if phys_port_name.exists() and not re.search(
+                r"^p\d+$", phys_port_name.read_text()
+            ):
+                continue
+        except:
+            pass
         if sym_link.is_symlink():
             fq_path = sym_link.resolve()
             path = fq_path.parts
