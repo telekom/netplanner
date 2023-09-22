@@ -34,7 +34,7 @@ You are welcome to contribute code in order to fix a bug or to implement a new f
 
 The following rule governs code contributions:
 
-* Contributions must be licensed under the [Apache 2.0 License](LICENSE)
+* Contributions must be licensed under the [GNU General Public License, version 3](LICENSE)
 * Newly created files must be opened by an instantiated version to the file 'templates/file-header.txt'
 * At least if you add a new file to the repository, add your name into the contributor section of the file NOTICE (please respect the preset entry structure)
 
@@ -44,7 +44,7 @@ You are welcome to contribute documentation to the project.
 
 The following rule governs documentation contributions:
 
-* Contributions must be licensed under the same license as code, the [Apache 2.0 License](LICENSE)
+* Contributions must be licensed under the same license as code, the [GNU General Public License, version 3](LICENSE)
 
 ## Pull Request Checklist
 
