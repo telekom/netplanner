@@ -103,7 +103,14 @@ def config(configuration: NetplannerConfig, queue_rebind: bool = False):
         if not LINK_PATH.exists():
             LINK_PATH.symlink_to(SERVICE_PATH)
             if queue_rebind:
-                subprocess.check_call(['systemctl', 'start', '--no-block', 'netplanner-delayed-rebind.service'])
+                subprocess.check_call(
+                    [
+                        "systemctl",
+                        "start",
+                        "--no-block",
+                        "netplanner-delayed-rebind.service",
+                    ]
+                )
 
 
 def rebind(pci_addresses: list[str]):
