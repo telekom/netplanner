@@ -412,7 +412,7 @@ class PCINetDevice(object):
             return True
         return False
 
-    def set_eswitch_mode(self, switch_mode: str, delay_rebind: bool) -> bool:
+    def set_eswitch_mode(self, switch_mode: str, delay_rebind: bool):
         if self.pci_device.is_pf:
             try:
                 unbind_vfs(self.pci_device.vfs)
