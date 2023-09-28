@@ -414,13 +414,13 @@ class PCINetDevice(object):
 
     def set_eswitch_mode(self, switch_mode: str, delay_rebind: bool) -> bool:
         if self.pci_device.is_pf:
-            unbind_vfs(self.pci_device.vfs)
-            self.pci_device.devlink_set("eswitch", "mode", switch_mode)
-            if not delay_rebind:
-                bind_vfs(self.pci_device.vfs)
+            try:
+                unbind_vfs(self.pci_device.vfs)
+                self.pci_device.devlink_set("eswitch", "mode", switch_mode)
+            finally:
+                if not delay_rebind:
+                    bind_vfs(self.pci_device.vfs)
             self.update_attributes()
-            return self.pci_device.devlink_get("eswitch")["mode"] == switch_mode
-        return False
 
 
 class PCINetDevices(object):

@@ -58,7 +58,7 @@ def configure(
             provider.networkd(restart=True)
             provider.networkctl(reload=True)
     elif only_sriov:
-        sriov(configuration)
+        sriov(configuration, queue_rebind=True)
     elif only_networkd:
         provider.render()
         if reload:

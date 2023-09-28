@@ -20,6 +20,7 @@
 
 import logging
 from pathlib import Path
+import subprocess
 
 from jinja2 import Environment
 
@@ -39,7 +40,7 @@ LINK_PATH = Path(
 template_env = Environment(loader=ImportLibLoader(templates))
 
 
-def config(configuration: NetplannerConfig):
+def config(configuration: NetplannerConfig, queue_rebind: bool = False):
     """Configure SR-IOV VF's with configuration from interfaces.yaml"""
 
     delayed_bindings = []
@@ -101,6 +102,8 @@ def config(configuration: NetplannerConfig):
         LINK_PATH.parent.mkdir(parents=True, exist_ok=True)
         if not LINK_PATH.exists():
             LINK_PATH.symlink_to(SERVICE_PATH)
+            if queue_rebind:
+                subprocess.check_call(['systemctl', 'start', '--no-block', 'netplanner-delayed-rebind.service'])
 
 
 def rebind(pci_addresses: list[str]):
