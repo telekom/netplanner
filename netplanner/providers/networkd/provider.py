@@ -233,14 +233,21 @@ class NetworkdProvider:
             | self.config.network.veths
         ).items():
             peer_interface = None
+            child_interfaces = {}
             # Check if interface is veth and handle only one side of it
-            if isinstance(interface_config, Veth):
-                if interface_name not in handled_veth_pairs:
-                    handled_veth_pairs.append(interface_config.link)
-                else:
-                    continue
-                peer_interface = self.config.network.veths[interface_config.link]
-
+            match interface_config:
+                case Veth():
+                    if interface_name not in handled_veth_pairs:
+                        handled_veth_pairs.append(interface_config.link)
+                    else:
+                        continue
+                    peer_interface = self.config.network.veths[interface_config.link]
+                case Bridge():
+                    child_interfaces = {
+                        name: config
+                        for name, config in self.config.network.vxlans.items()
+                        if name in interface_config.interfaces
+                    }
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 self.logger.info(f"Write: {self.path / file_name}")
@@ -249,6 +256,7 @@ class NetworkdProvider:
                         interface_name=interface_name,
                         interface=interface_config,
                         peer_interface=peer_interface,
+                        child_interfaces=child_interfaces
                     )
                 )
 
