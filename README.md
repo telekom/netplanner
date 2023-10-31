@@ -38,8 +38,7 @@ We relicensed this project to GPLv3 recently to cater for derivative work from [
 $ netplanner --local --config examples/worker-config-old.yaml --output /run/systemd/network --only-networkd configure
 
 $ netplanner --help
-usage: netplanner [-h] [--version] [--config CONFIG] [--debug] [--local] [--only-sriov] [--reload] [--only-networkd] [--output OUTPUT]
-                  {configure,apply,generate} ...
+usage: netplanner [-h] [--version] [--config CONFIG] [--debug] [--local] [--only-sriov] [--reload] [--only-networkd] [--output OUTPUT] {configure,apply,generate,rebind} ...
 
 options:
   -h, --help            show this help message and exit
@@ -55,11 +54,12 @@ options:
 subcommands:
   valid subcommands
 
-  {configure,apply,generate}
+  {configure,apply,generate,rebind}
                         sub-command help
     configure           Configure Network Adapters flawlessly with the knowledge of the netplanner.
     apply               Configure Network Adapters flawlessly with the knowledge of the netplanner.
     generate            Configure Network Adapters flawlessly with the knowledge of the netplanner.
+    rebind              Rebind SR-IOV interfaces
 ```
 
 ## Examples Directory
