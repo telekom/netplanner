@@ -256,7 +256,7 @@ class NetworkdProvider:
                         interface_name=interface_name,
                         interface=interface_config,
                         peer_interface=peer_interface,
-                        child_interfaces=child_interfaces
+                        child_interfaces=child_interfaces,
                     )
                 )
 

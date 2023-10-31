@@ -171,7 +171,9 @@ def main():
             case "rebind":
                 rebind(args.pci_addresses)
             case _:
-                raise Exception(f"Unknown subcommand: {'<empty>' if args.command is None else args.command}")
+                raise Exception(
+                    f"Unknown subcommand: {'<empty>' if args.command is None else args.command}"
+                )
     except Exception as e:
         parser.print_help()
         if args.debug:
