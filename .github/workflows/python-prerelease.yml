@@ -39,7 +39,7 @@ jobs:
       run: |
         poetry run python -m pip install dist/*.whl
         echo "PROJECT_VERSION=$(poetry run python -m netplanner --version)" >> $GITHUB_ENV
-        TAG_VERSION_RAW="1.0.0-rc.0"
+        TAG_VERSION_RAW="${{ env.TAG_NAME }}"
         TAG_VERSION_WITHOUT_DOT="${TAG_VERSION_RAW%.*}${TAG_VERSION_RAW##*.}" # replace last dot
         TAG_VERSION_WITHOUT_MINUS=${TAG_VERSION_WITHOUT_DOT//-} # replace all occurences of minus
         echo "TAG_VERSION=${TAG_VERSION_WITHOUT_MINUS}" >> $GITHUB_ENV
