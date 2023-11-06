@@ -247,6 +247,12 @@ class NetworkdProvider:
                     else:
                         continue
                     peer_interface = self.config.network.veths[interface_config.link]
+                case Bridge():
+                    child_interfaces = {
+                        name: config
+                        for name, config in self.config.network.vxlans.items()
+                        if name in interface_config.interfaces
+                    }
             file_name = f"{NetworkdProvider.get_priority(interface_config)}-{interface_name}.netdev"
             with open(self.path / file_name, "w") as file:
                 self.logger.info(f"Write: {self.path / file_name}")
@@ -255,6 +261,7 @@ class NetworkdProvider:
                         interface_name=interface_name,
                         interface=interface_config,
                         peer_interface=peer_interface,
+                        child_interfaces=child_interfaces,
                     )
                 )
 
