@@ -39,11 +39,14 @@ jobs:
       run: |
         poetry run python -m pip install dist/*.whl
         echo "PROJECT_VERSION=$(poetry run python -m netplanner --version)" >> $GITHUB_ENV
+        TAG_VERSION=${{ env.TAG_NAME }}
+        TAG_VERSION=${TAG_VERSION//.} # replace all dots
+        echo "TAG_VERSION=${TAG_VERSION//-}" >> $GITHUB_ENV # replace all minus
         echo "::set-output name=version::$(poetry run python -m netplanner --version)"
         poetry run python -m pip uninstall --yes dist/*.whl
       id: version
     - name: Break on version mismatch
-      if: ${{ env.TAG_NAME != env.PROJECT_VERSION }}
+      if: ${{ env.TAG_VERSION != env.PROJECT_VERSION }}
       run: |
         echo "::error::We found a version mismatch GIT:[${{ env.TAG_NAME }}] != PROJECT:[${{ env.PROJECT_VERSION }}]"
         exit 1
