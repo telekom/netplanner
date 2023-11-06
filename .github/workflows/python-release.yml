@@ -63,7 +63,7 @@ jobs:
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
         strip "bin/${LINUX_AMD64_BINARY}"
-        sha256sum "bin/${LINUX_AMD64_BINARY}" > "bin/${LINUX_AMD64_BINARY}.sha256"
+        cd bin/ && sha256sum "${LINUX_AMD64_BINARY}" > "${LINUX_AMD64_BINARY}.sha256" && cd ..
 
     - name: E2E Tests
       run: |
