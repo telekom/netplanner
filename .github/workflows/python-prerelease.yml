@@ -39,16 +39,16 @@ jobs:
       run: |
         poetry run python -m pip install dist/*.whl
         echo "PROJECT_VERSION=$(poetry run python -m netplanner --version)" >> $GITHUB_ENV
-        TAG_VERSION=${{ env.TAG_NAME }}
-        TAG_VERSION=${TAG_VERSION//.} # replace all dots
-        echo "TAG_VERSION=${TAG_VERSION//-}" >> $GITHUB_ENV # replace all minus
-        echo "::set-output name=version::$(poetry run python -m netplanner --version)"
+        TAG_VERSION_RAW=${{ env.TAG_NAME }}
+        TAG_VERSION_WITHOUT_DOT=${TAG_VERSION_RAW%.*} # replace all dots
+        TAG_VERSION_WITHOUT_MINUS=${TAG_VERSION_RAW%-*}
+        echo "TAG_VERSION=${TAG_VERSION_WITHOUT_MINUS}" >> $GITHUB_ENV # replace all minus
         poetry run python -m pip uninstall --yes dist/*.whl
       id: version
     - name: Break on version mismatch
       if: ${{ env.TAG_VERSION != env.PROJECT_VERSION }}
       run: |
-        echo "::error::We found a version mismatch GIT:[${{ env.TAG_NAME }}] != PROJECT:[${{ env.PROJECT_VERSION }}]"
+        echo "::error::We found a version mismatch GIT:[${{ env.TAG_VERSION }}] != PROJECT:[${{ env.PROJECT_VERSION }}]"
         exit 1
     - name: Lint with black
       run: |
