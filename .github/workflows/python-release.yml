@@ -63,6 +63,7 @@ jobs:
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
         strip "bin/${LINUX_AMD64_BINARY}"
+        sha256sum "bin/${LINUX_AMD64_BINARY}" > "bin/${LINUX_AMD64_BINARY}.sha256"
 
     - name: E2E Tests
       run: |
@@ -93,6 +94,7 @@ jobs:
         fail_on_unmatched_files: true
         files: |
           ./bin/${{ env.LINUX_AMD64_BINARY }}
+          ./bin/${{ env.LINUX_AMD64_BINARY }}.sha256
           ./dist/*
           ./build/x86_64-unknown-linux-gnu/release/install/COPYING.txt
 
