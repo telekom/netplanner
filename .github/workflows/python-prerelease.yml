@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python Release
+name: Python PreRelease
 on:
   push:
     tags:
@@ -13,7 +13,7 @@ env:
   LINUX_AMD64_BINARY: "netplanner-linux-amd64-${{ github.ref_name }}"
 
 jobs:
-  release:
+  prerelease:
     runs-on: ubuntu-20.04 # use an ancient release for glibc compatibility.
     strategy:
       fail-fast: true
