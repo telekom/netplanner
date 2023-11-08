@@ -1,24 +1,24 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python Linting
-
+name: Python PreRelease
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      # only run the release pipeline on semver tags
+      - '[0-9]+.[0-9]+.[0-9]+-rc\.[0-9]+'
+
 env:
-  REF_NAME: ${{ github.head_ref || github.ref_name }}
-  LINUX_AMD64_BINARY: "netplanner-linux-amd64-${{ github.head_ref || github.ref_name }}"
+  TAG_NAME: ${{ github.ref_name }}
+  LINUX_AMD64_BINARY: "netplanner-linux-amd64-${{ github.ref_name }}"
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  prerelease:
+    runs-on: ubuntu-20.04 # use an ancient release for glibc compatibility.
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -32,54 +32,43 @@ jobs:
         poetry config virtualenvs.in-project true
         poetry --version
         poetry install --no-root
+    - name: Build package
+      run: |
+        poetry build
+    - name: Install Package
+      run: |
+        poetry run python -m pip install dist/*.whl
+        echo "PROJECT_VERSION=$(poetry run python -m netplanner --version)" >> $GITHUB_ENV
+        TAG_VERSION_RAW="${{ env.TAG_NAME }}"
+        TAG_VERSION_WITHOUT_DOT="${TAG_VERSION_RAW%.*}${TAG_VERSION_RAW##*.}" # replace last dot
+        TAG_VERSION_WITHOUT_MINUS=${TAG_VERSION_WITHOUT_DOT//-} # replace all occurences of minus
+        echo "TAG_VERSION=${TAG_VERSION_WITHOUT_MINUS}" >> $GITHUB_ENV
+        poetry run python -m pip uninstall --yes dist/*.whl
+      id: version
+    - name: Break on version mismatch
+      if: ${{ env.TAG_VERSION != env.PROJECT_VERSION }}
+      run: |
+        echo "::error::We found a version mismatch GIT:[${{ env.TAG_VERSION }}] != PROJECT:[${{ env.PROJECT_VERSION }}]"
+        exit 1
     - name: Lint with black
       run: |
         poetry run black -t py310 --check .
     - name:  Type Lint with mypy
       run: |
-        poetry run mypy -v .
+        poetry run mypy .
     - name: Build package
       run: |
         poetry build
-    - name: 'Upload PythonPackage Artifact'
-      uses: actions/upload-artifact@v3
-      if: ${{ github.event_name == 'push' }} # only: main and on merge.
-      with:
-        name: "netplanner-sdist"
-        path: dist/*
-        retention-days: 30
     - name: Build dynamically linked binary
-      if: ${{ github.event_name == 'push' }} # only: main and on merge.
       run: |
         poetry run pyoxidizer build --release
         mkdir -p bin/
         cp build/x86_64-unknown-linux-gnu/release/install/netplanner "bin/${LINUX_AMD64_BINARY}"
         chmod 0644 "bin/${LINUX_AMD64_BINARY}"
         strip "bin/${LINUX_AMD64_BINARY}"
-    - name: 'Upload dynamic binary Artifact'
-      uses: actions/upload-artifact@v3
-      if: ${{ github.event_name == 'push' }} # only: main and on merge.
-      with:
-        name: "netplanner-binary"
-        path: bin/*
-        retention-days: 30
-    - name: E2E Tests library
-      run: |
-        poetry run netplanner --debug --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
-        poetry run netplanner --debug --local --only-networkd --config examples/worker-config-new.yaml --output /run/systemd/networkd/worker-new configure
-        poetry run netplanner --debug --local --only-networkd --config examples/master-config-old.yaml --output /run/systemd/networkd/master-old configure
-        poetry run netplanner --debug --local --only-networkd --config examples/master-config-new.yaml --output /run/systemd/networkd/master-new configure
-        poetry run netplanner --debug --local --only-networkd --config examples/veth-trial.yaml --output /run/systemd/networkd/veth-trial configure
-        poetry run netplanner --debug --local --only-networkd --config examples/5g-worker --output /run/systemd/networkd/folder/5g-worker configure
-        poetry run netplanner --debug --local --only-networkd --config examples/5g-worker.yaml --output /run/systemd/networkd/5g-worker configure
-        # enable the netplan apply command
-        poetry run netplanner --debug --local --only-networkd --config examples/vm-config --output /run/systemd/networkd/folder/vm-config apply
-        poetry run netplanner --debug --local --only-networkd --config examples/vm-config.yaml --output /run/systemd/networkd/vm-config apply
-        poetry run netplanner --debug --local --only-networkd --config examples/vm-config-v6.yaml --output /run/systemd/networkd/vm-config-v6 apply
-        # this should fail
-        poetry run netplanner --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
-    - name: E2E Tests dynamic linked library
-      if: ${{ github.event_name == 'push' }} # only: main and on merge.
+        cd bin/ && sha256sum "${LINUX_AMD64_BINARY}" > "${LINUX_AMD64_BINARY}.sha256" && cd ..
+
+    - name: E2E Tests
       run: |
         chmod 0755 "bin/${LINUX_AMD64_BINARY}"
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/worker-config-old.yaml --output /run/systemd/networkd/worker-old configure
@@ -95,12 +84,25 @@ jobs:
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/vm-config-v6.yaml --output /run/systemd/networkd/vm-config-v6 apply
         # this should fail
         bin/${LINUX_AMD64_BINARY} --debug --local --only-networkd --config examples/empty --output /run/systemd/networkd/empty configure || true
-    - name: 'Upload E2E Test Artifacts'
-      uses: actions/upload-artifact@v3
-      with:
-        name: templated-test-config
-        path: ./run/**
-        retention-days: 5
-    - name: Pytest
+    - name: Unit Tests
       run: |
         echo "This should later run the unit tests."
+
+    - name: Release on GitHub
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: false
+        prerelease: true
+        generate_release_notes: true
+        fail_on_unmatched_files: true
+        files: |
+          ./bin/${{ env.LINUX_AMD64_BINARY }}
+          ./bin/${{ env.LINUX_AMD64_BINARY }}.sha256
+          ./dist/*
+          ./build/x86_64-unknown-linux-gnu/release/install/COPYING.txt
+
+    - name: Release on PyPi
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}

@@ -1,10 +1,16 @@
-{%- if interface.mtu is defined and interface.mtu != None or interface.macaddress is defined and interface.macaddress != None %}
+{%- if interface.mtu is defined and interface.mtu != None or interface.macaddress is defined and interface.macaddress != None or interface.object_name == "Bridge" and (interface.interfaces | length) == 1 and child_interfaces is defined and child_interfaces %}
 [Link]
 {%- if interface.mtu != None %}
 MTUBytes={{ interface.mtu }}
 {%- endif %}
 {%- if interface.macaddress != None %}
 MACAddress={{ interface.macaddress }}
+{%- elif interface.object_name == "Bridge" and (interface.interfaces | length) == 1 and child_interfaces is defined and child_interfaces %}
+{%- set child_interface_name = interface.interfaces[0] %}
+{%- set child_interface_config = child_interfaces[child_interface_name] %}
+{%- if child_interface_config.macaddress is defined and child_interface_config.macaddress != None %}
+MACAddress={{ child_interface_config.macaddress }}
+{%- endif %}
 {%- endif %}
 {%- endif %}
 {#-
