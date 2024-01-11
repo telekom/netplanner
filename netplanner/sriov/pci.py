@@ -18,6 +18,7 @@
 #
 # inspired by https://github.com/canonical/netplan/blob/main/netplan_cli/cli/sriov.py
 
+import logging
 import json
 import glob
 import os
@@ -185,6 +186,7 @@ def bind_vfs(vfs: typing.Iterable[PCIDevice]):
     bound_vfs = []
     for vf in vfs:
         if not vf.bound:
+            logging.info(f"Binding {vf.pci_addr} to mlx5_core")
             with open("/sys/bus/pci/drivers/mlx5_core/bind", "wt") as f:
                 f.write(vf.pci_addr)
                 bound_vfs.append(vf)
@@ -412,15 +414,17 @@ class PCINetDevice(object):
             return True
         return False
 
-    def set_eswitch_mode(self, switch_mode: str, delay_rebind: bool):
+    def set_eswitch_mode(self, switch_mode: str):
         if self.pci_device.is_pf:
             try:
                 unbind_vfs(self.pci_device.vfs)
                 self.pci_device.devlink_set("eswitch", "mode", switch_mode)
             finally:
-                if not delay_rebind:
-                    bind_vfs(self.pci_device.vfs)
+                pass
             self.update_attributes()
+
+    def bind_vfs(self):
+        bind_vfs(self.pci_device.vfs)
 
 
 class PCINetDevices(object):

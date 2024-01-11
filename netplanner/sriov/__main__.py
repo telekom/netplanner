@@ -88,9 +88,10 @@ def config(configuration: NetplannerConfig, queue_rebind: bool = False):
             device.set_sriov_numvfs(interface_config.virtual_function_count)
             if interface_config.embedded_switch_mode is not None:
                 device.set_eswitch_mode(
-                    interface_config.embedded_switch_mode.value,
-                    interface_config.delay_virtual_functions_rebind,
+                    interface_config.embedded_switch_mode.value
                 )
+            if not interface_config.delay_virtual_functions_rebind:
+                device.bind_vfs()
 
     if len(delayed_bindings) > 0:
         with SERVICE_PATH.open("w") as file:
