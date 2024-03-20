@@ -14,7 +14,7 @@ fqdn = "^1.5.1"
 Jinja2 = "^3.1.1"
 
 [tool.poetry.dev-dependencies]
-black = "^22.3.0"
+black = "^24.3.0"
 mypy = "^0.961"
 types-PyYAML = "^6.0"
 pytest = "^7.1.1"
