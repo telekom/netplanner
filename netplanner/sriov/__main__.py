@@ -119,7 +119,11 @@ def rebind(pci_addresses: list[str]):
         # We always wait for link_aggregation_state to become active because
         # delayed rebind is only used for this very specific case anyway
         while device.link_aggregation_state != "active":
-            print("Waiting for lag state of device {} to become active".format(pci_address))
+            logging.warning(
+                "Waiting for lag state of device {} to become active".format(
+                    pci_address
+                )
+            )
             time.sleep(1)
         device.sriov_drivers_autoprobe = True
         pci.bind_vfs(device.vfs)
