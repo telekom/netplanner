@@ -172,6 +172,19 @@ class PCIDevice(object):
             ]
         )
 
+    @property
+    def sriov_drivers_autoprobe(self) -> bool:
+        sriov_drivers_autoprobe_file = self.subpath("sriov_drivers_autoprobe")
+        with open(sriov_drivers_autoprobe_file, "r") as f:
+            read_data = f.read()
+        return bool(int(read_data.strip()))
+
+    @sriov_drivers_autoprobe.setter
+    def sriov_drivers_autoprobe(self, value: bool):
+        sriov_drivers_autoprobe_file = self.subpath("sriov_drivers_autoprobe")
+        with open(sriov_drivers_autoprobe_file, "w") as f:
+            f.write("1" if value else "0")
+
     def __str__(self) -> str:
         """String represenation of object
 
@@ -424,6 +437,7 @@ class PCINetDevice(object):
             self.update_attributes()
 
     def bind_vfs(self):
+        self.pci_device.sriov_drivers_autoprobe = True
         bind_vfs(self.pci_device.vfs)
 
 

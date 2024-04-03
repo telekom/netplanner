@@ -115,4 +115,5 @@ def config(configuration: NetplannerConfig, queue_rebind: bool = False):
 def rebind(pci_addresses: list[str]):
     for pci_address in pci_addresses:
         device = pci.PCIDevice(pci_address)
+        device.sriov_drivers_autoprobe = True
         pci.bind_vfs(device.vfs)
