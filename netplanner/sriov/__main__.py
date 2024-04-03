@@ -21,6 +21,7 @@
 import logging
 from pathlib import Path
 import subprocess
+import time
 
 from jinja2 import Environment
 
@@ -115,5 +116,10 @@ def config(configuration: NetplannerConfig, queue_rebind: bool = False):
 def rebind(pci_addresses: list[str]):
     for pci_address in pci_addresses:
         device = pci.PCIDevice(pci_address)
+        # We always wait for link_aggregation_state to become active because
+        # delayed rebind is only used for this very specific case anyway
+        while device.link_aggregation_state != "active":
+            print("Waiting for lag state of device {} to become active".format(pci_address))
+            time.sleep(1)
         device.sriov_drivers_autoprobe = True
         pci.bind_vfs(device.vfs)

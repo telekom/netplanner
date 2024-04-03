@@ -185,6 +185,12 @@ class PCIDevice(object):
         with open(sriov_drivers_autoprobe_file, "w") as f:
             f.write("1" if value else "0")
 
+    @property
+    def link_aggregation_state(self) -> str:
+        link_aggregation_file = "/sys/kernel/debug/mlx5/{}/lag/state".format(self.pci_addr)
+        with open(link_aggregation_file, "r") as f:
+            return f.read().strip()
+
     def __str__(self) -> str:
         """String represenation of object
 
