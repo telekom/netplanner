@@ -1,5 +1,10 @@
 # netplanner
 
+> [!WARNING]
+> **netplanner is deprecated.**
+> 
+> We've created this project to implement a few features that we were missing from [canonical/netplan](https://github.com/canonical/netplan). Since version 1.0.0 of netplan, all features we require are implemented upstream. A few of them were also contributed by us. We will therefore retire this project in favour of upstream.
+
 ## Description
 
 Netplanner implements the top-down datacenter approach for IP and Network Interface Management.
